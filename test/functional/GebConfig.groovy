@@ -1,8 +1,9 @@
-/**
- * Created by Reuel on 03/05/2016.
- */
 import org.openqa.selenium.chrome.ChromeDriver
 
-driver = {
-    new ChromeDriver()
+enviroments{
+    chrome{
+        driver = { File file = new File("chromedrivers/chromedriver.exe"); //configurar com o enderço correto do chromedriver.
+            System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
+            new ChromeDriver(); }
+    }
 }
