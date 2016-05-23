@@ -1,11 +1,16 @@
 
+<<<<<<< HEAD
 <%@ page import="Vaga" %>
+=======
+
+>>>>>>> 4481a3f6481da1345e121bc0fbe2e88d11d9e9c7
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'vaga.label', default: 'Vaga')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
+<<<<<<< HEAD
         <style>
             .table {
                 display: table;
@@ -22,13 +27,19 @@
                 height: 10px;
             }
         </style>
+=======
+>>>>>>> 4481a3f6481da1345e121bc0fbe2e88d11d9e9c7
 	</head>
 	<body>
 		<a href="#list-vaga" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+<<<<<<< HEAD
 				<li><g:link class="create" action="create"><g:message code="female.new.label" args="[entityName]" /></g:link></li>
+=======
+				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+>>>>>>> 4481a3f6481da1345e121bc0fbe2e88d11d9e9c7
 			</ul>
 		</div>
 		<div id="list-vaga" class="content scaffold-list" role="main">
@@ -58,6 +69,7 @@
 					
 						<td><g:link action="show" id="${vagaInstance.id}">${fieldValue(bean: vagaInstance, field: "descricao")}</g:link></td>
 					
+<<<<<<< HEAD
 						<td>
 							<g:if test="${vagaInstance.ocupada}">
                                 <div class="table">
@@ -71,6 +83,9 @@
                                 <g:link action="book" id="${vagaInstance.id}">Reservar</g:link>
 							</g:else>
 						</td>
+=======
+						<td>${fieldValue(bean: vagaInstance, field: "usuario")}</td>
+>>>>>>> 4481a3f6481da1345e121bc0fbe2e88d11d9e9c7
 					
 						<td>${fieldValue(bean: vagaInstance, field: "setor")}</td>
 					

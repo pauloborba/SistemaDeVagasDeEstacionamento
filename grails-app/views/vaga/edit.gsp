@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <%@ page import="Vaga" %>
+=======
+
+>>>>>>> 4481a3f6481da1345e121bc0fbe2e88d11d9e9c7
 <!DOCTYPE html>
 <html>
 	<head>

@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 <%@ page import="Vaga" %>
+=======
+
+>>>>>>> 4481a3f6481da1345e121bc0fbe2e88d11d9e9c7
 <!DOCTYPE html>
 <html>
 	<head>
@@ -13,7 +17,11 @@
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+<<<<<<< HEAD
 				<li><g:link class="create" action="create"><g:message code="female.new.label" args="[entityName]" /></g:link></li>
+=======
+				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+>>>>>>> 4481a3f6481da1345e121bc0fbe2e88d11d9e9c7
 			</ul>
 		</div>
 		<div id="show-vaga" class="content scaffold-show" role="main">

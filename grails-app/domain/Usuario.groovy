@@ -8,7 +8,7 @@ class Usuario {
     }
 
     static constraints = {
-        login unique: true
+        login blank: false, unique: true
         nome blank: false
     }
 
