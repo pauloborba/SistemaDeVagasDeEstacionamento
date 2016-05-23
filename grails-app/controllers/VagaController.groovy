@@ -21,6 +21,19 @@ class VagaController {
         respond new Vaga(params)
     }
 
+    def findSpotByUserLogin(String login) {
+        def vagas = Vaga.list()
+        Vaga vagaOfUser = null
+
+        vagas.each { vaga ->
+            if (vaga.usuario.login == login) {
+                vagaOfUser = vaga
+            }
+        }
+
+        return vagaOfUser
+    }
+
     @Transactional
     def save(Vaga vagaInstance) {
         if (vagaInstance == null) {
