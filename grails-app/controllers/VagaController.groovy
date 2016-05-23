@@ -26,7 +26,7 @@ class VagaController {
     }
 
     def index(Integer max) {
-        def usuario = Usuario.findByLogin("admin")
+        def usuario = Usuario.findByLogin("admin") // Cria um usuário fake que seria o usuário corrente do sistema
 
         if (usuario == null) {
             usuario = new Usuario("admin", "Eu mesmo")
@@ -50,7 +50,7 @@ class VagaController {
         Vaga vagaOfUser = null
 
         vagas.each { vaga ->
-            if (vaga.usuario.login == login) {
+            if (vaga.usuario?.login == login) {
                 vagaOfUser = vaga
             }
         }

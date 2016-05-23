@@ -60,7 +60,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
-      <library name="Grails User Library (SistemaDeVagasDeEstacionamento-grailsPlugins)">
+      <library name="Grails User Library (ESS-grailsPlugins)">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../grails-2.4.3/lib/org.grails/grails-datastore-simple/jars/grails-datastore-simple-3.1.2.RELEASE.jar!/" />
           <root url="jar://$MODULE_DIR$/../../grails-2.4.3/lib/org.grails/grails-datastore-gorm/jars/grails-datastore-gorm-3.1.2.RELEASE.jar!/" />
