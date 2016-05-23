@@ -10,7 +10,7 @@
 /prodDb.*
 
 # general HSQL database files
-*Db.properties
+Db.properties
 *Db.script
 
 # logs
@@ -19,7 +19,7 @@
 /logs
 
 # project release file
-/*.war
+/.war
 
 # plugin release files
 /*.zip
@@ -31,3 +31,46 @@
 
 # "temporary" build files
 /target
+
+
+#IntelliJ
+.idea/
+.slcache/
+
+#SVE specific iml files
+SistemaDeVagasDeEstacionamento-grailsPlugins.iml
+SistemaDeVagasDeEstacionamento.iml
+
+# User-specific stuff:
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+
+# Sensitive or high-churn files:
+.idea/dataSources.ids
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+
+#project
+web-app/WEB-INF/tld/
+SistemaDeVagasDeEstacionamento-grailsPlugins.iml
+SistemaDeVagasDeEstacionamento.iml
+
+# IntelliJ
+/out/
+.idea/
+.slcache/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
