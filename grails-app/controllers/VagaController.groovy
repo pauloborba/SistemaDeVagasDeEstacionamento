@@ -1,4 +1,4 @@
-
+import grails.converters.JSON
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -15,6 +15,12 @@ class VagaController {
 
     def show(Vaga vagaInstance) {
         respond vagaInstance
+    }
+
+    def getByLogin(String login){
+        Vaga v = Vaga.find("from Vaga as v where v.usuario.login=?", [login])
+
+        render v as JSON
     }
 
     def create() {

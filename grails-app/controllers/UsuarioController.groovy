@@ -1,3 +1,5 @@
+import grails.converters.JSON
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -9,6 +11,17 @@ class UsuarioController {
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond Usuario.list(params), model:[usuarioInstanceCount: Usuario.count()]
+    }
+
+    def getVagaByLogin(String login){
+        /*Vaga vaga = new Vaga()
+
+        vaga.setDescricao('d3')
+
+
+        render vaga as JSON*/
+
+        redirect (controller: 'Vaga', action: 'getByLogin', params: [login: login])
     }
 
     def show(Usuario usuarioInstance) {
