@@ -7,7 +7,7 @@ grails.project.target.level = 1.6
 grails.project.source.level = 1.6
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
-
+grails.server.port.http = 8070
 
 grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
