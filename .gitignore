@@ -18,6 +18,10 @@
 /test/reports
 /logs
 
+# Project
+SistemaDeVagasDeEstacionamento-grailsPlugins.iml
+SistemaDeVagasDeEstacionamento.iml
+
 # project release file
 /*.war
 
@@ -49,6 +53,8 @@
 
 # IntelliJ
 /out/
+.idea/
+.slcache/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
