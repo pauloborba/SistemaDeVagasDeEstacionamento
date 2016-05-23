@@ -32,6 +32,15 @@
 # "temporary" build files
 /target
 
+
+#IntelliJ
+.idea/
+.slcache/
+
+#SVE specific iml files
+SistemaDeVagasDeEstacionamento-grailsPlugins.iml
+SistemaDeVagasDeEstacionamento.iml
+
 # User-specific stuff:
 .idea/workspace.xml
 .idea/tasks.xml

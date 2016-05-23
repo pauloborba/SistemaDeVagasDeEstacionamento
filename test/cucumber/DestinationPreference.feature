@@ -15,7 +15,7 @@ Feature: destination preference
     And only the parking spot "42" is free
     And spot "42" is from "CIn" sector
     When user "x" asks for a parking spot
-    Then the user "x" sees a mensage informing the parking spot "42"  
+    Then the user "x" sees a mensage informing the parking spot "42"
 
   Scenario: destination preference with nearest spot
     Given user "x" destination is the "CIn"
