@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxProfile
@@ -23,3 +24,13 @@ environments {
     driver = { new FirefoxDriver() }
   }
 }
+=======
+/**
+ * Created by Reuel on 03/05/2016.
+ */
+import org.openqa.selenium.chrome.ChromeDriver
+
+driver = {
+    new ChromeDriver()
+}
+>>>>>>> e340233f5b7422d991772fa29dd6d217bbbcf457
