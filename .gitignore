@@ -10,7 +10,7 @@
 /prodDb.*
 
 # general HSQL database files
-*Db.properties
+Db.properties
 *Db.script
 
 # logs
@@ -19,7 +19,7 @@
 /logs
 
 # project release file
-/*.war
+/.war
 
 # plugin release files
 /*.zip

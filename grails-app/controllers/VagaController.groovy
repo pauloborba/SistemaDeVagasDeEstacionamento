@@ -1,14 +1,38 @@
-import grails.converters.JSON
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
 class VagaController {
-
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    def unbook(Vaga vagaInstance) {
+        vagaInstance.removerUsuario()
+        vagaInstance.save flush:true
+
+        flash.message = message(code: 'vaga.unbooked.message', args: [vagaInstance.id])
+
+        redirect action:"index"
+    }
+
+    def book(Vaga vagaInstance) {
+        def usuario = Usuario.findByLogin("admin")
+
+        vagaInstance.setarUsuario(usuario)
+        vagaInstance.save flush:true
+
+        flash.message = flash.message = message(code: 'vaga.booked.message', args: [vagaInstance.id])
+
+        redirect action:"index"
+    }
+
     def index(Integer max) {
+        def usuario = Usuario.findByLogin("admin") // Cria um usuário fake que seria o usuário corrente do sistema
+
+        if (usuario == null) {
+            usuario = new Usuario("admin", "Eu mesmo")
+            usuario.save flush: true
+        }
+
         params.max = Math.min(max ?: 10, 100)
         respond Vaga.list(params), model:[vagaInstanceCount: Vaga.count()]
     }
@@ -17,14 +41,21 @@ class VagaController {
         respond vagaInstance
     }
 
-    def getByLogin(String login){
-        Vaga v = Vaga.find("from Vaga as v where v.usuario.login=?", [login])
-
-        render v as JSON
-    }
-
     def create() {
         respond new Vaga(params)
+    }
+
+    def findSpotByUserLogin(String login) {
+        def vagas = Vaga.list()
+        Vaga vagaOfUser = null
+
+        vagas.each { vaga ->
+            if (vaga.usuario?.login == login) {
+                vagaOfUser = vaga
+            }
+        }
+
+        return vagaOfUser
     }
 
     @Transactional
@@ -43,7 +74,7 @@ class VagaController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'vaga.label', default: 'Vaga'), vagaInstance.id])
+                flash.message = message(code: 'female.created.message', args: [message(code: 'vaga.label', default: 'Vaga'), vagaInstance.id])
                 redirect vagaInstance
             }
             '*' { respond vagaInstance, [status: CREATED] }

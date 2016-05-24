@@ -1,27 +1,13 @@
-import grails.converters.JSON
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
 class UsuarioController {
-
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond Usuario.list(params), model:[usuarioInstanceCount: Usuario.count()]
-    }
-
-    def getVagaByLogin(String login){
-        /*Vaga vaga = new Vaga()
-
-        vaga.setDescricao('d3')
-
-
-        render vaga as JSON*/
-
-        redirect (controller: 'Vaga', action: 'getByLogin', params: [login: login])
     }
 
     def show(Usuario usuarioInstance) {
@@ -30,6 +16,22 @@ class UsuarioController {
 
     def create() {
         respond new Usuario(params)
+    }
+
+    def lembrete(Usuario userInstance) {
+        def vagaController = new VagaController()
+        def vaga = vagaController.findSpotByUserLogin(userInstance.login)
+
+        String msg = ""
+        if (!vaga) {
+            msg = "O usuario não estacionou em nenhuma vaga"
+        } else {
+            msg = "O usuario estacionou na vaga " + vaga.descricao.toString()
+        }
+
+        flash.message = msg
+
+        redirect userInstance
     }
 
     @Transactional

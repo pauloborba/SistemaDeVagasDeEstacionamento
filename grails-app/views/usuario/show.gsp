@@ -8,15 +8,13 @@
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
 	<body>
-        
-
 		<a href="#show-usuario" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-                <li><button id="lembrete-vaga">Lembrete</button></li>
+				<li><g:link action="lembrete" id="${usuarioInstance.id}">Lembrete de vaga</g:link></li>
 			</ul>
 		</div>
 		<div id="show-usuario" class="content scaffold-show" role="main">
@@ -30,7 +28,7 @@
 				<li class="fieldcontain">
 					<span id="login-label" class="property-label"><g:message code="usuario.login.label" default="Login" /></span>
 					
-						<span class="property-value" id="login-value" aria-labelledby="login-label"><g:fieldValue bean="${usuarioInstance}" field="login"/></span>
+						<span class="property-value" aria-labelledby="login-label"><g:fieldValue bean="${usuarioInstance}" field="login"/></span>
 					
 				</li>
 				</g:if>
@@ -44,24 +42,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${usuarioInstance?.password}">
-				<li class="fieldcontain">
-					<span id="password-label" class="property-label"><g:message code="usuario.password.label" default="Password" /></span>
-					
-						<span class="property-value" aria-labelledby="password-label"><g:fieldValue bean="${usuarioInstance}" field="password"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${usuarioInstance?.vaga}">
-				<li class="fieldcontain">
-					<span id="vaga-label" class="property-label"><g:message code="usuario.vaga.label" default="Vaga" /></span>
-					
-						<span class="property-value" aria-labelledby="vaga-label"><g:link controller="vaga" action="show" id="${usuarioInstance?.vaga?.id}">${usuarioInstance?.vaga?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
 			</ol>
 			<g:form url="[resource:usuarioInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">
@@ -70,22 +50,5 @@
 				</fieldset>
 			</g:form>
 		</div>
-
-        <script type="text/javascript">
-            function getVaga(){
-                $.ajax({
-                    url: '../getVagaByLogin',
-                    data: {
-                        login: $('#login-value').text()
-                    },
-
-                    success: function(vaga){
-                        alert('Vaga: ' + vaga.descricao);
-                    }
-                });
-            }
-
-            $('#lembrete-vaga').click(getVaga);
-        </script>
 	</body>
 </html>

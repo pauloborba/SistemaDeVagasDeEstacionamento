@@ -1,13 +1,9 @@
-
-
-
-
 <div class="fieldcontain ${hasErrors(bean: vagaInstance, field: 'descricao', 'error')} required">
-    <label for="descricao">
-        <g:message code="vaga.descricao.label" default="Descricao" />
-        <span class="required-indicator">*</span>
-    </label>
-    <g:textField name="descricao" required="" value="${vagaInstance?.descricao}"/>
+	<label for="descricao">
+		<g:message code="vaga.descricao.label" default="Descricao" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:textField name="descricao" required="" value="${vagaInstance?.descricao}"/>
 
 </div>
 
@@ -21,28 +17,20 @@
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: vagaInstance, field: 'setor', 'error')} required">
-    <label for="setor">
-        <g:message code="vaga.setor.label" default="Setor" />
-        <span class="required-indicator">*</span>
-    </label>
-    <g:select name="setor" from="${vagaInstance.constraints.setor.inList}" required="" value="${vagaInstance?.setor}" valueMessagePrefix="vaga.setor"/>
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: vagaInstance, field: 'ocupada', 'error')} ">
-    <label for="ocupada">
-        <g:message code="vaga.ocupada.label" default="Ocupada" />
-
-    </label>
-    <g:checkBox name="ocupada" value="${vagaInstance?.ocupada}" />
+	<label for="setor">
+		<g:message code="vaga.setor.label" default="Setor" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select name="setor" from="${vagaInstance.constraints.setor.inList}" required="" value="${vagaInstance?.setor}" valueMessagePrefix="vaga.setor"/>
 
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: vagaInstance, field: 'preferencial', 'error')} ">
-    <label for="preferencial">
-        <g:message code="vaga.preferencial.label" default="Preferencial" />
+	<label for="preferencial">
+		<g:message code="vaga.preferencial.label" default="Preferencial" />
 
-    </label>
-    <g:checkBox name="preferencial" value="${vagaInstance?.preferencial}" />
+	</label>
+	<g:checkBox name="preferencial" value="${vagaInstance?.preferencial}" />
 
 </div>
+
