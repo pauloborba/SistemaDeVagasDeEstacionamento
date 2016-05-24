@@ -1,7 +1,8 @@
+<<<<<<< HEAD
+=======
 
 
-
-
+>>>>>>> 896d75596e237baee4a22e140e097d4e7648be46
 <div class="fieldcontain ${hasErrors(bean: vagaInstance, field: 'descricao', 'error')} required">
 	<label for="descricao">
 		<g:message code="vaga.descricao.label" default="Descricao" />
@@ -37,13 +38,7 @@
 	<g:checkBox name="preferencial" value="${vagaInstance?.preferencial}" />
 
 </div>
+<<<<<<< HEAD
 
-<div class="fieldcontain ${hasErrors(bean: vagaInstance, field: 'setor', 'error')} required">
-	<label for="setor">
-		<g:message code="vaga.setor.label" default="Setor" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="setor" name="setor.id" from="${Setor.list()}" optionKey="id" required="" value="${vagaInstance?.setor?.id}" class="many-to-one"/>
-
-</div>
-
+=======
+>>>>>>> 896d75596e237baee4a22e140e097d4e7648be46
