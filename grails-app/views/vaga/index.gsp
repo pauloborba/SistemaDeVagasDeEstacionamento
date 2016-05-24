@@ -19,11 +19,14 @@
 		width: 10px;
 		height: 10px;
 	}
+<<<<<<< HEAD
 
 	.search-bar{
 		padding: 0 20px;
 		margin: 10px 0;
 	}
+=======
+>>>>>>> 0a18618d6cfc725a15b525fffbb631ecd12a85f2
 	</style>
 </head>
 <body>
@@ -36,6 +39,7 @@
 </div>
 <div id="list-vaga" class="content scaffold-list" role="main">
 	<h1><g:message code="default.list.label" args="[entityName]" /></h1>
+<<<<<<< HEAD
 	
 	<div class="search-bar">
 		<g:form url="[action: 'index']">
@@ -49,6 +53,8 @@
 			<g:submitButton name="search" class="save" value="${message(code: 'default.button.search.label', default: 'Buscar')}" />
 		</g:form>
 	</div>
+=======
+>>>>>>> 0a18618d6cfc725a15b525fffbb631ecd12a85f2
 	<g:if test="${flash.message}">
 		<div class="message" role="status">${flash.message}</div>
 	</g:if>
@@ -60,7 +66,11 @@
 
 			<th><g:message code="vaga.usuario.label" default="Usuario" /></th>
 
+<<<<<<< HEAD
 			<g:sortableColumn property="setor" title="${message(code: 'vaga.setor.nome', default: 'Setor')}" />
+=======
+			<g:sortableColumn property="setor" title="${message(code: 'vaga.setor.label', default: 'Setor')}" />
+>>>>>>> 0a18618d6cfc725a15b525fffbb631ecd12a85f2
 
 			<g:sortableColumn property="ocupada" title="${message(code: 'vaga.ocupada.label', default: 'Ocupada')}" />
 
@@ -69,7 +79,11 @@
 		</tr>
 		</thead>
 		<tbody>
+<<<<<<< HEAD
 		<g:each in="${vagaInstanceList ?: flash.vagasFiltradas}" status="i" var="vagaInstance">
+=======
+		<g:each in="${vagaInstanceList}" status="i" var="vagaInstance">
+>>>>>>> 0a18618d6cfc725a15b525fffbb631ecd12a85f2
 			<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 
 				<td><g:link action="show" id="${vagaInstance.id}">${fieldValue(bean: vagaInstance, field: "descricao")}</g:link></td>
@@ -88,8 +102,15 @@
 					</g:else>
 				</td>
 
+<<<<<<< HEAD
 				<td>${vagaInstance.setor.nome}</td>
 				<td><g:formatBoolean boolean="${vagaInstance.ocupada}" /></td>
+=======
+				<td>${fieldValue(bean: vagaInstance, field: "setor")}</td>
+
+				<td><g:formatBoolean boolean="${vagaInstance.ocupada}" /></td>
+
+>>>>>>> 0a18618d6cfc725a15b525fffbb631ecd12a85f2
 				<td><g:formatBoolean boolean="${vagaInstance.preferencial}" /></td>
 
 			</tr>
