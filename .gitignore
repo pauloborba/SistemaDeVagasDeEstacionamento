@@ -46,3 +46,4 @@ fabric.properties
 
 # SVE user-especific configuration files
 test/functional/GebConfig.groovy
+.slcache/
