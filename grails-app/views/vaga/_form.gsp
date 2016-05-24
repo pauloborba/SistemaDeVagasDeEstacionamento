@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 896d75596e237baee4a22e140e097d4e7648be46
 <div class="fieldcontain ${hasErrors(bean: vagaInstance, field: 'descricao', 'error')} required">
 	<label for="descricao">
 		<g:message code="vaga.descricao.label" default="Descricao" />
@@ -38,7 +33,3 @@
 	<g:checkBox name="preferencial" value="${vagaInstance?.preferencial}" />
 
 </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> 896d75596e237baee4a22e140e097d4e7648be46

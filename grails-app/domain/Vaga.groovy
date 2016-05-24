@@ -24,8 +24,4 @@ class Vaga {
 
         ocupada = false
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 896d75596e237baee4a22e140e097d4e7648be46
