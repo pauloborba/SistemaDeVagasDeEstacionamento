@@ -19,3 +19,4 @@
 	<g:textField name="nome" required="" value="${usuarioInstance?.nome}"/>
 
 </div>
+

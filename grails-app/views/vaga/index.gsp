@@ -19,6 +19,11 @@
 		width: 10px;
 		height: 10px;
 	}
+
+	.search-bar{
+		padding: 0 20px;
+		margin: 10px 0;
+	}
 	</style>
 </head>
 <body>
@@ -31,6 +36,19 @@
 </div>
 <div id="list-vaga" class="content scaffold-list" role="main">
 	<h1><g:message code="default.list.label" args="[entityName]" /></h1>
+	
+	<div class="search-bar">
+		<g:form url="[action: 'index']">
+
+			<label>Setor:</label>
+			<g:select from="${flash.setores}" name="setor.nome" optionValue="nome" optionKey="nome"/>
+
+			<!-- <label>Preferencial:</label>
+			<g:checkBox name="preferencial"/> -->
+
+			<g:submitButton name="search" class="save" value="${message(code: 'default.button.search.label', default: 'Buscar')}" />
+		</g:form>
+	</div>
 	<g:if test="${flash.message}">
 		<div class="message" role="status">${flash.message}</div>
 	</g:if>
@@ -42,7 +60,7 @@
 
 			<th><g:message code="vaga.usuario.label" default="Usuario" /></th>
 
-			<g:sortableColumn property="setor" title="${message(code: 'vaga.setor.label', default: 'Setor')}" />
+			<g:sortableColumn property="setor" title="${message(code: 'vaga.setor.nome', default: 'Setor')}" />
 
 			<g:sortableColumn property="ocupada" title="${message(code: 'vaga.ocupada.label', default: 'Ocupada')}" />
 
@@ -51,7 +69,7 @@
 		</tr>
 		</thead>
 		<tbody>
-		<g:each in="${vagaInstanceList}" status="i" var="vagaInstance">
+		<g:each in="${vagaInstanceList ?: flash.vagasFiltradas}" status="i" var="vagaInstance">
 			<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 
 				<td><g:link action="show" id="${vagaInstance.id}">${fieldValue(bean: vagaInstance, field: "descricao")}</g:link></td>
@@ -70,10 +88,8 @@
 					</g:else>
 				</td>
 
-				<td>${fieldValue(bean: vagaInstance, field: "setor")}</td>
-
+				<td>${vagaInstance.setor.nome}</td>
 				<td><g:formatBoolean boolean="${vagaInstance.ocupada}" /></td>
-
 				<td><g:formatBoolean boolean="${vagaInstance.preferencial}" /></td>
 
 			</tr>
