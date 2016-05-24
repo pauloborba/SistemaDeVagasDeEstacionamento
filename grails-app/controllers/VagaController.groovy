@@ -55,14 +55,6 @@ class VagaController {
         respond new Vaga(params)
     }
 
-    def getDistance(Vaga vagaInstance){
-        if(vagaInstance.setor == "CIn"){
-            return Math.sqrt(((vagaInstance.x - 0)^2)+((vagaInstance.y - 0)^2))
-        }else if(vagaInstance.setor == "CCEN"){
-                return Math.sqrt(((vagaInstance.x - 20)^2) + ((vagaInstance.y - 20)^2))
-        }
-    }
-
     def findSpotByUserLogin(String login) {
         def vagas = Vaga.list()
         Vaga vagaOfUser = null
