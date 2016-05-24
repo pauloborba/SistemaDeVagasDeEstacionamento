@@ -7,8 +7,6 @@ grails.project.target.level = 1.6
 grails.project.source.level = 1.6
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
-grails.server.port.http = 8070
-
 grails.project.fork = [
     // configure settings for compilation JVM, note that if you alter the Groovy version forked compilation is required
     //  compile: [maxMemory: 256, minMemory: 64, debug: false, maxPerm: 256, daemon:true],
@@ -53,22 +51,11 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.29'
         // runtime 'org.postgresql:postgresql:9.3-1101-jdbc41'
         test "org.grails:grails-datastore-test-support:1.0-grails-2.4"
-
-        test "org.seleniumhq.selenium:selenium-support:2.39.0"
-        test "org.seleniumhq.selenium:selenium-chrome-driver:2.39.0"
-        test "org.seleniumhq.selenium:selenium-firefox-driver:2.39.0"
-
-        test "org.gebish:geb-junit4:0.9.2"
     }
 
     plugins {
         // plugins for the build system only
         build ":tomcat:7.0.55"
-
-        test(":cucumber:1.1.0") {
-            exclude "spock-core"
-        }
-        test ":geb:0.9.2"
 
         // plugins for the compile step
         compile ":scaffolding:2.1.2"
