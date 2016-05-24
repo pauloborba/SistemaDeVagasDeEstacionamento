@@ -1,11 +1,8 @@
-
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
 class UsuarioController {
-
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
@@ -19,6 +16,22 @@ class UsuarioController {
 
     def create() {
         respond new Usuario(params)
+    }
+
+    def lembrete(Usuario userInstance) {
+        def vagaController = new VagaController()
+        def vaga = vagaController.findSpotByUserLogin(userInstance.login)
+
+        String msg = ""
+        if (!vaga) {
+            msg = "O usuario não estacionou em nenhuma vaga"
+        } else {
+            msg = "O usuario estacionou na vaga " + vaga.descricao.toString()
+        }
+
+        flash.message = msg
+
+        redirect userInstance
     }
 
     @Transactional
