@@ -1,14 +1,16 @@
 class Vaga {
     String descricao
-    String setor
+    //String setor
     boolean preferencial
     boolean ocupada
     Usuario usuario
+    static belongsTo = [setor: Setor]
 
     static constraints = {
         descricao blank: false
         usuario nullable: true
-        setor inList: ["CIn", "CCEN", "Área II"]
+        //setor inList: ["CIn", "CCEN", "Área II"]
+        //estacionamento nullable: false
     }
 
     void setarUsuario(Usuario usuario) {

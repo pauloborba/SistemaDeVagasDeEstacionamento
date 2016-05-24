@@ -5,6 +5,8 @@ import grails.transaction.Transactional
 class VagaController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    Object vagasFiltradas
+
     def unbook(Vaga vagaInstance) {
         vagaInstance.removerUsuario()
         vagaInstance.save flush:true
@@ -33,8 +35,16 @@ class VagaController {
             usuario.save flush: true
         }
 
+        flash.setores = Setor.findAll()
+        flash.estacionamentos = Estacionamento.findAll()
+
         params.max = Math.min(max ?: 10, 100)
-        respond Vaga.list(params), model:[vagaInstanceCount: Vaga.count()]
+
+        if(params.setor?.nome){
+            respond Vaga.findAll("from Vaga as v where v.setor.nome=?", [params.setor.nome]), model:[vagaInstanceCount: Vaga.count()]
+        }else{
+            respond Vaga.list(params), model:[vagaInstanceCount: Vaga.count()]
+        }
     }
 
     def show(Vaga vagaInstance) {
