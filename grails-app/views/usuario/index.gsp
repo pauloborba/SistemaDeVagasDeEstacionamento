@@ -1,5 +1,9 @@
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 896d75596e237baee4a22e140e097d4e7648be46
 <!DOCTYPE html>
 <html>
 	<head>
