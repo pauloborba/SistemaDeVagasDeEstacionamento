@@ -43,7 +43,7 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-
 # SVE user-especific configuration files
 .slcache/
 .idea/
+target/
