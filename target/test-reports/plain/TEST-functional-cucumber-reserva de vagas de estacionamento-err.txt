@@ -1,0 +1,4 @@
+
+--Output from reserva com estacionamento cheio--
+--Output from reserva com estacionamento com vagas--
+--Output from seleção de vaga livre--
