@@ -1,9 +1,0 @@
-<plugin name='cucumber' version='1.1.0' grailsVersion='2.0.0 &gt; *'>
-  <author>Martin Hauner</author>
-  <authorEmail>martin.hauner@gmx.net</authorEmail>
-  <title>Cucumber Plugin</title>
-  <description>Test your Grails apps with Cucumber</description>
-  <documentation>https://github.com/hauner/grails-cucumber/wiki</documentation>
-  <type>CucumberGrailsPlugin</type>
-  <resources />
-</plugin>
