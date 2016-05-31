@@ -1,5 +1,4 @@
 # SistemaDeVagasDeEstacionamento
-### Parking Space Manager (PSM)
 
 Projeto da cadeira de Engenharia de Software e Sistemas (ESS) do CIn-UFPE, período 2016.1
 ## Requisitos
@@ -10,7 +9,7 @@ Projeto da cadeira de Engenharia de Software e Sistemas (ESS) do CIn-UFPE, perí
 ## Configurando
 
 ### Pelo IntelliJ:
-Selecione a opção open:
+Selecione a opção Open:
 
 ![alt tag](http://i.imgur.com/zdPOypk.png)
 
@@ -54,17 +53,4 @@ ParkingSpaceManager - TEST:
 ![alt tag](http://i.imgur.com/q17bNAv.png)
 - command line: `test-app -Dgeb.env=chrome functional:cucumber --stacktrace --verbose`
 
-**Obs:** Funciona apenas com o navegador Chrome.
-
-Integração com o Travis-ci
-Entre em [Travis-CI](https://travis-ci.org/) <br />
-Selecione o botão no canto superior direito "Sign in with github" <br />
-Clique em seu nome no canto superior direito <br />
-Pressione o botão cinza "Sync" caso seus repositórios não estejam aparecendo <br />
-Caso os repositórios não aparecam, dê log out e entre novamente <br />
-Escolha o repositório que deseja testar, no caso o TA, e clique no botão cinza para que ele se torne verde <br />
-Faça um commit qualquer para ativar a build do travis <br />
-Caso você queira ver mais do stacktrace utilize "--verbose" logo após o comando "--stacktrace" no arquivo .travis.yml do seu repositório <br />
-Para receber emails sobre se a build passou ou não, ative seu email no perfil do github <br />
-
--------------------------------------------------------------------------------------------------------------------
+**Obs:** Devido à problemas com o plugin do Cucumber, os testes rodam apenas com o navegador Google Chrome.
