@@ -1,8 +1,19 @@
-this.metaClass.mixin(cucumber.api.groovy.Hooks)
-this.metaClass.mixin(cucumber.api.groovy.EN)
+package steps
 
-Given(~/^the system stored that the user "([^"]*)" has preference for parking spaces in the "([^"]*)" sector$/) { String user, String sector ->
-    assert true
+import sistemadevagasdeestacionamento.*
+
+import static cucumber.api.groovy.EN.*
+
+Given(~/^the system stored that the user "([^"]*)" has preference for parking spaces in the "([^"]*)" sector$/) { String login, String sector ->
+    def userController = new UserController()
+    userController.params << [login: login, preferredSector: sector]
+    userController.save
+    userController.response.reset
+
+    def user = User.findByLogin(login)
+
+    assert user
+    assert user.preferredSector == sector
 }
 
 And(~/^the parking space "([^"]*)" is from the "([^"]*)" sector$/) { String parkingSpace, String sector ->

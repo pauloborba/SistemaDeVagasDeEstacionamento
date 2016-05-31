@@ -8,7 +8,7 @@ class ParkingSpace {
     boolean available = { owner == null }
 
     static constraints = {
-        owner nullable: true
+        owner nullable: false, unique: true
         description blank: false
         sector inList: ["CIn", "CCEN", "Área II"]
     }
