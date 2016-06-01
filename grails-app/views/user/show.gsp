@@ -23,11 +23,11 @@
 			</g:if>
 			<ol class="property-list user">
 			
-				<g:if test="${userInstance?.preferredSector}">
+				<g:if test="${userInstance?.login}">
 				<li class="fieldcontain">
-					<span id="preferredSector-label" class="property-label"><g:message code="user.preferredSector.label" default="Preferred Sector" /></span>
+					<span id="login-label" class="property-label"><g:message code="user.login.label" default="Login" /></span>
 					
-						<span class="property-value" aria-labelledby="preferredSector-label"><g:fieldValue bean="${userInstance}" field="preferredSector"/></span>
+						<span class="property-value" aria-labelledby="login-label"><g:fieldValue bean="${userInstance}" field="login"/></span>
 					
 				</li>
 				</g:if>
@@ -50,11 +50,11 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${userInstance?.login}">
+				<g:if test="${userInstance?.preferredSector}">
 				<li class="fieldcontain">
-					<span id="login-label" class="property-label"><g:message code="user.login.label" default="Login" /></span>
+					<span id="preferredSector-label" class="property-label"><g:message code="user.preferredSector.label" default="Preferred Sector" /></span>
 					
-						<span class="property-value" aria-labelledby="login-label"><g:fieldValue bean="${userInstance}" field="login"/></span>
+						<span class="property-value" aria-labelledby="preferredSector-label"><g:fieldValue bean="${userInstance}" field="preferredSector"/></span>
 					
 				</li>
 				</g:if>

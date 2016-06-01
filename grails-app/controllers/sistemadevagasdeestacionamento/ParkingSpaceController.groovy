@@ -9,28 +9,32 @@ class ParkingSpaceController {
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
 
-        respond ParkingSpace.list(params), model: [parkingSpaceInstanceCount: ParkingSpace.count()]
+        respond(ParkingSpace.list(params), model: [parkingSpaceInstanceCount: ParkingSpace.count()])
     }
 
     def show(ParkingSpace parkingSpaceInstance) {
-        respond parkingSpaceInstance
+        respond(parkingSpaceInstance)
     }
 
     def create() {
-        respond new ParkingSpace(params)
+        respond(new ParkingSpace(params))
+    }
+
+    def cucumberSave() {
+        save(new ParkingSpace(params))
     }
 
     @Transactional
     def save(ParkingSpace parkingSpaceInstance) {
         if (parkingSpaceInstance == null) {
             if (!parkingSpaceInstance.hasErrors()) {
-                parkingSpaceInstance.save flush: true
+                parkingSpaceInstance.save(flush: true)
 
                 flash.message = message(code: 'default.created.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
 
-                redirect parkingSpaceInstance
+                redirect(parkingSpaceInstance)
             } else {
-                respond parkingSpaceInstance.errors, view: 'create'
+                respond(parkingSpaceInstance.errors, view: 'create')
             }
         } else {
             notFound()
@@ -38,20 +42,20 @@ class ParkingSpaceController {
     }
 
     def edit(ParkingSpace parkingSpaceInstance) {
-        respond parkingSpaceInstance
+        respond(parkingSpaceInstance)
     }
 
     @Transactional
     def update(ParkingSpace parkingSpaceInstance) {
         if (parkingSpaceInstance != null) {
             if (!parkingSpaceInstance.hasErrors()) {
-                parkingSpaceInstance.save flush: true
+                parkingSpaceInstance.save(flush: true)
 
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'ParkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
 
-                redirect parkingSpaceInstance
+                redirect(parkingSpaceInstance)
             } else {
-                respond parkingSpaceInstance.errors, view: 'edit'
+                respond(parkingSpaceInstance.errors, view: 'edit')
             }
         } else {
             notFound()
@@ -61,11 +65,11 @@ class ParkingSpaceController {
     @Transactional
     def delete(ParkingSpace parkingSpaceInstance) {
         if (parkingSpaceInstance != null) {
-            parkingSpaceInstance.delete flush: true
+            parkingSpaceInstance.delete(flush: true)
 
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'ParkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
 
-            redirect action: "index", method: "GET"
+            redirect(action: "index", method: "GET")
         } else {
             notFound()
         }
@@ -74,6 +78,6 @@ class ParkingSpaceController {
     protected void notFound() {
         flash.message = message(code: 'default.not.found.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), params.id])
 
-        redirect action: "index", method: "GET"
+        redirect(action: "index", method: "GET")
     }
 }

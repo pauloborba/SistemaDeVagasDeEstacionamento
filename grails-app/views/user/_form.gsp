@@ -2,12 +2,12 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'preferredSector', 'error')} required">
-	<label for="preferredSector">
-		<g:message code="user.preferredSector.label" default="Preferred Sector" />
+<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'login', 'error')} required">
+	<label for="login">
+		<g:message code="user.login.label" default="Login" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="preferredSector" from="${userInstance.constraints.preferredSector.inList}" required="" value="${userInstance?.preferredSector}" valueMessagePrefix="user.preferredSector"/>
+	<g:textField name="login" required="" value="${userInstance?.login}"/>
 
 </div>
 
@@ -29,12 +29,12 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'login', 'error')} required">
-	<label for="login">
-		<g:message code="user.login.label" default="Login" />
+<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'preferredSector', 'error')} required">
+	<label for="preferredSector">
+		<g:message code="user.preferredSector.label" default="Preferred Sector" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="login" required="" value="${userInstance?.login}"/>
+	<g:select name="preferredSector" from="${userInstance.constraints.preferredSector.inList}" required="" value="${userInstance?.preferredSector}" valueMessagePrefix="user.preferredSector"/>
 
 </div>
 

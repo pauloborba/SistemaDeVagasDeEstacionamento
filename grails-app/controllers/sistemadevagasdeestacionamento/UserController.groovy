@@ -9,28 +9,32 @@ class UserController {
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
 
-        respond User.list(params), model: [userInstanceCount: User.count()]
+        respond(User.list(params), model: [userInstanceCount: User.count()])
     }
 
     def show(User userInstance) {
-        respond userInstance
+        respond(userInstance)
     }
 
     def create() {
-        respond new User(params)
+        respond(new User(params))
+    }
+
+    def cucumberSave() {
+        save(new User(params))
     }
 
     @Transactional
     def save(User userInstance) {
         if (userInstance != null) {
             if (!userInstance.hasErrors()) {
-                userInstance.save flush: true
+                userInstance.save(flush: true)
 
                 flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
 
-                redirect userInstance
+                redirect(userInstance)
             } else {
-                respond userInstance.errors, view: 'create'
+                respond(userInstance.errors, view: 'create')
             }
         } else {
             notFound()
@@ -38,20 +42,20 @@ class UserController {
     }
 
     def edit(User userInstance) {
-        respond userInstance
+        respond(userInstance)
     }
 
     @Transactional
     def update(User userInstance) {
         if (userInstance != null) {
             if (!userInstance.hasErrors()) {
-                userInstance.save flush: true
+                userInstance.save(flush: true)
 
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'User.label', default: 'User'), userInstance.id])
 
-                redirect userInstance
+                redirect(userInstance)
             } else {
-                respond userInstance.errors, view: 'edit'
+                respond(userInstance.errors, view: 'edit')
             }
         } else {
             notFound()
@@ -61,11 +65,11 @@ class UserController {
     @Transactional
     def delete(User userInstance) {
         if (userInstance != null) {
-            userInstance.delete flush: true
+            userInstance.delete(flush: true)
 
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'User.label', default: 'User'), userInstance.id])
 
-            redirect action: "index", method: "GET"
+            redirect(action: "index", method: "GET")
         } else {
             notFound()
         }
@@ -74,6 +78,6 @@ class UserController {
     protected void notFound() {
         flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
 
-        redirect action: "index", method: "GET"
+        redirect(action: "index", method: "GET")
     }
 }
