@@ -4,8 +4,6 @@ import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
 class UserController {
-    static allowedMethods = [update: "PUT", delete: "DELETE"]
-
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
 
@@ -18,10 +16,6 @@ class UserController {
 
     def create() {
         respond(new User(params))
-    }
-
-    def cucumberSave() {
-        save(new User(params))
     }
 
     @Transactional
@@ -51,7 +45,7 @@ class UserController {
             if (!userInstance.hasErrors()) {
                 userInstance.save(flush: true)
 
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'User.label', default: 'User'), userInstance.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
 
                 redirect(userInstance)
             } else {
@@ -67,7 +61,7 @@ class UserController {
         if (userInstance != null) {
             userInstance.delete(flush: true)
 
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'User.label', default: 'User'), userInstance.id])
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
 
             redirect(action: "index", method: "GET")
         } else {

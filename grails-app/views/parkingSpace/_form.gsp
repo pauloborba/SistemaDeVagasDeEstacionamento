@@ -29,6 +29,15 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: parkingSpaceInstance, field: 'available', 'error')} ">
+	<label for="available">
+		<g:message code="parkingSpace.available.label" default="Available" />
+		
+	</label>
+	<g:checkBox name="available" value="${parkingSpaceInstance?.available}" />
+
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: parkingSpaceInstance, field: 'preferential', 'error')} ">
 	<label for="preferential">
 		<g:message code="parkingSpace.preferential.label" default="Preferential" />

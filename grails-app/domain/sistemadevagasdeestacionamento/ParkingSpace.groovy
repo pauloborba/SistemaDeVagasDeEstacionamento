@@ -5,11 +5,15 @@ class ParkingSpace {
     String description
     String sector
     boolean preferential
-    boolean available = { owner == null }
 
     static constraints = {
-        owner nullable: true, unique: true
-        description blank: false
+        owner nullable: true
+        description nullable: false
         sector inList: ["CIn", "CCEN", "Área II"]
+    }
+
+    boolean isAvailable()
+    {
+        return owner == null
     }
 }

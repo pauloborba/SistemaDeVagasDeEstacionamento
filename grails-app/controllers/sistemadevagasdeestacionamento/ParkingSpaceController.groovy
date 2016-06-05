@@ -1,15 +1,14 @@
 package sistemadevagasdeestacionamento
 
 import grails.transaction.Transactional
+import grails.converters.*
 
 @Transactional(readOnly = true)
 class ParkingSpaceController {
-    static allowedMethods = [update: "PUT", delete: "DELETE"]
+    def index() {
+        def parkingSpaces = ParkingSpace.list()
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-
-        respond(ParkingSpace.list(params), model: [parkingSpaceInstanceCount: ParkingSpace.count()])
+        respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()])
     }
 
     def show(ParkingSpace parkingSpaceInstance) {
@@ -20,13 +19,22 @@ class ParkingSpaceController {
         respond(new ParkingSpace(params))
     }
 
-    def cucumberSave() {
-        save(new ParkingSpace(params))
+    def suggestion() {
+    //def suggestion(User userInstance) {
+        def parkingSpaces = ParkingSpace.list().findAll { it.available }
+        //def parkingSpaces = ParkingSpace.list().findAll { it.available && it.sector == userInstance.preferredSector }
+
+        request.withFormat {
+            form multipartForm {
+                respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()])
+            }
+            json { render parkingSpaces as JSON }
+        }
     }
 
     @Transactional
     def save(ParkingSpace parkingSpaceInstance) {
-        if (parkingSpaceInstance == null) {
+        if (parkingSpaceInstance != null) {
             if (!parkingSpaceInstance.hasErrors()) {
                 parkingSpaceInstance.save(flush: true)
 
@@ -51,7 +59,7 @@ class ParkingSpaceController {
             if (!parkingSpaceInstance.hasErrors()) {
                 parkingSpaceInstance.save(flush: true)
 
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'ParkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
 
                 redirect(parkingSpaceInstance)
             } else {
@@ -67,7 +75,7 @@ class ParkingSpaceController {
         if (parkingSpaceInstance != null) {
             parkingSpaceInstance.delete(flush: true)
 
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'ParkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
 
             redirect(action: "index", method: "GET")
         } else {

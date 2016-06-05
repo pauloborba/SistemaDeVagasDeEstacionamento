@@ -46,6 +46,8 @@ fabric.properties
 # SVE user-especific configuration files
 .slcache/
 .idea/
-target/
 
+target/
+test/unit/
+test/integration/
 .DS_Store
