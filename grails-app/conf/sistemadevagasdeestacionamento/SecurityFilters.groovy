@@ -12,7 +12,8 @@ class SecurityFilters {
      */
     static authenticatedActions = [
         [controller: 'parkingSpace', action: '*', roles: ['User']],
-        [controller: 'user', action: '*', roles: ['User']]
+        [controller: 'user', action: '*', roles: ['User']],
+        [controller: 'home', action: '*', roles: ['User']]
     ]
 
     def filters = {
@@ -24,16 +25,11 @@ class SecurityFilters {
 
                 if (authRoles) {
                     // Perform the access control for each of the roles provided in the authRoles
-                    accessControl {
-                        authRoles.roles.each { roleName ->
-                            role(roleName)
-                        }
-                    }
+                    accessControl { authRoles.roles.each { roleName -> role(roleName) } }
                 } else {
                     return true
                 }
             }
         }
-
     }
 }

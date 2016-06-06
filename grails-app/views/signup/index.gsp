@@ -21,6 +21,18 @@
                 <td><input type="text" name="username" value="${username}"/></td>
             </tr>
             <tr>
+                <td>First name:</td>
+                <td><input type="text" name="firstName" value="${firstName}"/></td>
+            </tr>
+            <tr>
+                <td>Last name:</td>
+                <td><input type="text" name="lastName" value="${lastName}"/></td>
+            </tr>
+            <tr>
+                <td>Preferred sector:</td>
+                <td><g:select name="preferredSector" from="${userInstance.constraints.preferredSector.inList}" value="${userInstance?.preferredSector}" /></td>
+            </tr>
+            <tr>
                 <td>Password:</td>
                 <td><input type="password" name="password" value=""/></td>
             </tr>

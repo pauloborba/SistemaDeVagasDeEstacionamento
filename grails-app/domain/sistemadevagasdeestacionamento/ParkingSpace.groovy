@@ -7,9 +7,9 @@ class ParkingSpace {
     boolean preferential
 
     static constraints = {
-        owner nullable: true
-        description nullable: false
-        sector inList: ["CIn", "CCEN", "Área II"]
+        owner(nullable: true)
+        description(nullable: false, blank: false, unique: true)
+        sector(inList: ["CIn", "CCEN", "Área II"])
     }
 
     boolean isAvailable()

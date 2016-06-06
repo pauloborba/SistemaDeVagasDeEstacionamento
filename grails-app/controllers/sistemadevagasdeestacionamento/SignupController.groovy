@@ -5,7 +5,11 @@ import org.apache.shiro.SecurityUtils
 import org.apache.shiro.crypto.hash.Sha512Hash
 
 class SignupController {
-    def index() { }
+    def index() {
+        def user = new User()
+
+        respond(user)
+    }
 
     def register() {
         // Check to see if the username already exists
@@ -29,7 +33,10 @@ class SignupController {
                 // Create user
                 user = new User(
                         username: params.username,
-                        passwordHash: new Sha512Hash(params.password).toHex()
+                        passwordHash: new Sha512Hash(params.password).toHex(),
+                        firstName: params.firstName,
+                        lastName: params.lastName,
+                        preferredSector: params.preferredSector
                 )
 
                 if (user.save(flush:true)) {

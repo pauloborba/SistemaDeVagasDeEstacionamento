@@ -23,11 +23,11 @@
 			</g:if>
 			<ol class="property-list user">
 			
-				<g:if test="${userInstance?.login}">
+				<g:if test="${userInstance?.username}">
 				<li class="fieldcontain">
-					<span id="login-label" class="property-label"><g:message code="user.login.label" default="Login" /></span>
+					<span id="username-label" class="property-label"><g:message code="user.username.label" default="Username" /></span>
 					
-						<span class="property-value" aria-labelledby="login-label"><g:fieldValue bean="${userInstance}" field="login"/></span>
+						<span class="property-value" aria-labelledby="username-label"><g:fieldValue bean="${userInstance}" field="username"/></span>
 					
 				</li>
 				</g:if>
@@ -55,6 +55,35 @@
 					<span id="preferredSector-label" class="property-label"><g:message code="user.preferredSector.label" default="Preferred Sector" /></span>
 					
 						<span class="property-value" aria-labelledby="preferredSector-label"><g:fieldValue bean="${userInstance}" field="preferredSector"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${userInstance?.passwordHash}">
+				<li class="fieldcontain">
+					<span id="passwordHash-label" class="property-label"><g:message code="user.passwordHash.label" default="Password Hash" /></span>
+					
+						<span class="property-value" aria-labelledby="passwordHash-label"><g:fieldValue bean="${userInstance}" field="passwordHash"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${userInstance?.permissions}">
+				<li class="fieldcontain">
+					<span id="permissions-label" class="property-label"><g:message code="user.permissions.label" default="Permissions" /></span>
+					
+						<span class="property-value" aria-labelledby="permissions-label"><g:fieldValue bean="${userInstance}" field="permissions"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${userInstance?.roles}">
+				<li class="fieldcontain">
+					<span id="roles-label" class="property-label"><g:message code="user.roles.label" default="Roles" /></span>
+					
+						<g:each in="${userInstance.roles}" var="r">
+						<span class="property-value" aria-labelledby="roles-label"><g:link controller="role" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></span>
+						</g:each>
 					
 				</li>
 				</g:if>
