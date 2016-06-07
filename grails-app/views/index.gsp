@@ -1,10 +1,13 @@
+<%@ page import="org.apache.shiro.SecurityUtils" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>Sistema de Vagas de Estacionamento</title>
+    <g:if test="${SecurityUtils.subject.isAuthenticated()}">
+        <meta http-equiv="refresh" content="0;URL=/SistemaDeVagasDeEstacionamento/home">
+    </g:if>
+    <title>Sistema de Gerenciamento de Vaga</title>
 </head>
-    <body>
-        Sistema de Vagas de Estacionamento
-    </body>
+<body>
+    Página inicial
+</body>
 </html>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="utf-8">
-	<title>Sistema de Vagas de Estacionamento</title>
+	<meta name="layout" content="main">
+	<title>Sistema de Gerenciamento de Vaga - Home</title>
 </head>
-	<body>
-		Bem-vindo ao sistema
-	</body>
+<body>
+	Olá amigos :D
+</body>
 </html>
