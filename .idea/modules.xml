@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SistemaDeVagasDeEstacionamento.iml" filepath="$PROJECT_DIR$/SistemaDeVagasDeEstacionamento.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SistemaDeVagasDeEstacionamento-grailsPlugins.iml" filepath="$PROJECT_DIR$/SistemaDeVagasDeEstacionamento-grailsPlugins.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SistemaDeVagasDeEstacionamento.iml" filepath="$PROJECT_DIR$/.idea/SistemaDeVagasDeEstacionamento.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SistemaDeVagasDeEstacionamento-grailsPlugins.iml" filepath="$PROJECT_DIR$/.idea/SistemaDeVagasDeEstacionamento-grailsPlugins.iml" />
     </modules>
   </component>
 </project>
