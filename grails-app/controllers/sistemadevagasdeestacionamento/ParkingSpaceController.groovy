@@ -21,15 +21,13 @@ class ParkingSpaceController {
     }
 
     def suggestion() {
-        User userLogged = User.findByUsername(SecurityUtils.subject.principal as String)
+        User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
 
-        def parkingSpaces = ParkingSpace.list().findAll { it.available && it.sector == userLogged.preferredSector }
+        def parkingSpaces = ParkingSpace.list().findAll { it.available && it.sector == loggedUser.preferredSector }
 
         request.withFormat {
             html { respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()]) }
-            json {
-                render parkingSpaces as JSON
-            }
+            json { render(parkingSpaces as JSON) }
         }
     }
 
