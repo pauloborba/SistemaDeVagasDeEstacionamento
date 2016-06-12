@@ -3,7 +3,7 @@
 <html>
 <head>
     <g:if test="${SecurityUtils.subject.isAuthenticated()}">
-        <meta http-equiv="refresh" content="0;URL=/~/home">
+        <meta http-equiv="refresh" content="0;URL=/SistemaDeVagasDeEstacionamento/home">
     </g:if>
     <title>Sistema de Gerenciamento de Vaga</title>
 </head>

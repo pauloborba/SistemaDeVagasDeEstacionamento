@@ -1,7 +1,8 @@
 package sistemadevagasdeestacionamento
 
+import grails.converters.JSON
 import grails.transaction.Transactional
-import org.apache.shiro.*
+import org.apache.shiro.SecurityUtils
 
 @Transactional(readOnly = true)
 class ParkingSpaceController {
@@ -20,11 +21,16 @@ class ParkingSpaceController {
     }
 
     def suggestion() {
-        User user = User.findByUsername(SecurityUtils.subject.principal as String)
+        User userLogged = User.findByUsername(SecurityUtils.subject.principal as String)
 
-        def parkingSpaces = ParkingSpace.list().findAll { it.available && it.sector == user.preferredSector }
+        def parkingSpaces = ParkingSpace.list().findAll { it.available && it.sector == userLogged.preferredSector }
 
-        respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()])
+        request.withFormat {
+            html { respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()]) }
+            json {
+                render parkingSpaces as JSON
+            }
+        }
     }
 
     @Transactional

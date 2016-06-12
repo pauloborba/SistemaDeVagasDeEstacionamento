@@ -6,6 +6,7 @@ import sistemadevagasdeestacionamento.ParkingSpaceController
 import sistemadevagasdeestacionamento.User
 import sistemadevagasdeestacionamento.Role
 import sistemadevagasdeestacionamento.ParkingSpace
+import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
@@ -32,7 +33,6 @@ And(~/^the user is logged in the system$/) { ->
 And(~/^the parking space "([^"]*)" is from the "([^"]*)" sector $/) { String description, String sector ->
     def controller = new ParkingSpaceController()
     controller.save(new ParkingSpace([description: description, sector: sector]))
-    controller.response.reset()
 
     def parkingSpace = ParkingSpace.findByDescription(description)
 
@@ -46,13 +46,18 @@ And(~/^the parking space "([^"]*)" is available$/) { String description ->
     assert parkingSpace.available
 }
 
+def parkingSpaceController
+
 When(~/^the user asks where to park $/) { ->
-    def controller = new ParkingSpaceController()
-    controller.suggestion()
+    parkingSpaceController = new ParkingSpaceController()
+    parkingSpaceController.request.format = "json"
+    parkingSpaceController.suggestion()
 }
 
-Then(~/^the systems informs the parking space "([^"]*)" to the user$/) { String arg1 ->
-    assert true
+Then(~/^the systems informs the parking space "([^"]*)" to the user$/) { String description ->
+    def response = parkingSpaceController.response.json
+
+    assert response.find { it.description == description }
 }
 
 def oldMetaClass
@@ -63,7 +68,8 @@ def signup(username, password, sector) {
     user.save(flush:true)
 }
 
-// Simulando o login do Shiro, uma vez que o Cucumber não nos permite fazer o login através dos controladores
+// Simulação o login do Shiro, uma vez que o Cucumber não nos permite fazer o login através dos controladores
+// http://mrdustmite.blogspot.com.br/2010/09/integration-tests-with-shiro-and-nimble.html
 def login(username) {
     def metaClassRegistry = GroovySystem.metaClassRegistry
 
@@ -78,6 +84,7 @@ def login(username) {
     SecurityUtils.metaClass.static.getSubject = { subject }
 }
 
+// Devolve o estado anterior, removendo o usuário logado
 def logout() {
     GroovySystem.metaClassRegistry.setMetaClass(SecurityUtils, oldMetaClass)
 }
