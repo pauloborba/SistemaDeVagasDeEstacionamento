@@ -4,6 +4,6 @@ import org.apache.shiro.SecurityUtils
 
 class HomeController {
     def index() {
-        render "Opa"
+        [nome: User.findByUsername(SecurityUtils.subject.principal).firstName]
     }
 }

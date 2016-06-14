@@ -2,15 +2,6 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: parkingSpaceInstance, field: 'owner', 'error')} ">
-	<label for="owner">
-		<g:message code="parkingSpace.owner.label" default="Owner" />
-		
-	</label>
-	<g:select id="owner" name="owner.id" from="${sistemadevagasdeestacionamento.User.list()}" optionKey="id" value="${parkingSpaceInstance?.owner?.id}" class="many-to-one" noSelection="['null': '']"/>
-
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: parkingSpaceInstance, field: 'description', 'error')} required">
 	<label for="description">
 		<g:message code="parkingSpace.description.label" default="Description" />
@@ -26,15 +17,6 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:select name="sector" from="${parkingSpaceInstance.constraints.sector.inList}" required="" value="${parkingSpaceInstance?.sector}" valueMessagePrefix="parkingSpace.sector"/>
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: parkingSpaceInstance, field: 'available', 'error')} ">
-	<label for="available">
-		<g:message code="parkingSpace.available.label" default="Available" />
-		
-	</label>
-	<g:checkBox name="available" value="${parkingSpaceInstance?.available}" />
 
 </div>
 
