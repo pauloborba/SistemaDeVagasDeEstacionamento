@@ -47,3 +47,6 @@ fabric.properties
 .slcache/
 .idea/
 target/
+test/unit/
+test/integration/
+.DS_Store
