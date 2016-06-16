@@ -40,7 +40,15 @@
 				<g:each in="${parkingSpaceInstanceList}" status="i" var="parkingSpaceInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${parkingSpaceInstance.id}">${fieldValue(bean: parkingSpaceInstance, field: "owner")}</g:link></td>
+						<td>
+							<g:if test="${parkingSpaceInstance.owner}">
+								<g:fieldValue bean="${parkingSpaceInstance}" field="owner.firstName" />
+							</g:if>
+							<g:else>
+								<g:link action="book" params="[parkingSpaceId: parkingSpaceInstance.getId()]">Reservar</g:link>
+							</g:else>
+							
+						</td>
 					
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "description")}</td>
 					

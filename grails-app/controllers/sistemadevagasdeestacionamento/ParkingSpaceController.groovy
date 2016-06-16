@@ -20,6 +20,18 @@ class ParkingSpaceController {
         respond(new ParkingSpace(params))
     }
 
+    def book(Long parkingSpaceId){
+        User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+        ParkingSpace parkingSpace = ParkingSpace.findById(parkingSpaceId)
+        parkingSpace.setOwner(loggedUser)
+        parkingSpace.save(flush: true)
+
+
+        flash.message = message(code: 'parkingSpace.booked', args: [parkingSpace.getDescription()])
+
+        redirect(action: "index", method: "GET")
+    }
+
     def suggestion() {
         User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
 
@@ -29,6 +41,11 @@ class ParkingSpaceController {
             html { respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()]) }
             json { render(parkingSpaces as JSON) }
         }
+    }
+
+    @Transactional
+    def saveParkingSpace(ParkingSpace parkingSpace){
+        parkingSpace.save(flush:true)
     }
 
     @Transactional
