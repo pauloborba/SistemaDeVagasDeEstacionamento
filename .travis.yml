@@ -18,4 +18,4 @@ branches:
   only:
     - master
 
-script: grails test-app -Dgeb.env=chrome functional:cucumber --non-interactive --stacktrace --verbose
+script: grails test-app -Dgeb.env=firefox functional:cucumber --non-interactive --stacktrace --verbose
