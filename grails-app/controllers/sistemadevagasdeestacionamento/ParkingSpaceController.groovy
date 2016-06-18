@@ -20,10 +20,17 @@ class ParkingSpaceController {
         respond(new ParkingSpace(params))
     }
 
-    def suggestion() {
-        User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+    def book(ParkingSpace parkingSpaceInstance) {
+        User currentUser = User.findByUsername(SecurityUtils.subject.principal)
 
-        def parkingSpaces = ParkingSpace.list().findAll { it.available && it.sector == loggedUser.preferredSector }
+        parkingSpaceInstance.owner = currentUser
+        parkingSpaceInstance.save(flush: true)
+    }
+
+    def suggestion() {
+        //User currentUser = User.findByUsername(SecurityUtils.subject.principal)
+
+        def parkingSpaces = ParkingSpace.list().findAll { it.available }
 
         request.withFormat {
             html { respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()]) }
