@@ -18,6 +18,22 @@ class UserController {
         respond(new User(params))
     }
 
+    def lembrete(User userInstance) {
+        def parkingSpaceController = new ParkingSpaceController()
+        def vaga = parkingSpaceController.findSpotOfUser(userInstance)
+
+        String msg = ""
+        if (!vaga) {
+            msg = "O usuario não estacionou em nenhuma vaga"
+        } else {
+            msg = "O usuario estacionou na vaga " + vaga.getDescription()
+        }
+
+        flash.message = msg
+        redirect userInstance
+
+    }
+
     @Transactional
     def save(User userInstance) {
         if (userInstance != null) {

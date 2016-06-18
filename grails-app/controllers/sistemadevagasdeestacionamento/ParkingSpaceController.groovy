@@ -20,6 +20,10 @@ class ParkingSpaceController {
         respond(new ParkingSpace(params))
     }
 
+    def findSpotOfUser(User userInstance) {
+        return ParkingSpace.findByOwner(userInstance)
+    }
+
     def suggestion() {
         User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
 
