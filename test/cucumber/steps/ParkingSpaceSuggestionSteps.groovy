@@ -50,7 +50,7 @@ And(~/^the parking space "(.*?)" is not available$/) { String description ->
     def parkingSpace = ParkingSpace.findByDescription(description)
 
     def controller = new ParkingSpaceController()
-    controller.book(parkingSpace)
+    controller.bookSpace(parkingSpace.getId())
 
     assert !parkingSpace.available
 }

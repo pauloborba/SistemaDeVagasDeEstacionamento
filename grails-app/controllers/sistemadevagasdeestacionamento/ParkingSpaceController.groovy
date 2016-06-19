@@ -20,12 +20,20 @@ class ParkingSpaceController {
         respond(new ParkingSpace(params))
     }
 
-    def book(Long parkingSpaceId){
+    @Transactional
+    def saveParkingSpace(ParkingSpace ps){
+        ps.save(flush:true)
+    }
+
+    def bookSpace(Long parkingSpaceId){
         User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
         ParkingSpace parkingSpace = ParkingSpace.findById(parkingSpaceId)
         parkingSpace.setOwner(loggedUser)
         parkingSpace.save(flush: true)
+    }
 
+    def book(Long parkingSpaceId){
+        bookSpace(parkingSpaceId)
 
         flash.message = message(code: 'parkingSpace.booked', args: [parkingSpace.getDescription()])
 

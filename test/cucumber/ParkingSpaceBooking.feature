@@ -4,14 +4,14 @@ Feature: Parking space booking
   So I can park on the parking space I'd booked
 
 Scenario: Book parking space
-    Given the system has the user "rjss" with password "password" with "CIn" as prefered sector
+    Given the system has the user "rjss" with password "123" with "CCEN" as prefered sector
       And the user logged in the system
       And the parking space "CIN-01" is available in the system
      When the user tries to book the parking space "CIN-01"
      Then the system books the parking space for the user
 
 Scenario: Book parking space web
-    Given I am active with login "George"
+    Given I am active with login "reuel.jonathan"
       And I am at the parking space list page
       And I see the parking space "CIN-01" available in the list
      When I ask to book the parking space "CIN-01" available

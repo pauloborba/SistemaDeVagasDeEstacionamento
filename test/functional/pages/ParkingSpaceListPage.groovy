@@ -6,7 +6,7 @@ class ParkingSpaceListPage extends  Page{
     static url = "parkingSpace/index"
 
     static at = {
-        title == "ParkingSpace List"
+        title ==~ "ParkingSpace List"
     }
 
     def desc

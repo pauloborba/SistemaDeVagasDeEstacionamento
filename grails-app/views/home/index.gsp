@@ -9,7 +9,8 @@
 	Olá, ${nome}
 	<br>
 	<br> Escolha uma das opções:
-	<br> <g:link controller="parkingSpace" action="index" >Lista de vagas</g:link>
-	<br> <g:link controller="user" action="index" >Meu perfil</g:link>
+	<br> <g:link controller="parkingSpace" action="index" >Parking spot list</g:link>
+	<br> <g:link controller="parkingSpace" action="suggestion" >Parking spot suggestions</g:link>
+	<br> <g:link controller="user" action="index" >My profile</g:link>
 </body>
 </html>
