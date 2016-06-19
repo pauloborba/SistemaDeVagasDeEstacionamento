@@ -53,6 +53,7 @@ ParkingSpaceManager - TEST:
 ![alt tag](http://i.imgur.com/q17bNAv.png)
 - command line: `test-app -Dgeb.env=chrome functional:cucumber --stacktrace --verbose`
 
+<<<<<<< HEAD
 Integração com o Travis-ci
 Entre em [Travis-CI](https://travis-ci.org/) <br />
 Selecione o botão no canto superior direito "Sign in with github" <br />
@@ -64,4 +65,6 @@ Faça um commit qualquer para ativar a build do travis <br />
 Caso você queira ver mais do stacktrace utilize "--verbose" logo após o comando "--stacktrace" no arquivo .travis.yml do seu repositório <br />
 Para receber emails sobre se a build passou ou não, ative seu email no perfil do github <br />
 
+=======
+>>>>>>> 4d71ebd4485027865c1b45ba525e582cf1aa9a18
 **Obs:** Devido à problemas com o plugin do Cucumber, os testes rodam apenas com o navegador Google Chrome.

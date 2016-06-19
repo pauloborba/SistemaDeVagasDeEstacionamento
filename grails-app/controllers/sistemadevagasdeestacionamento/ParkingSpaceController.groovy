@@ -33,19 +33,14 @@ class ParkingSpaceController {
     }
 
     def suggestion() {
-        User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+        //User currentUser = User.findByUsername(SecurityUtils.subject.principal)
 
-        def parkingSpaces = ParkingSpace.list().findAll { it.available && it.sector == loggedUser.preferredSector }
+        def parkingSpaces = ParkingSpace.list().findAll { it.available }
 
         request.withFormat {
             html { respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()]) }
             json { render(parkingSpaces as JSON) }
         }
-    }
-
-    @Transactional
-    def saveParkingSpace(ParkingSpace parkingSpace){
-        parkingSpace.save(flush:true)
     }
 
     @Transactional

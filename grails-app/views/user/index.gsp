@@ -12,6 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-user" class="content scaffold-list" role="main">
@@ -30,6 +31,9 @@
 						<g:sortableColumn property="lastName" title="${message(code: 'user.lastName.label', default: 'Last Name')}" />
 					
 						<g:sortableColumn property="preferredSector" title="${message(code: 'user.preferredSector.label', default: 'Preferred Sector')}" />
+					
+						<g:sortableColumn property="passwordHash" title="${message(code: 'user.passwordHash.label', default: 'Password Hash')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
@@ -43,6 +47,8 @@
 						<td>${fieldValue(bean: userInstance, field: "lastName")}</td>
 					
 						<td>${fieldValue(bean: userInstance, field: "preferredSector")}</td>
+					
+						<td>${fieldValue(bean: userInstance, field: "passwordHash")}</td>
 					
 					</tr>
 				</g:each>

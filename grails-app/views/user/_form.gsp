@@ -64,4 +64,3 @@
 	<g:select name="roles" from="${sistemadevagasdeestacionamento.Role.list()}" multiple="multiple" optionKey="id" size="5" value="${userInstance?.roles*.id}" class="many-to-many"/>
 
 </div>
-

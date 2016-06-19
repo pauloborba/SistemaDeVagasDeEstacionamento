@@ -36,9 +36,9 @@ grails.project.dependency.resolution = {
     }
 
     dependencies {
-        compile "org.spockframework:spock-grails-support:0.7-groovy-1.8"
 
         test "org.grails:grails-datastore-test-support:1.0-grails-2.4"
+        compile "org.spockframework:spock-grails-support:0.7-groovy-1.8"
         test "org.gebish:geb-junit4:0.9.2"
         test "org.seleniumhq.selenium:selenium-support:2.39.0"
         test "org.seleniumhq.selenium:selenium-chrome-driver:2.39.0"
