@@ -1,4 +1,5 @@
 import org.apache.shiro.SecurityUtils
+import pages.LoginPage
 import pages.ParkingSpaceListPage
 import sistemadevagasdeestacionamento.ParkingSpaceController
 import sistemadevagasdeestacionamento.User
@@ -51,31 +52,32 @@ Then(~/^the system books the parking space for the user$/){ ->
 }
 
 //Scenario: Book parking space web
-Given(~/^I am active with login "([^"]*)"$/){ String username ->
-    assert ShiroHelper.login(username)
+Given(~/^I am active with login "([^"]*)" and password "([^"]*)"$/){ String username, String password ->
+    to LoginPage
+    at LoginPage
+    assert page.login(username, password)
+//    assert User.findByUsername(username)
 }
 
 And(~/^I am at the parking space list page$/){ ->
-    to ParkingSpaceListPage
-//    at ParkingSpaceListPage
+    def parkingSpace = new ParkingSpace(description: "CIN-02", sector: "CIn", preferential: false, owner: null)
 
-    assert true
+    parkingSpace.save(flush: true)
+
+    to ParkingSpaceListPage
+    at ParkingSpaceListPage
 }
 
 And(~/^I see the parking space "([^"]*)" available in the list$/){ String description ->
-
-    assert isAvailable(description)
-
+    assert page.isAvailable(description)
 }
 
+
 When(~/^I ask to book the parking space "([^"]*)" available$/){ String description ->
-    book(description)
+    assert page.book(description)
 }
 
 Then(~/^I see a message indicating that the parking space was booked with success$/){ ->
-    assert verifyMessage()
-}
-
-And(~/^I see my first name as the owner of the parking space$/){->
-
+    waitFor { at ParkingSpaceListPage }
+    assert page.verifyMessage()
 }

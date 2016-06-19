@@ -35,7 +35,7 @@ class ParkingSpaceController {
     def book(Long parkingSpaceId){
         bookSpace(parkingSpaceId)
 
-        flash.message = message(code: 'parkingSpace.booked', args: [parkingSpace.getDescription()])
+        flash.message = message(code: 'parkingSpace.booked', args: [ParkingSpace.findById(parkingSpaceId).getDescription()])
 
         redirect(action: "index", method: "GET")
     }

@@ -1,30 +1,29 @@
 package pages
 
 import geb.Page
+import sistemadevagasdeestacionamento.ParkingSpace
 
 class ParkingSpaceListPage extends  Page{
     static url = "parkingSpace/index"
 
     static at = {
-        title ==~ "ParkingSpace List"
+        title ==~ /ParkingSpace Listagem/
     }
 
     def desc
 
     def isAvailable(String description){
-        def row = $("tr:contains('${description}')")
-
-        $(row.find("td")[0]).find("a:contains('Reservar')") != null
+        desc = description
+        def parkingSpace = ParkingSpace.findByDescription(description)
+        return $("tr[data-id='${parkingSpace.getId()}']").find('td:first-child').find('a').text() == "Reservar"
     }
 
     def book(String description){
-        def row = $("tr:contains('${description}')")
-        desc = description
-
-        $(row.find("td")[0]).find("a:contains('Reservar')").click()
+        def parkingSpace = ParkingSpace.findByDescription(description)
+        $("tr[data-id='${parkingSpace.getId()}']").find('td:first-child').find('a').click()
     }
 
     def verifyMessage(){
-        $("div.message").text() == "The parking space ${desc} was booked with success!"
+        $("div.message").text() == ("A vaga ${desc} foi reservada com sucesso!" as String)
     }
 }

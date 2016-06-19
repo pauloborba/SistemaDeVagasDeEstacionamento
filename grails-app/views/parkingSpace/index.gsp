@@ -38,7 +38,7 @@
 				</thead>
 				<tbody>
 				<g:each in="${parkingSpaceInstanceList}" status="i" var="parkingSpaceInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}" data-id="${parkingSpaceInstance.getId()}">
 						<td>
 							<g:if test="${parkingSpaceInstance.owner}">
 								<g:fieldValue bean="${parkingSpaceInstance}" field="owner.firstName" />
