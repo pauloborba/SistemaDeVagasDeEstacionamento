@@ -31,7 +31,6 @@ class UserController {
 
         flash.message = msg
         redirect userInstance
-
     }
 
     @Transactional
