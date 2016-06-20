@@ -3,6 +3,7 @@ package steps
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.crypto.hash.Sha512Hash
 import sistemadevagasdeestacionamento.*
+import pages.*
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
@@ -10,6 +11,7 @@ this.metaClass.mixin(cucumber.api.groovy.EN)
 def currentUsername
 def user
 
+// Controlador
 Given(~/^the system has stored the user "(.*?)" with password "(.*?)"$/) { String username, String password ->
     currentUsername = username
 
@@ -49,4 +51,32 @@ When(~/^user asks a reminder where he parked his car$/) { ->
 
 Then(~/^the system informs that he parked on spot "(.*?)"$/) { String spot ->
     assert parkingSpot.description == spot
+}
+
+// GUI
+
+Given(~/^I am active with login "(.*?)" and password "(.*?)"$/) { String username, String password ->
+    to LoginPage
+    at LoginPage
+    currentUsername = username
+    user = User.findByUsername(username)
+    assert page.login(username, password)
+}
+
+And(~/^I am at initial page$/) { ->
+
+}
+
+And(~/^I parked on spot "(.*?)" using the system$/) { String spot->
+    def parkingSpace = new ParkingSpace(description: "CIN-02", sector: "CIn", preferential: false, owner: user)
+
+    parkingSpace.save(flush: true)
+}
+
+When(~/^I ask a reminder where he parked his car$/) { ->
+
+}
+
+Then(~/^I see a message indicating that I parked on spot "(.*?)"$/) { String spot ->
+
 }

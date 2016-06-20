@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta name="layout" content="main">
-	<title>Sistema de Gerenciamento de Vaga - Home</title>
+	<title>Home</title>
 </head>
 	Olá, ${userInstance.firstName}
 	<br>
