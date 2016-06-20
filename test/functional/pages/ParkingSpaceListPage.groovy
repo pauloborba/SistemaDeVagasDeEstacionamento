@@ -3,13 +3,27 @@ package pages
 import geb.Page
 import sistemadevagasdeestacionamento.ParkingSpace
 
+
 class ParkingSpaceListPage extends  Page{
+
     static url = "parkingSpace/index"
 
     static at = {
         title ==~ /ParkingSpace Listagem/
     }
 
+
+    def searchParkingSpaces(){
+        $("input[name='preferential']").click()
+        $("input[name='Submit']").click()
+    }
+
+    def verifyPreferential(){
+
+
+       return $("tr.parking-space[data-preferential='false']").size() == 0
+
+    }
     def desc
 
     def isAvailable(String description){
@@ -26,4 +40,5 @@ class ParkingSpaceListPage extends  Page{
     def verifyMessage(){
         $("div.message").text() == ("A vaga ${desc} foi reservada com sucesso!" as String)
     }
+
 }

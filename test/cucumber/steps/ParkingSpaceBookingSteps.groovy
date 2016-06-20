@@ -56,7 +56,7 @@ Given(~/^I am active with login "([^"]*)" and password "([^"]*)"$/){ String user
     to LoginPage
     at LoginPage
     assert page.login(username, password)
-//    assert User.findByUsername(username)
+
 }
 
 And(~/^I am at the parking space list page$/){ ->

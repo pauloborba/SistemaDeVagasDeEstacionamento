@@ -1,3 +1,4 @@
+
 # Sistema de vagas de estacionamento
 
 Projeto da disciplina de Engenharia de Software e Sistemas 2016.1 - CIn/UFPE
@@ -36,6 +37,7 @@ Espere as configurações serem sincronizadas:
 
 ![alt tag](http://i.imgur.com/1ij9Kmw.png)
 
+
 Na estrutura do projeto (atalho _Alt+1_), para cada sub-pasta imediata de **test**, clicar em **Mark directory as > Test Source root:** 
 
 ![alt tag](http://i.imgur.com/LVHdZzt.png)
@@ -43,6 +45,7 @@ Na estrutura do projeto (atalho _Alt+1_), para cada sub-pasta imediata de **test
 Criar run configurations:
 
 ![alt tag](http://i.imgur.com/l2fr9VR.png)
+
 
 Para desenvolvimento:
 ![alt tag](http://i.imgur.com/WVxKYvy.png)
@@ -55,3 +58,4 @@ Para testes:
 **Obs:** 
 Devido à problemas com a versão do plugin do Cucumber, os testes rodam apenas no Google Chrome.
 Não é possível usar o Cucumber para validar o Shiro em testes de controlador, mais detalhes em http://mrdustmite.blogspot.com.br/2010/09/integration-tests-with-shiro-and-nimble.html.
+

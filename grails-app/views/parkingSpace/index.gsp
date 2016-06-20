@@ -16,10 +16,22 @@
 			</ul>
 		</div>
 		<div id="list-parkingSpace" class="content scaffold-list" role="main">
+
+
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
+
+				<g:form controller="ParkingSpace" action="pref">
+				Preferencial	<g:checkBox name="preferential" value="${false}" />
+				Setor	<g:checkBox name="sector" value="${false}" />
+					<g:submitButton name="Submit" value="Update" />
+
+				</g:form>
+
+
 			<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 			</g:if>
+
 			<table>
 			<thead>
 					<tr>
@@ -38,7 +50,9 @@
 				</thead>
 				<tbody>
 				<g:each in="${parkingSpaceInstanceList}" status="i" var="parkingSpaceInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}" data-id="${parkingSpaceInstance.getId()}">
+
+					<tr class="parking-space ${(i % 2) == 0 ? 'even' : 'odd'}" data-preferential="${parkingSpaceInstance.getPreferential()}" data-id="${parkingSpaceInstance.getId()}">
+
 						<td>
 							<g:if test="${parkingSpaceInstance.owner}">
 								<g:fieldValue bean="${parkingSpaceInstance}" field="owner.firstName" />
@@ -48,6 +62,7 @@
 							</g:else>
 							
 						</td>
+
 					
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "description")}</td>
 					

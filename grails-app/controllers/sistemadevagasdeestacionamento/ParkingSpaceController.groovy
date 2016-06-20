@@ -1,13 +1,33 @@
 package sistemadevagasdeestacionamento
 
+
 import grails.converters.JSON
 import grails.transaction.Transactional
+
 import org.apache.shiro.SecurityUtils
 
 @Transactional(readOnly = true)
 class ParkingSpaceController {
-    def index() {
-        def parkingSpaces = ParkingSpace.list()
+
+    def index(boolean pref, boolean sector) {
+        def parkingSpaces
+
+        if((pref == true)&& (sector == false)) {
+            parkingSpaces = ParkingSpace.list().findAll { it.preferential}
+
+        }else if((pref == false)&& ( sector == true)) {
+            User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+            parkingSpaces = ParkingSpace.list().findAll { it.sector == loggedUser.preferredSector }
+
+        }else if((pref == false)&& (sector == false)){
+            parkingSpaces = ParkingSpace.list()
+
+        } else if(( pref == true)&& (sector == true)){
+            User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+            parkingSpaces = ParkingSpace.list().findAll {it.preferential && it.sector == loggedUser.preferredSector }
+
+
+        }
 
         respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()])
     }
@@ -19,6 +39,51 @@ class ParkingSpaceController {
     def create() {
         respond(new ParkingSpace(params))
     }
+
+def filterSpace(boolean pref, boolean sector){
+    def parkingSpaces
+
+    if((pref == true)&& (sector == false)) {
+        parkingSpaces = ParkingSpace.list().findAll { it.preferential}
+
+    }else if((pref == false)&& ( sector == true)) {
+        User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+        parkingSpaces = ParkingSpace.list().findAll { it.sector == loggedUser.preferredSector }
+
+    }else if((pref == false)&& (sector == false)){
+        parkingSpaces = ParkingSpace.list()
+
+    } else if(( pref == true)&& (sector == true)){
+        User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+        parkingSpaces = ParkingSpace.list().findAll {it.preferential && it.sector == loggedUser.preferredSector }
+
+
+    }
+return parkingSpaces
+}
+
+    def pref(boolean pref, boolean sector){
+
+    if((params.preferential == "on" || pref == true)&& (params.sector == "" ||sector == false)) {
+
+        redirect (action: "index", params: [pref: true, sector: false])
+
+    }else if((params.preferential == "" || pref == false)&& (params.sector == "on" ||sector == true)) {
+
+
+        redirect (action: "index", params: [pref: false, sector: true])
+
+        }else if((params.preferential == "" || pref == false)&& (params.sector == "" ||sector == false)){
+        redirect (action: "index", params: [pref: false, sector: false])
+
+        } else if((params.preferential == "on" || pref == true)&& (params.sector == "on" ||sector == true)){
+
+        redirect (action: "index", params: [pref: true, sector: true])
+
+    }
+
+    }
+
 
     @Transactional
     def saveParkingSpace(ParkingSpace ps){
@@ -50,6 +115,7 @@ class ParkingSpaceController {
             json { render(parkingSpaces as JSON) }
         }
     }
+
 
     @Transactional
     def save(ParkingSpace parkingSpaceInstance) {

@@ -10,9 +10,13 @@ class LoginPage extends Page {
     }
 
     def login(String username, String password){
-//        $("input[name='username'").val(username)
+
         $("input[name='username'").value(username)
         $("input[name='password'").value(password)
         $("input[type='submit'").click()
     }
+
 }
+
+
+

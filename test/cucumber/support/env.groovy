@@ -18,6 +18,7 @@ Before() {
 }
 
 After() {
+
     ShiroHelper.logout()
 
     User.list().each { ->
