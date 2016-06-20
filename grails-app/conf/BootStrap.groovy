@@ -12,9 +12,9 @@ class BootStrap {
         userRole.save(flush: true, failOnError: true)
 
 
-
-
-
+        def masterUser3 = new User(username: "George", passwordHash: new Sha512Hash("123").toHex(), firstName: "George", lastName: "Guedes", preferredSector: "CCEN")
+        masterUser3.addToRoles(userRole)
+        masterUser3.save(flush: true)
 
         def masterUser = new User(username: "master", passwordHash: new Sha512Hash("master").toHex(), firstName: "Usuário", lastName: "Master", preferredSector: "CIn")
         masterUser.addToRoles(userRole)
