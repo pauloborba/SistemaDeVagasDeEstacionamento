@@ -56,11 +56,7 @@ Then(~/^the system informs that he parked on spot "(.*?)"$/) { String spot ->
 // GUI
 
 Given(~/^I am active with login "(.*?)" and password "(.*?)"$/) { String username, String password ->
-    to LoginPage
-    at LoginPage
-    currentUsername = username
-    user = User.findByUsername(username)
-    assert page.login(username, password)
+
 }
 
 And(~/^I am at initial page$/) { ->
@@ -68,9 +64,7 @@ And(~/^I am at initial page$/) { ->
 }
 
 And(~/^I parked on spot "(.*?)" using the system$/) { String spot->
-    def parkingSpace = new ParkingSpace(description: "CIN-02", sector: "CIn", preferential: false, owner: user)
 
-    parkingSpace.save(flush: true)
 }
 
 When(~/^I ask a reminder where he parked his car$/) { ->

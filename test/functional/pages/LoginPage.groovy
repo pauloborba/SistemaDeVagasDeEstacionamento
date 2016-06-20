@@ -17,6 +17,3 @@ class LoginPage extends Page {
     }
 
 }
-
-
-
