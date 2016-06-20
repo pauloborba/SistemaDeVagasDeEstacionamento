@@ -22,15 +22,13 @@ class UserController {
         def parkingSpaceController = new ParkingSpaceController()
         def vaga = parkingSpaceController.findSpotOfUser(userInstance)
 
-        String msg = ""
-        if (!vaga) {
-            msg = "O usuario não estacionou em nenhuma vaga"
-        } else {
+        String msg = "O usuario não estacionou em nenhuma vaga"
+        if (vaga) {
             msg = "O usuario estacionou na vaga " + vaga.getDescription()
         }
 
         flash.message = msg
-        redirect userInstance
+        redirect(controller: "home", action: "index")
     }
 
     @Transactional
