@@ -130,17 +130,16 @@ Given(~/^I am logged with login "([^"]*)" and password "([^"]*)"$/){ String user
 }
 And(~/^the user is at the home page$/) { ->
     to ParkingSpaceListPage
-    at ParkingSapceListPage
+    at ParkingSpaceListPage
 
 }
 When(~/^the user searches for preferential parking spaces$/) { ->
-
-    pages.searchParkingSpaces()
+    page.searchParkingSpaces()
 }
 Then(~/^he is redirected to the view where all the parking spaces are preferential$/) { ->
 
     waitFor { at ParkingSpaceListPage }
-    assert pages.verifyPreferential()
+    assert page.verifyPreferential()
 }
 
 
