@@ -17,6 +17,7 @@
 		</div>
 		<div id="list-parkingSpace" class="content scaffold-list" role="main">
 
+
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 
 				<g:form controller="ParkingSpace" action="pref">
@@ -49,9 +50,18 @@
 				</thead>
 				<tbody>
 				<g:each in="${parkingSpaceInstanceList}" status="i" var="parkingSpaceInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${parkingSpaceInstance.id}">${fieldValue(bean: parkingSpaceInstance, field: "owner")}</g:link></td>
+
+					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}" data-id="${parkingSpaceInstance.getId()}">
+						<td>
+							<g:if test="${parkingSpaceInstance.owner}">
+								<g:fieldValue bean="${parkingSpaceInstance}" field="owner.firstName" />
+							</g:if>
+							<g:else>
+								<g:link action="book" params="[parkingSpaceId: parkingSpaceInstance.getId()]">Reservar</g:link>
+							</g:else>
+							
+						</td>
+
 					
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "description")}</td>
 					

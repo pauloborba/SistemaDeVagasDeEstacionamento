@@ -55,7 +55,7 @@ And(~'^the spot "([^"]*)" is free'){ String description->
 When(~'^the user asks where to park$'){ ->
     def parkingSpaceController = new ParkingSpaceController()
     parkingSpaceController.request.format = "json"
-    parkingSpaceController.pref(false, true)
+    assert parkingSpaceController.filterSpace(false, true)
 
 
 }
@@ -108,7 +108,7 @@ And(~'^the spot "([^"]*)" is not free'){String description ->
     def parkingSpace = ParkingSpace.findByDescription(description)
 
     def controller = new ParkingSpaceController()
-    controller.book(parkingSpace)
+    controller.book(parkingSpace.getId())
 
     assert !parkingSpace.available
 
@@ -122,14 +122,14 @@ And(~'^the spot "([^"]*)" is not free'){String description ->
 //------------------------------------------ GUI ---------------------------------
 
 Given(~/^I am logged with login "([^"]*)" and password "([^"]*)"$/){ String username, String password ->
-   // to LoginPage
-    //at LoginPage
-    //assert page.login(username, password)
+    to LoginPage
+    at LoginPage
+    assert page.login(username, password)
 
 }
 And(~/^the user is at the home page$/) { ->
-    //to ParkingSpaceList
-    //at ParkingSapceList
+    to ParkingSpaceListPage
+    at ParkingSapceListPage
 
 }
 When(~/^the user searches for "([^"]*)" parking spaces$/) { String pref->
@@ -141,7 +141,7 @@ When(~/^the user searches for "([^"]*)" parking spaces$/) { String pref->
         preferential = false
     }
 
-    //pages.searchParkingSpaces(preferential)
+    pages.searchParkingSpaces(preferential)
 }
 Then(~/^he is redirected to the view where all the parking spaces from sector "([^"]*)" are$/) { String arg1 ->
     //to parkingSpacePage

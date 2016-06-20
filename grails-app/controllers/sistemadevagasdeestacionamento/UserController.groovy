@@ -74,4 +74,6 @@ class UserController {
 
         redirect(action: "index", method: "GET")
     }
+
 }
+

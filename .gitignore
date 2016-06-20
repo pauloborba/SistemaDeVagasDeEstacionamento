@@ -52,8 +52,6 @@ test/unit/
 test/integration/
 .DS_Store
 
-
-
 .classpath
 .project
 SistemaDeVagasDeEstacionamento-grailsPlugins.iml
@@ -61,3 +59,4 @@ SistemaDeVagasDeEstacionamento.iml
 chromedrivers/
 grailsw
 grailsw.bat
+

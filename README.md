@@ -1,10 +1,10 @@
-# SistemaDeVagasDeEstacionamento
 
-Projeto da cadeira de Engenharia de Software e Sistemas (ESS) do CIn-UFPE, período 2016.1
+# Sistema de vagas de estacionamento
+
+Projeto da disciplina de Engenharia de Software e Sistemas 2016.1 - CIn/UFPE
 ## Requisitos
 - Grails version: 2.4.3
-- Groovy version: 2.3.6 
-- JVM version: 1.7.0_80 (JDK 7)
+- JDK version: 1.7.0_80
 
 ## Configurando
 
@@ -37,7 +37,8 @@ Espere as configurações serem sincronizadas:
 
 ![alt tag](http://i.imgur.com/1ij9Kmw.png)
 
-Na estrutura do projeto (atalho _Alt+1_) clicar com botão direito na pasta **test/functional > Mark directory as > Test Source root:** 
+
+Na estrutura do projeto (atalho _Alt+1_), para cada sub-pasta imediata de **test**, clicar em **Mark directory as > Test Source root:** 
 
 ![alt tag](http://i.imgur.com/LVHdZzt.png)
 
@@ -45,12 +46,16 @@ Criar run configurations:
 
 ![alt tag](http://i.imgur.com/l2fr9VR.png)
 
-ParkingSpaceManager - DEV:
+
+Para desenvolvimento:
 ![alt tag](http://i.imgur.com/WVxKYvy.png)
 - command line: `run-app --stacktrace --verbose`
 
-ParkingSpaceManager - TEST:
+Para testes:
 ![alt tag](http://i.imgur.com/q17bNAv.png)
 - command line: `test-app -Dgeb.env=chrome functional:cucumber --stacktrace --verbose`
 
-**Obs:** Devido à problemas com o plugin do Cucumber, os testes rodam apenas com o navegador Google Chrome.
+**Obs:** 
+Devido à problemas com a versão do plugin do Cucumber, os testes rodam apenas no Google Chrome.
+Não é possível usar o Cucumber para validar o Shiro em testes de controlador, mais detalhes em http://mrdustmite.blogspot.com.br/2010/09/integration-tests-with-shiro-and-nimble.html.
+

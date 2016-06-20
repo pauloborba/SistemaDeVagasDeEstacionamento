@@ -1,7 +1,6 @@
 <%@ page import="sistemadevagasdeestacionamento.ParkingSpace" %>
 
 
-
 <div class="fieldcontain ${hasErrors(bean: parkingSpaceInstance, field: 'owner', 'error')} ">
 	<label for="owner">
 		<g:message code="parkingSpace.owner.label" default="Owner" />
