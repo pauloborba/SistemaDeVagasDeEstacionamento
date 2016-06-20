@@ -13,14 +13,17 @@ class ParkingSpaceListPage extends  Page{
     }
 
 
-    def searchParkingSpaces(boolean pref){
-        prefrer = pref
-        def parkingSpace = ParkingSpace.findByPreferential(prefer)
-
-
+    def searchParkingSpaces(){
+        $("input[name='preferential']").click()
+        $("input[name='Submit']").click()
     }
 
+    def verifyPreferential(){
 
+
+       return $("tr.parking-space[data-preferential='false']").size() == 0
+
+    }
     def desc
 
     def isAvailable(String description){

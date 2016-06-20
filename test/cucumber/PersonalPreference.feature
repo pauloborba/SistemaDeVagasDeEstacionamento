@@ -32,7 +32,7 @@ Feature: personal preference
 Scenario: personal preference bye the sector web
     Given I am logged with login "Pedro" and password "123"
     And   the user is at the home page
-    When the user searches for "elderlies" parking spaces
-    Then he is redirected to the view where all the parking spaces from sector "CCEN" are
+    When the user searches for preferential parking spaces
+    Then he is redirected to the view where all the parking spaces are preferential
 
 

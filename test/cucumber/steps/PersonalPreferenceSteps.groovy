@@ -1,6 +1,7 @@
 package steps
 
 import pages.LoginPage
+import pages.ParkingSpaceListPage
 import sistemadevagasdeestacionamento.*
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.crypto.hash.Sha512Hash
@@ -132,21 +133,14 @@ And(~/^the user is at the home page$/) { ->
     at ParkingSapceListPage
 
 }
-When(~/^the user searches for "([^"]*)" parking spaces$/) { String pref->
-    boolean preferential
+When(~/^the user searches for preferential parking spaces$/) { ->
 
-    if (pref == "elderlies") {
-        preferential = true
-    }else{
-        preferential = false
-    }
-
-    pages.searchParkingSpaces(preferential)
+    pages.searchParkingSpaces()
 }
-Then(~/^he is redirected to the view where all the parking spaces from sector "([^"]*)" are$/) { String arg1 ->
-    //to parkingSpacePage
-    //at parkingSpacePage
+Then(~/^he is redirected to the view where all the parking spaces are preferential$/) { ->
 
+    waitFor { at ParkingSpaceListPage }
+    assert pages.verifyPreferential()
 }
 
 
