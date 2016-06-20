@@ -28,9 +28,19 @@ class ParkingSpaceController {
     }
 
     def suggestion() {
-        //User currentUser = User.findByUsername(SecurityUtils.subject.principal)
+        def parkingSpaces = ParkingSpace.list().findAll { parkingSpace ->
+            def available = parkingSpace.available
 
-        def parkingSpaces = ParkingSpace.list().findAll { it.available }
+            if (params.containsKey("sector")) {
+                available = available && parkingSpace.sector == params.sector
+            }
+
+            if (params.containsKey("available")) {
+                available = available && parkingSpace.available == params.available
+            }
+
+            return available
+        }
 
         request.withFormat {
             html { respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()]) }

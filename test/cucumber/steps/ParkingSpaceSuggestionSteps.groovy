@@ -40,6 +40,16 @@ And(~/^the parking space "(.*?)" is from the "(.*?)" sector$/) { String descript
     assert parkingSpace.sector == sector
 }
 
+And(~/^the preferential parking space "(.*?)" is from the "(.*?)" sector$/) { String description, String sector ->
+    def controller = new ParkingSpaceController()
+    controller.save(new ParkingSpace([description: description, sector: sector, preferential: true]))
+
+    def parkingSpace = ParkingSpace.findByDescription(description)
+
+    assert parkingSpace.description == description
+    assert parkingSpace.sector == sector
+}
+
 And(~/^the parking space "(.*?)" is available$/) { String description ->
     def parkingSpace = ParkingSpace.findByDescription(description)
 
@@ -57,8 +67,26 @@ And(~/^the parking space "(.*?)" is not available$/) { String description ->
 
 def parkingSpaceController
 
-When(~/^the user asks for suggested parking spaces$/) { ->
+When(~/^the user asks for suggestions of parking spaces$/) { ->
     parkingSpaceController = new ParkingSpaceController()
+    parkingSpaceController.request.format = "json"
+    parkingSpaceController.suggestion()
+}
+
+When(~/^the user asks for suggestions of parking spaces on his sector$/) { ->
+    def user = User.findByUsername(currentUsername)
+
+    parkingSpaceController = new ParkingSpaceController()
+    parkingSpaceController.params << [sector: user.preferredSector]
+    parkingSpaceController.request.format = "json"
+    parkingSpaceController.suggestion()
+}
+
+When(~/^the user asks for suggestions of preferential parking spaces on his sector$/) { ->
+    def user = User.findByUsername(currentUsername)
+
+    parkingSpaceController = new ParkingSpaceController()
+    parkingSpaceController.params << [sector: user.preferredSector, preferential: true]
     parkingSpaceController.request.format = "json"
     parkingSpaceController.suggestion()
 }

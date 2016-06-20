@@ -19,12 +19,14 @@ Before() {
 After() {
     ShiroHelper.logout()
 
-    User.list().each { ->
-        it.delete(flush: true)
+    def parkingSpaces = ParkingSpace.list()
+    parkingSpaces.each { parkingSpace ->
+        parkingSpace.delete(flush: true)
     }
 
-    ParkingSpace.list().each { ->
-        it.delete(flush: true)
+    def users = User.list()
+    users.each { user ->
+        user.delete(flush: true)
     }
 
     scenarioInterceptor.destroy()

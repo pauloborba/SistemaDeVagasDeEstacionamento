@@ -1,4 +1,5 @@
 import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.firefox.FirefoxDriver
 
 environments {
     chrome {
@@ -14,5 +15,7 @@ environments {
 
             new ChromeDriver()
         }
+
+        firefox = { new FirefoxDriver() }
     }
 }

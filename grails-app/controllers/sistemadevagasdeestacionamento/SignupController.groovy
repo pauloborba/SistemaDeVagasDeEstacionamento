@@ -4,7 +4,7 @@ import org.apache.shiro.authc.UsernamePasswordToken
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.crypto.hash.Sha512Hash
 
-class SignupController {
+class SignUpController {
     def index() {
         def user = new User()
 
