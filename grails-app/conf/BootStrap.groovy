@@ -7,8 +7,8 @@ class BootStrap {
     def registerParkingSpaces() {
         def sectors = ParkingSpace.constraints.sector.inList
         sectors.each { sector ->
-            (1..10).each { i ->
-                def parkingSpace = new ParkingSpace([description: "N${i}-${sector}", sector: sector, preferential: i > 7])
+            (1..4).each { i ->
+                def parkingSpace = new ParkingSpace([description: "N${i}-${sector}", sector: sector, preferential: i % 2])
                 parkingSpace.save(flush: true)
             }
         }

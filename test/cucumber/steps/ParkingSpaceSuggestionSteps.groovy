@@ -74,19 +74,15 @@ When(~/^the user asks for suggestions of parking spaces$/) { ->
 }
 
 When(~/^the user asks for suggestions of parking spaces on his sector$/) { ->
-    def user = User.findByUsername(currentUsername)
-
     parkingSpaceController = new ParkingSpaceController()
-    parkingSpaceController.params << [sector: user.preferredSector]
+    parkingSpaceController.params << [sector: true]
     parkingSpaceController.request.format = "json"
     parkingSpaceController.suggestion()
 }
 
 When(~/^the user asks for suggestions of preferential parking spaces on his sector$/) { ->
-    def user = User.findByUsername(currentUsername)
-
     parkingSpaceController = new ParkingSpaceController()
-    parkingSpaceController.params << [sector: user.preferredSector, preferential: true]
+    parkingSpaceController.params << [sector: true, preferential: true]
     parkingSpaceController.request.format = "json"
     parkingSpaceController.suggestion()
 }

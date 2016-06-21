@@ -6,6 +6,14 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'parkingSpace.label', default: 'ParkingSpace')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
+		<script type="text/javascript">
+			function filter() {
+				$.ajax({
+					type: 'POST',
+					url: '/SistemaDeVagasDeEstacionamento/parkingSpace/suggestion?preferential=true'
+				});
+			}
+		</script>
 	</head>
 	<body>
 		<a href="#list-parkingSpace" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -15,6 +23,10 @@
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
+
+		<br>Somente vagas preferenciais: <g:checkBox name="preferential" onchange="filter()" />
+	    <br>Somente do meu setor de preferência: <g:checkBox name="sector" onchange="filter()" />
+
 		<div id="list-parkingSpace" class="content scaffold-list" role="main">
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">

@@ -1,7 +1,9 @@
 package sistemadevagasdeestacionamento
 
+import org.apache.shiro.SecurityUtils
+
 class HomeController {
     def index() {
-        render "Logado"
+        [userInstance: User.findByUsername(SecurityUtils.subject.principal)]
     }
 }

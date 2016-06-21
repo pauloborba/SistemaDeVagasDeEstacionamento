@@ -32,11 +32,13 @@ class ParkingSpaceController {
             def available = parkingSpace.available
 
             if (params.containsKey("sector")) {
-                available = available && parkingSpace.sector == params.sector
+                User loggedUser = User.findByUsername(SecurityUtils.subject.principal)
+
+                available = available && (params.sector ? parkingSpace.sector == loggedUser.preferredSector : true)
             }
 
             if (params.containsKey("preferential")) {
-                available = available && parkingSpace.preferential == params.preferential
+                available = available && parkingSpace.preferential == params.preferential as Boolean
             }
 
             return available
