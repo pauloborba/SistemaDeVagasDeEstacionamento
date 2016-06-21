@@ -23,6 +23,8 @@ Given(~/^the system has stored the user "([^"]*)" with password "([^"]*)" and pr
 }
 
 Given(~/^I signed up as "([^"]*)" with password "([^"]*)" and preference for parking spaces in the "([^"]*)" sector$/) { String username, String password, String sector ->
+    currentUsername = username
+
     to SignUpPage
     at SignUpPage
     page.fillData(username, sector, password)
@@ -66,9 +68,8 @@ And(~/^the parking space "([^"]*)" is available$/) { String description ->
 
 And(~/^the parking space "([^"]*)" is not available$/) { String description ->
     def parkingSpace = ParkingSpace.findByDescription(description)
-
-    def controller = new ParkingSpaceController()
-    controller.book(parkingSpace)
+    parkingSpace.owner = User.findByUsername(currentUsername)
+    parkingSpace.save(flush: true)
 
     assert !parkingSpace.available
 }
@@ -119,4 +120,10 @@ Then(~/^the systems does not inform the parking space "([^"]*)" to the user$/) {
     def parkingSpace = response.find { it.description == description }
 
     assert !parkingSpace
+}
+
+Then(~/^I can see the parking space "([^"]*)" on the list$/) { String description ->
+    at SuggestionPage
+
+    assert page.containsParkingSpace(description)
 }

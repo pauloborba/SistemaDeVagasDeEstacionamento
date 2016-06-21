@@ -20,13 +20,6 @@ class ParkingSpaceController {
         respond(new ParkingSpace(params))
     }
 
-    def book(ParkingSpace parkingSpaceInstance) {
-        User currentUser = User.findByUsername(SecurityUtils.subject.principal)
-
-        parkingSpaceInstance.owner = currentUser
-        parkingSpaceInstance.save(flush: true)
-    }
-
     def suggestion() {
         def parkingSpaces = ParkingSpace.list().findAll { parkingSpace ->
             def available = parkingSpace.available
