@@ -40,47 +40,51 @@ class ParkingSpaceController {
         respond(new ParkingSpace(params))
     }
 
-def filterSpace(boolean pref, boolean sector){
-    def parkingSpaces
-
-    if((pref == true)&& (sector == false)) {
-        parkingSpaces = ParkingSpace.list().findAll { it.preferential}
-
-    }else if((pref == false)&& ( sector == true)) {
-        User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
-        parkingSpaces = ParkingSpace.list().findAll { it.sector == loggedUser.preferredSector }
-
-    }else if((pref == false)&& (sector == false)){
-        parkingSpaces = ParkingSpace.list()
-
-    } else if(( pref == true)&& (sector == true)){
-        User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
-        parkingSpaces = ParkingSpace.list().findAll {it.preferential && it.sector == loggedUser.preferredSector }
-
-
+    def findSpotOfUser(User userInstance) {
+        return ParkingSpace.findByOwner(userInstance)
     }
-return parkingSpaces
-}
+    
+    def filterSpace(boolean pref, boolean sector){
+        def parkingSpaces
+
+        if((pref == true)&& (sector == false)) {
+            parkingSpaces = ParkingSpace.list().findAll { it.preferential}
+
+        }else if((pref == false)&& ( sector == true)) {
+            User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+            parkingSpaces = ParkingSpace.list().findAll { it.sector == loggedUser.preferredSector }
+
+        }else if((pref == false)&& (sector == false)){
+            parkingSpaces = ParkingSpace.list()
+
+        } else if(( pref == true)&& (sector == true)){
+            User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+            parkingSpaces = ParkingSpace.list().findAll {it.preferential && it.sector == loggedUser.preferredSector }
+        }
+        return parkingSpaces
+    }
+
+    
 
     def pref(boolean pref, boolean sector){
 
-    if((params.preferential == "on" || pref == true)&& (params.sector == "" ||sector == false)) {
+        if((params.preferential == "on" || pref == true)&& (params.sector == "" ||sector == false)) {
 
-        redirect (action: "index", params: [pref: true, sector: false])
+            redirect (action: "index", params: [pref: true, sector: false])
 
-    }else if((params.preferential == "" || pref == false)&& (params.sector == "on" ||sector == true)) {
+        }else if((params.preferential == "" || pref == false)&& (params.sector == "on" ||sector == true)) {
 
 
-        redirect (action: "index", params: [pref: false, sector: true])
+            redirect (action: "index", params: [pref: false, sector: true])
 
-        }else if((params.preferential == "" || pref == false)&& (params.sector == "" ||sector == false)){
-        redirect (action: "index", params: [pref: false, sector: false])
+            }else if((params.preferential == "" || pref == false)&& (params.sector == "" ||sector == false)){
+            redirect (action: "index", params: [pref: false, sector: false])
 
-        } else if((params.preferential == "on" || pref == true)&& (params.sector == "on" ||sector == true)){
+            } else if((params.preferential == "on" || pref == true)&& (params.sector == "on" ||sector == true)){
 
-        redirect (action: "index", params: [pref: true, sector: true])
+            redirect (action: "index", params: [pref: true, sector: true])
 
-    }
+        }
 
     }
 
@@ -106,8 +110,6 @@ return parkingSpaces
     }
 
     def suggestion() {
-        //User currentUser = User.findByUsername(SecurityUtils.subject.principal)
-
         def parkingSpaces = ParkingSpace.list().findAll { it.available }
 
         request.withFormat {

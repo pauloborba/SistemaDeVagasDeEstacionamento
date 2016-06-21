@@ -15,8 +15,4 @@ class LoginPage extends Page {
         $("input[name='password'").value(password)
         $("input[type='submit'").click()
     }
-
 }
-
-
-
