@@ -9,4 +9,12 @@ class InitialPage extends Page {
         title ==~ /Home/
     }
 
+    def clickLembrete() {
+        $(".reminder-link").click()
+    }
+
+    def verifyMessage(String spot){
+        $("div.message").text() == ("O usuario estacionou na vaga ${spot}" as String)
+    }
+
 }

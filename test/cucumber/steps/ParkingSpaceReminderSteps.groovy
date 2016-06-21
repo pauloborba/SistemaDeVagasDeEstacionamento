@@ -55,22 +55,30 @@ Then(~/^the system informs that he parked on spot "(.*?)"$/) { String spot ->
 
 // GUI
 //
-//Given(~/^I am active with login "(.*?)" and password "(.*?)"$/) { String username, String password ->
-//
-//}
+Given(~/^I am logged in the system with login "(.*?)" and password "(.*?)"$/) { String username, String password ->
+    to LoginPage
+    at LoginPage
+
+    user = User.findByUsername(username)
+
+    assert page.login(username, password)
+}
 
 And(~/^I am at initial page$/) { ->
     at InitialPage
 }
 
 And(~/^I parked on spot "(.*?)" using the system$/) { String spot->
-    assert false
+    def parkingSpace = new ParkingSpace([owner: user, description: spot, sector: "CCEN"])
+    parkingSpace.save(flush: true)
+
+    assert ParkingSpace.findByDescription(spot).description == spot
 }
 
 When(~/^I ask a reminder where he parked his car$/) { ->
-    assert false
+    page.clickLembrete()
 }
 
 Then(~/^I see a message indicating that I parked on spot "(.*?)"$/) { String spot ->
-    assert false
+    assert page.verifyMessage(spot)
 }
