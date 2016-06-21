@@ -10,7 +10,7 @@ Feature: parking space reminder
     When user asks a reminder where he parked his car
     Then the system informs that he parked on spot "a3"
 
-  Scenario: parking space reminder without park information web
+  Scenario: parking space reminder with park information web
     Given I am logged in the system with login "George" and password "123"
     And I parked on spot "a3" using the system
     And I am at initial page
