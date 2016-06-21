@@ -35,8 +35,8 @@ class ParkingSpaceController {
                 available = available && parkingSpace.sector == params.sector
             }
 
-            if (params.containsKey("available")) {
-                available = available && parkingSpace.available == params.available
+            if (params.containsKey("preferential")) {
+                available = available && parkingSpace.preferential == params.preferential
             }
 
             return available
