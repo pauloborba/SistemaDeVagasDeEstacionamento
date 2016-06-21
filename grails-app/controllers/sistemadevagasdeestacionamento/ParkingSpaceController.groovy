@@ -32,7 +32,7 @@ class ParkingSpaceController {
             def available = parkingSpace.available
 
             if (params.containsKey("sector")) {
-                def sector = params.sector as Boolean
+                def sector = params.sector.toBoolean()
 
                 if (sector) {
                     User loggedUser = User.findByUsername(SecurityUtils.subject.principal)
@@ -42,11 +42,11 @@ class ParkingSpaceController {
             }
 
             if (params.containsKey("preferential")) {
-                def preferential = params.preferential as Boolean
+                def preferential = params.preferential.toBoolean()
 
                 if (preferential)
                 {
-                    available = available && (parkingSpace.preferential == true)
+                    available = available && parkingSpace.preferential
                 }
             }
 

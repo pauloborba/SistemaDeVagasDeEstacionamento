@@ -8,8 +8,8 @@
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 		<script type="text/javascript">
 			function filter() {
-				var sector = $("input:checkbox[name='sector']").prop('checked')
-				var preferential = $("input:checkbox[name='preferential']").prop('checked')
+				var sector = $("input[name='sector']").prop('checked')
+				var preferential = $("input[name='preferential']").prop('checked')
 
 				$(location).attr("href", "${createLink(action: 'suggestion')}" + "?sector=" + sector + "&preferential=" + preferential)
 			}
@@ -24,8 +24,8 @@
 			</ul>
 		</div>
 
-		<br>Somente vagas preferenciais: <g:checkBox name="preferential" id="preferential" checked="false" />
-	    <br>Somente do meu setor de preferência: <g:checkBox name="sector" id="sector" checked="false" />
+		<br>Somente vagas preferenciais: <g:checkBox name="preferential" checked="${params.preferential}" />
+	    <br>Somente do meu setor de preferência: <g:checkBox name="sector" checked="${params.sector}" />
 		<br><a href="#" onclick="filter()">Filtrar</a>
 
 		<div id="list-parkingSpace" class="content scaffold-list" role="main">

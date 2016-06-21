@@ -64,12 +64,10 @@ Feature: Parking space suggestion
         When the user asks for suggestions of preferential parking spaces on his sector
         Then the systems does not inform the parking space "8" to the user
 
-    @ignore
     Scenario: The system has a parking space available web
-        Given the system has stored the user "pasg" with password "252627" and preference for parking spaces in the "CCEN" sector
-        And the user is logged in the system
+        Given I signed up as "pasg" with password "252627" and preference for parking spaces in the "CCEN" sector
         And the parking space "9" is from the "CIn" sector
         And the parking space "9" is available
-        And I am at user's home page
+        And I am at home page
         When I go to parking space's suggestion page
         Then I can see the parking space "9" on the list
