@@ -122,8 +122,14 @@ Then(~/^the systems does not inform the parking space "([^"]*)" to the user$/) {
     assert !parkingSpace
 }
 
-Then(~/^I can see the parking space "([^"]*)" on the list$/) { String description ->
+Then(~/^I can see the parking space "([^"]*)" in the list$/) { String description ->
     at SuggestionPage
 
     assert page.containsParkingSpace(description)
+}
+
+Then(~/^I can not see the parking space "([^"]*)" in the list$/) { String description ->
+    at SuggestionPage
+
+    assert !page.containsParkingSpace(description)
 }

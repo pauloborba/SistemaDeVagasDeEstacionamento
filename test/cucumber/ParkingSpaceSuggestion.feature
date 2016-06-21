@@ -65,9 +65,17 @@ Feature: Parking space suggestion
         Then the systems does not inform the parking space "8" to the user
 
     Scenario: The system has a parking space available web
-        Given I signed up as "pasg" with password "252627" and preference for parking spaces in the "CCEN" sector
+        Given I signed up as "hjcf" with password "282930" and preference for parking spaces in the "CCEN" sector
         And the parking space "9" is from the "CIn" sector
         And the parking space "9" is available
         And I am at home page
         When I go to parking space's suggestion page
-        Then I can see the parking space "9" on the list
+        Then I can see the parking space "9" in the list
+
+    Scenario: The system does not have a parking space available web
+        Given I signed up as "gbg" with password "282930" and preference for parking spaces in the "CCEN" sector
+        And the parking space "10" is from the "CIn" sector
+        And the parking space "10" is not available
+        And I am at home page
+        When I go to parking space's suggestion page
+        Then I can not see the parking space "10" in the list
