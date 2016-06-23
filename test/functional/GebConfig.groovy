@@ -1,21 +1,30 @@
 import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.firefox.FirefoxDriver
+import org.openqa.selenium.firefox.MarionetteDriver
 
 environments {
     chrome {
-        driver = {
-            def osPath = System.getProperty("os.name").toLowerCase().split(" ").first()
+        def osPath = System.getProperty("os.name").toLowerCase().split(" ").first()
 
-            def chromeDriver = new File("chromedrivers", osPath).listFiles(new FilenameFilter() {
-                @Override
-                boolean accept(File dir, String name) { name.startsWith("chromedriver") }
-            }).first()
+        def chromeDriver = new File("chromedrivers", osPath).listFiles(new FilenameFilter() {
+            @Override
+            boolean accept(File dir, String name) { name.startsWith("chromedriver") }
+        }).first()
 
-            System.setProperty("webdriver.chrome.driver", chromeDriver.getAbsolutePath())
+        System.setProperty("webdriver.chrome.driver", chromeDriver.getAbsolutePath())
 
-            new ChromeDriver()
-        }
+        driver = { new ChromeDriver() }
+    }
 
-        firefox = { new FirefoxDriver() }
+    firefox {
+        def osPath = System.getProperty("os.name").toLowerCase().split(" ").first()
+
+        def geckoDriver = new File("geckodrivers", osPath).listFiles(new FilenameFilter() {
+            @Override
+            boolean accept(File dir, String name) { name.startsWith("geckodriver") }
+        }).first()
+
+        System.setProperty("webdriver.gecko.driver", geckoDriver.getAbsolutePath())
+
+        driver = { new MarionetteDriver() }
     }
 }

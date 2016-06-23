@@ -123,13 +123,13 @@ Then(~/^the systems does not inform the parking space "([^"]*)" to the user$/) {
 }
 
 Then(~/^I can see the parking space "([^"]*)" in the list$/) { String description ->
-    at SuggestionPage
+    waitFor { at SuggestionPage }
 
     assert page.containsParkingSpace(description)
 }
 
 Then(~/^I can not see the parking space "([^"]*)" in the list$/) { String description ->
-    at SuggestionPage
+    waitFor { at SuggestionPage }
 
     assert !page.containsParkingSpace(description)
 }
