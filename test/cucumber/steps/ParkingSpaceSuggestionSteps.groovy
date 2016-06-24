@@ -2,13 +2,12 @@ package steps
 
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.crypto.hash.Sha512Hash
+import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 import pages.*
 import sistemadevagasdeestacionamento.*
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
-
-String currentUsername
 
 Given(~/^the system has stored the user "([^"]*)" with password "([^"]*)" and preference for parking spaces in the "([^"]*)" sector$/) { String username, String password, String sector ->
     currentUsername = username
@@ -39,90 +38,84 @@ And(~/^the user is logged in the system$/) { ->
     assert subject.authenticated
 }
 
-And(~/^the parking space "([^"]*)" is from the "([^"]*)" sector$/) { String description, String sector ->
+def createParkingSpace(String description, String sector, boolean preferential) {
     def controller = new ParkingSpaceController()
-    controller.save(new ParkingSpace([description: description, sector: sector]))
+    controller.save(new ParkingSpace([description: description, sector: sector, preferential: preferential]))
 
-    def parkingSpace = ParkingSpace.findByDescription(description)
+    currentParkingSpace = ParkingSpace.findByDescription(description)
 
-    assert parkingSpace.description == description
-    assert parkingSpace.sector == sector
+    assert currentParkingSpace.description == description
+    assert currentParkingSpace.sector == sector
+}
+
+And(~/^the parking space "([^"]*)" is from the "([^"]*)" sector$/) { String description, String sector ->
+    createParkingSpace(description, sector, false)
 }
 
 And(~/^the preferential parking space "([^"]*)" is from the "([^"]*)" sector$/) { String description, String sector ->
-    def controller = new ParkingSpaceController()
-    controller.save(new ParkingSpace([description: description, sector: sector, preferential: true]))
-
-    def parkingSpace = ParkingSpace.findByDescription(description)
-
-    assert parkingSpace.description == description
-    assert parkingSpace.sector == sector
+    createParkingSpace(description, sector, true)
 }
 
 And(~/^the parking space "([^"]*)" is available$/) { String description ->
-    def parkingSpace = ParkingSpace.findByDescription(description)
-
-    assert parkingSpace.available
+    assert currentParkingSpace.available
 }
 
 And(~/^the parking space "([^"]*)" is not available$/) { String description ->
-    def parkingSpace = ParkingSpace.findByDescription(description)
-    parkingSpace.owner = User.findByUsername(currentUsername)
-    parkingSpace.save(flush: true)
+    currentParkingSpace.owner = User.findByUsername(currentUsername)
+    currentParkingSpace.save(flush: true)
 
-    assert !parkingSpace.available
+    assert !currentParkingSpace.available
 }
 
 When(~/^I go to parking space's suggestion page$/) { ->
     page.goToSuggestions()
 }
 
-def parkingSpaceController
-
-When(~/^the user asks for suggestions of parking spaces$/) { ->
+def askForSuggestions(boolean sector, boolean preferential) {
     parkingSpaceController = new ParkingSpaceController()
+    parkingSpaceController.params << [sector: sector, preferential: preferential]
     parkingSpaceController.request.format = "json"
     parkingSpaceController.suggestion()
+}
+
+When(~/^the user asks for suggestions of parking spaces$/) { ->
+    askForSuggestions(false, false)
 }
 
 When(~/^the user asks for suggestions of parking spaces on his sector$/) { ->
-    parkingSpaceController = new ParkingSpaceController()
-    parkingSpaceController.params << [sector: true]
-    parkingSpaceController.request.format = "json"
-    parkingSpaceController.suggestion()
+    askForSuggestions(true, false)
 }
 
 When(~/^the user asks for suggestions of preferential parking spaces on his sector$/) { ->
-    parkingSpaceController = new ParkingSpaceController()
-    parkingSpaceController.params << [sector: true, preferential: true]
-    parkingSpaceController.request.format = "json"
-    parkingSpaceController.suggestion()
+    askForSuggestions(true, true)
+}
+
+def shouldInformParkingSpace(String description, boolean should) {
+    def response = parkingSpaceController.response.json
+
+    def parkingSpace = response.find { it.description == description }
+
+    assert parkingSpace != null == should
 }
 
 Then(~/^the systems informs the parking space "([^"]*)" to the user$/) { String description ->
-    def response = parkingSpaceController.response.json
-
-    def parkingSpace = response.find { it.description == description }
-
-    assert parkingSpace
+    shouldInformParkingSpace(description, true)
 }
 
 Then(~/^the systems does not inform the parking space "([^"]*)" to the user$/) { String description ->
-    def response = parkingSpaceController.response.json
+    shouldInformParkingSpace(description, false)
+}
 
-    def parkingSpace = response.find { it.description == description }
+def shouldContainParkingSpace(String description, boolean should) {
+    waitFor { at SuggestionPage }
 
-    assert !parkingSpace
+    assert page.containsParkingSpace(description) == should
 }
 
 Then(~/^I can see the parking space "([^"]*)" in the suggestions$/) { String description ->
-    waitFor { at SuggestionPage }
-
-    assert page.containsParkingSpace(description)
+    shouldContainParkingSpace(description, true)
 }
 
 Then(~/^I can not see the parking space "([^"]*)" in the suggestions$/) { String description ->
-    waitFor { at SuggestionPage }
-
-    assert !page.containsParkingSpace(description)
+    shouldContainParkingSpace(description, false)
 }
