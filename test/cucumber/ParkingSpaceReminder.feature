@@ -10,6 +10,13 @@ Feature: parking space reminder
     When user asks a reminder where he parked his car
     Then the system informs that he does not have this information
 
+  Scenario: parking space reminder without park information web
+    Given I am logged in the system with login "George" and password "123"
+    And I did not parked using the system
+    And I am at initial page
+    When I ask a reminder where he parked his car
+    Then I see a message indicating that the system informs that he does not have this information
+
   Scenario: parking space reminder with park information
     Given the system has stored the user "George" with password "123"
     And the user is logged in the parking system
