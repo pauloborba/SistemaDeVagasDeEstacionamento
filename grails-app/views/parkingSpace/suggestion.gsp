@@ -6,13 +6,15 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'parkingSpace.label', default: 'ParkingSpace')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
-		<script type="text/javascript">
-			function filter() {
-				var sector = $("input[name='sector']").prop('checked')
-				var preferential = $("input[name='preferential']").prop('checked')
+		<script>
+			$(document).ready(function() {
+				$("a[name='filter']").click(function() {
+					var sector = $("input[name='sector']").prop('checked')
+					var preferential = $("input[name='preferential']").prop('checked')
 
-				$(location).attr("href", "${createLink(action: 'suggestion')}" + "?sector=" + sector + "&preferential=" + preferential)
-			}
+					$(location).attr("href", "${createLink(action: 'suggestion')}" + "?sector=" + sector + "&preferential=" + preferential)
+				});
+			});
 		</script>
 	</head>
 	<body>
@@ -24,9 +26,12 @@
 			</ul>
 		</div>
 
-		<br>Somente vagas preferenciais: <g:checkBox name="preferential" checked="${params.preferential}" />
-	    <br>Somente do meu setor de preferência: <g:checkBox name="sector" checked="${params.sector}" />
-		<br><a href="#" onclick="filter()">Filtrar</a>
+		<br>
+		Somente do meu setor de preferência: <g:checkBox name="sector" checked="${params.sector}" />
+		<br>
+		Somente vagas preferenciais: <g:checkBox name="preferential" checked="${params.preferential}" />
+		<br>
+		<a href="#" name="filter">Filtrar</a>
 
 		<div id="list-parkingSpace" class="content scaffold-list" role="main">
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
