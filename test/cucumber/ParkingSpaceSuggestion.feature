@@ -94,3 +94,12 @@ Feature: Parking space suggestion
         And I select the filter from parking spaces in my preferred sector
         And I confirm the filter options
         Then I can not see the parking space "12" in the suggestions
+
+    Scenario: The system has a parking space available on another sector web
+        Given I signed up as "rmmc" with password "373839" and preference for parking spaces in the "CCEN" sector
+        And the parking space "13" is from the "CIn" sector
+        And the parking space "13" is available
+        When I go to parking space's suggestion page
+        And I select the filter from parking spaces in my preferred sector
+        And I confirm the filter options
+        Then I can not see the parking space "13" in the suggestions

@@ -1,7 +1,7 @@
 package pages
 
 import geb.Page
-import geb.navigator.EmptyNavigator
+import geb.navigator.NonEmptyNavigator
 import sistemadevagasdeestacionamento.*
 
 class SuggestionPage extends Page {
@@ -16,7 +16,7 @@ class SuggestionPage extends Page {
 
         def tr = $("tr[data-id='${parkingSpace.id}']")
 
-        return !(tr instanceof EmptyNavigator)
+        return tr instanceof NonEmptyNavigator
     }
 
     def selectSectorFilter() {
