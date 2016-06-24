@@ -9,16 +9,13 @@ class SignUpPage extends Page {
         title ==~ /Sign up/
     }
 
-    def fillData(String username, String preferredSector, String password) {
+    def proceed(String username, String preferredSector, String password) {
         $("input[name='username']").value(username)
         $("input[name='firstName']").value("Primeiro nome")
         $("input[name='lastName']").value("Último nome")
         $("select[name='preferredSector']").value(preferredSector)
         $("input[name='password']").value(password)
         $("input[name='password2']").value(password)
-    }
-
-    def register() {
         $("input[name='signUp']").click()
     }
 }

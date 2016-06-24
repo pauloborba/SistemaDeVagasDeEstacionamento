@@ -8,7 +8,7 @@ import sistemadevagasdeestacionamento.*
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
-def currentUsername
+String currentUsername
 
 Given(~/^the system has stored the user "([^"]*)" with password "([^"]*)" and preference for parking spaces in the "([^"]*)" sector$/) { String username, String password, String sector ->
     currentUsername = username
@@ -25,10 +25,9 @@ Given(~/^the system has stored the user "([^"]*)" with password "([^"]*)" and pr
 Given(~/^I signed up as "([^"]*)" with password "([^"]*)" and preference for parking spaces in the "([^"]*)" sector$/) { String username, String password, String sector ->
     currentUsername = username
 
-    to SignUpPage
-    at SignUpPage
-    page.fillData(username, sector, password)
-    page.register()
+    waitFor { to SignUpPage }
+    page.proceed(username, sector, password)
+    waitFor { at HomePage }
 }
 
 And(~/^the user is logged in the system$/) { ->
@@ -74,13 +73,7 @@ And(~/^the parking space "([^"]*)" is not available$/) { String description ->
     assert !parkingSpace.available
 }
 
-And(~/^I am at home page$/) { ->
-    to HomePage
-    at HomePage
-}
-
 When(~/^I go to parking space's suggestion page$/) { ->
-    at HomePage
     page.goToSuggestions()
 }
 
@@ -122,13 +115,13 @@ Then(~/^the systems does not inform the parking space "([^"]*)" to the user$/) {
     assert !parkingSpace
 }
 
-Then(~/^I can see the parking space "([^"]*)" in the list$/) { String description ->
+Then(~/^I can see the parking space "([^"]*)" in the suggestions$/) { String description ->
     waitFor { at SuggestionPage }
 
     assert page.containsParkingSpace(description)
 }
 
-Then(~/^I can not see the parking space "([^"]*)" in the list$/) { String description ->
+Then(~/^I can not see the parking space "([^"]*)" in the suggestions$/) { String description ->
     waitFor { at SuggestionPage }
 
     assert !page.containsParkingSpace(description)
