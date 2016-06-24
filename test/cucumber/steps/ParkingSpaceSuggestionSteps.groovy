@@ -70,6 +70,22 @@ When(~/^I go to parking space's suggestion page$/) { ->
     page.goToSuggestions()
 }
 
+And(~/^I select the filter from parking spaces in my preferred sector$/) { ->
+    waitFor { at SuggestionPage }
+
+    page.selectSectorFilter()
+}
+
+And(~/^I select the filter from preferential parking spaces$/) { ->
+    waitFor { at SuggestionPage }
+
+    page.selectPreferentialFilter()
+}
+
+And(~/^I confirm the filter options$/) { ->
+    page.confirmFilterOptions()
+}
+
 def askForSuggestions(boolean sector, boolean preferential) {
     parkingSpaceController = new ParkingSpaceController()
     parkingSpaceController.params << [sector: sector, preferential: preferential]

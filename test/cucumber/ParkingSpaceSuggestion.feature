@@ -76,3 +76,12 @@ Feature: Parking space suggestion
         And the parking space "10" is not available
         When I go to parking space's suggestion page
         Then I can not see the parking space "10" in the suggestions
+
+    Scenario: The system has a parking space available on the desired sector web
+        Given I signed up as "alfc" with password "313233" and preference for parking spaces in the "Área II" sector
+        And the parking space "11" is from the "Área II" sector
+        And the parking space "11" is available
+        When I go to parking space's suggestion page
+        And I select the filter from parking spaces in my preferred sector
+        And I confirm the filter options
+        Then I can see the parking space "11" in the suggestions

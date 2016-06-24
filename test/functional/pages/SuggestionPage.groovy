@@ -18,4 +18,16 @@ class SuggestionPage extends Page {
 
         return !(tr instanceof EmptyNavigator)
     }
+
+    def selectSectorFilter() {
+        $("input[name='sector']").value(true)
+    }
+
+    def selectPreferentialFilter() {
+        $("input[name='preferential']").value(true)
+    }
+
+    def confirmFilterOptions() {
+        $("a[name='filter']").click()
+    }
 }
