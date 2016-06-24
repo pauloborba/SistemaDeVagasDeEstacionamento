@@ -46,6 +46,7 @@ And(~/^user parked on spot "(.*?)" using the system$/) { String spot ->
 def parkingSpot
 
 When(~/^user asks a reminder where he parked his car$/) { ->
+    parkingSpaceController = new ParkingSpaceController()
     parkingSpot = parkingSpaceController.findSpotOfUser(user)
 }
 
@@ -81,4 +82,12 @@ When(~/^I ask a reminder where he parked his car$/) { ->
 
 Then(~/^I see a message indicating that I parked on spot "(.*?)"$/) { String spot ->
     assert page.verifyMessage(spot)
+}
+
+And(~/^user did not parked using the system$/) { ->
+    assert ParkingSpace.findByOwner(user) == null
+}
+
+Then(~/^the system informs that he does not have this information$/) { ->
+    assert parkingSpaceController.findSpotOfUser(user) == null
 }
