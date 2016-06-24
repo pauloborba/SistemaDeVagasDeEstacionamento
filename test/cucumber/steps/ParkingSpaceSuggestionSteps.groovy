@@ -2,7 +2,6 @@ package steps
 
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.crypto.hash.Sha512Hash
-import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 import pages.*
 import sistemadevagasdeestacionamento.*
 

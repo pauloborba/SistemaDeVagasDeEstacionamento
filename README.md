@@ -2,7 +2,7 @@
 
 Projeto da disciplina de Engenharia de Software e Sistemas 2016.1 - CIn/UFPE
 ## Requisitos
-- Grails version: 2.4.3
+- Grails version: 2.5.4
 - JDK version: 1.7.0_80
 
 ## Configurando
@@ -50,8 +50,9 @@ Para desenvolvimento:
 
 Para testes:
 ![alt tag](http://i.imgur.com/q17bNAv.png)
-- command line: `test-app -Dgeb.env=chrome functional:cucumber --stacktrace --verbose`
+- command line: `test-app -Dgeb.env=chrome functional:cucumber --stacktrace --verbose` (para o Google Chrome)
+ou
+- command line: `test-app -Dgeb.env=firefox functional:cucumber --stacktrace --verbose` (para o Mozilla Firefox)
 
 **Obs:** 
-Devido à problemas com a versão do plugin do Cucumber, os testes rodam apenas no Google Chrome.
-Não é possível usar o Cucumber para validar o Shiro em testes de controlador, mais detalhes em http://mrdustmite.blogspot.com.br/2010/09/integration-tests-with-shiro-and-nimble.html.
+Não é possível usar o Cucumber devidamente para validar o uso do plugin Shiro em testes de controlador, mais detalhes em http://mrdustmite.blogspot.com.br/2010/09/integration-tests-with-shiro-and-nimble.html.
