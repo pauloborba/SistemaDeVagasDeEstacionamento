@@ -1,6 +1,7 @@
 package pages
 
 import geb.Page
+import geb.navigator.EmptyNavigator
 import sistemadevagasdeestacionamento.*
 
 class SuggestionPage extends Page {
@@ -13,6 +14,8 @@ class SuggestionPage extends Page {
     def containsParkingSpace(String description) {
         def parkingSpace = ParkingSpace.findByDescription(description)
 
-        return $("tr[data-id='${parkingSpace.id}']").size() == 1
+        def tr = $("tr[data-id='${parkingSpace.id}']")
+
+        return !(tr instanceof EmptyNavigator)
     }
 }
