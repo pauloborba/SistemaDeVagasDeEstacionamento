@@ -50,8 +50,8 @@ command line: `run-app --stacktrace --verbose`
 
 - Para testes:
 ![alt tag](http://i.imgur.com/q17bNAv.png)
-command line: `test-app -Dgeb.env=chrome functional:cucumber --stacktrace --verbose` (`Google Chrome`)
-command line: `test-app -Dgeb.env=firefox functional:cucumber --stacktrace --verbose` (Mozilla Firefox`)
+command line: `test-app -Dgeb.env=chrome functional:cucumber --stacktrace --verbose` (Google Chrome)
+command line: `test-app -Dgeb.env=firefox functional:cucumber --stacktrace --verbose` (Mozilla Firefox)
 
 **Obs:** 
 Não é possível usar o Cucumber devidamente para validar o uso do plugin Shiro em testes de controlador, mais detalhes em http://mrdustmite.blogspot.com.br/2010/09/integration-tests-with-shiro-and-nimble.html.
