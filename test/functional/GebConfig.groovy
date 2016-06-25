@@ -1,37 +1,31 @@
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.MarionetteDriver
 
+def prepareWebDriver(String driver) {
+    def osPath = System.getProperty("os.name").toLowerCase().split(" ").first()
+
+    def webDriver = new File("${driver}drivers", osPath).listFiles({ File dir, String name -> !dir.hidden } as FilenameFilter).first()
+
+    System.setProperty("webdriver.${driver}.driver", webDriver.getAbsolutePath())
+}
+
 environments {
     chrome {
-        def osPath = System.getProperty("os.name").toLowerCase().split(" ").first()
-
-        def chromeDriver = new File("chromedrivers", osPath).listFiles(new FilenameFilter() {
-            @Override
-            boolean accept(File dir, String name) { !dir.hidden }
-        }).first()
-
-        System.setProperty("webdriver.chrome.driver", chromeDriver.getAbsolutePath())
+        prepareWebDriver("chrome")
 
         driver = { new ChromeDriver() }
     }
 
     firefox {
-        def osPath = System.getProperty("os.name").toLowerCase().split(" ").first()
-
-        def geckoDriver = new File("geckodrivers", osPath).listFiles(new FilenameFilter() {
-            @Override
-            boolean accept(File dir, String name) { !dir.hidden }
-        }).first()
-
-        System.setProperty("webdriver.gecko.driver", geckoDriver.getAbsolutePath())
+        prepareWebDriver("gecko")
 
         driver = { new MarionetteDriver() }
     }
 }
 
 waiting {
-    timeout = 6
+    timeout = 15
     retryInterval = 0.5
-    slow { timeout = 12 }
-    reallyslow { timeout = 24 }
+    slow { timeout = 30 }
+    reallyslow { timeout = 60 }
 }
