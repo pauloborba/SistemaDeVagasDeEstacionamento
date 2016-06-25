@@ -84,6 +84,8 @@ And(~/^I select the filter from preferential parking spaces$/) { ->
 
 And(~/^I confirm the filter options$/) { ->
     page.confirmFilterOptions()
+
+    waitFor { $("h1[id='lettering']").text() == "Filtradas" }
 }
 
 def askForSuggestions(boolean sector, boolean preferential) {

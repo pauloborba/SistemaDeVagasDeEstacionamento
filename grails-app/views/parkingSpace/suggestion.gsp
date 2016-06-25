@@ -12,7 +12,14 @@
 					var sector = $("input[name='sector']").prop('checked')
 					var preferential = $("input[name='preferential']").prop('checked')
 
-					$(location).attr("href", "${createLink(action: 'suggestion')}" + "?sector=" + sector + "&preferential=" + preferential)
+					$.ajax({
+						url: "${createLink(action: 'suggestion')}" + "?sector=" + sector + "&preferential=" + preferential,
+						type: 'POST',
+						success: function(data) {
+							$("h1[id='lettering']").text("Filtradas")
+							$("div[id='list-parkingSpace']").replaceWith($(data).filter("div[id='list-parkingSpace']"))
+						}
+					});
 				});
 			});
 		</script>
@@ -33,8 +40,8 @@
 		<br>
 		<a href="#" name="filter">Filtrar</a>
 
+		<h1 id="lettering"><g:message code="default.list.label" args="[entityName]" /></h1>
 		<div id="list-parkingSpace" class="content scaffold-list" role="main">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 			</g:if>
