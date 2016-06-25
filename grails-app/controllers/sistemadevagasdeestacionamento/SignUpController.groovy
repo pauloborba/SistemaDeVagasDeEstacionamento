@@ -5,11 +5,7 @@ import org.apache.shiro.SecurityUtils
 import org.apache.shiro.crypto.hash.Sha512Hash
 
 class SignUpController {
-    def index() {
-        def user = new User()
-
-        respond(user)
-    }
+    def index() { }
 
     def register() {
         // Check to see if the username already exists

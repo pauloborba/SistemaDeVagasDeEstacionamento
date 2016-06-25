@@ -5,7 +5,6 @@
     <title>Sign up</title>
     <meta name="layout" content="main"/>
 </head>
-
 <body>
     <h1>Sign up</h1>
 
@@ -18,27 +17,27 @@
             <tbody>
             <tr>
                 <td>Username:</td>
-                <td><input type="text" name="username" value="${username}"/></td>
+                <td><input type="text" name="username"/></td>
             </tr>
             <tr>
                 <td>First name:</td>
-                <td><input type="text" name="firstName" value="${firstName}"/></td>
+                <td><input type="text" name="firstName"/></td>
             </tr>
             <tr>
                 <td>Last name:</td>
-                <td><input type="text" name="lastName" value="${lastName}"/></td>
+                <td><input type="text" name="lastName"/></td>
             </tr>
             <tr>
                 <td>Preferred sector:</td>
-                <td><g:select name="preferredSector" from="${userInstance.constraints.preferredSector.inList}" value="${userInstance?.preferredSector}" /></td>
+                <td><input type="text" name="preferredSector"/></td>
             </tr>
             <tr>
                 <td>Password:</td>
-                <td><input type="password" name="password" value=""/></td>
+                <td><input type="password" name="password"/></td>
             </tr>
             <tr>
                 <td>Confirm Password:</td>
-                <td><input type="password" name="password2" value=""/></td>
+                <td><input type="password" name="password2"/></td>
             </tr>
             <tr>
                 <td/>
