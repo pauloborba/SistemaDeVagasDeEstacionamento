@@ -48,9 +48,7 @@
 			<table>
 			<thead>
 					<tr>
-					
-						<th><g:message code="parkingSpace.owner.label" default="Owner" /></th>
-					
+
 						<g:sortableColumn property="description" title="${message(code: 'parkingSpace.description.label', default: 'Description')}" />
 					
 						<g:sortableColumn property="sector" title="${message(code: 'parkingSpace.sector.label', default: 'Sector')}" />

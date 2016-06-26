@@ -1,13 +1,33 @@
 package sistemadevagasdeestacionamento
 
+
 import grails.converters.JSON
 import grails.transaction.Transactional
+
 import org.apache.shiro.SecurityUtils
 
 @Transactional(readOnly = true)
 class ParkingSpaceController {
-    def index() {
-        def parkingSpaces = ParkingSpace.list()
+
+    def index(boolean pref, boolean sector) {
+        def parkingSpaces
+
+        if((pref == true)&& (sector == false)) {
+            parkingSpaces = ParkingSpace.list().findAll { it.preferential}
+
+        }else if((pref == false)&& ( sector == true)) {
+            User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+            parkingSpaces = ParkingSpace.list().findAll { it.sector == loggedUser.preferredSector }
+
+        }else if((pref == false)&& (sector == false)){
+            parkingSpaces = ParkingSpace.list()
+
+        } else if(( pref == true)&& (sector == true)){
+            User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+            parkingSpaces = ParkingSpace.list().findAll {it.preferential && it.sector == loggedUser.preferredSector }
+
+
+        }
 
         respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()])
     }
@@ -18,6 +38,92 @@ class ParkingSpaceController {
 
     def create() {
         respond(new ParkingSpace(params))
+    }
+
+    def findSpotOfUser(User userInstance) {
+        return ParkingSpace.findByOwner(userInstance)
+    }
+
+    def findByUsername(String username){
+        ParkingSpace.findAll().toList().each { parkingSpace ->
+            if( parkingSpace.getOwner().getUsername() == username )
+                return parkingSpace
+        }
+
+        return null
+    }
+    
+    def filterSpace(boolean pref, boolean sector){
+        def parkingSpaces
+
+        if((pref == true)&& (sector == false)) {
+            parkingSpaces = ParkingSpace.list().findAll { it.preferential}
+
+        }else if((pref == false)&& ( sector == true)) {
+            User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+            parkingSpaces = ParkingSpace.list().findAll { it.sector == loggedUser.preferredSector }
+
+        }else if((pref == false)&& (sector == false)){
+            parkingSpaces = ParkingSpace.list()
+
+        } else if(( pref == true)&& (sector == true)){
+            User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+            parkingSpaces = ParkingSpace.list().findAll {it.preferential && it.sector == loggedUser.preferredSector }
+        }
+        return parkingSpaces
+    }
+
+    def pref(boolean pref, boolean sector){
+
+        if((params.preferential == "on" || pref == true)&& (params.sector == "" ||sector == false)) {
+
+            redirect (action: "index", params: [pref: true, sector: false])
+
+        }else if((params.preferential == "" || pref == false)&& (params.sector == "on" ||sector == true)) {
+
+
+            redirect (action: "index", params: [pref: false, sector: true])
+
+            }else if((params.preferential == "" || pref == false)&& (params.sector == "" ||sector == false)){
+            redirect (action: "index", params: [pref: false, sector: false])
+
+            } else if((params.preferential == "on" || pref == true)&& (params.sector == "on" ||sector == true)){
+
+            redirect (action: "index", params: [pref: true, sector: true])
+
+        }
+
+    }
+
+    @Transactional
+    def saveParkingSpace(ParkingSpace ps){
+        ps.save(flush:true)
+    }
+
+    def bookSpace(Long parkingSpaceId){
+        def booked = false
+        User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+        ParkingSpace parkingSpace = ParkingSpace.findById(parkingSpaceId)
+        if(parkingSpace.isAvailable()) {
+            parkingSpace.setOwner(loggedUser)
+            booked = true
+        }
+        parkingSpace.save(flush: true)
+
+        return booked
+    }
+
+    def book(Long parkingSpaceId){
+        def booked = bookSpace(parkingSpaceId)
+
+        if(booked){
+            flash.message = message(code: 'parkingSpace.booked', args: [ParkingSpace.findById(parkingSpaceId).getDescription()])
+        }else{
+            flash.message = message(code: 'parkingSpace.not.booked', args: [ParkingSpace.findById(parkingSpaceId).getDescription()])
+        }
+
+
+        redirect(action: "index", method: "GET")
     }
 
     def suggestion() {

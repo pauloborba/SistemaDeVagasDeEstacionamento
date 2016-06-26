@@ -16,16 +16,27 @@
 			</ul>
 		</div>
 		<div id="list-parkingSpace" class="content scaffold-list" role="main">
+
+
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
+
+				<g:form controller="ParkingSpace" action="pref">
+				Preferencial	<g:checkBox name="preferential" value="${false}" />
+				Setor	<g:checkBox name="sector" value="${false}" />
+					<g:submitButton name="Submit" value="Update" />
+
+				</g:form>
+
+
 			<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 			</g:if>
+
 			<table>
 			<thead>
 					<tr>
-					
-						<th><g:message code="parkingSpace.owner.label" default="Owner" /></th>
-					
+						<g:sortableColumn property="owner" title="${message(code: 'parkingSpace.owner.label', default: 'Owner')}" />
+
 						<g:sortableColumn property="description" title="${message(code: 'parkingSpace.description.label', default: 'Description')}" />
 					
 						<g:sortableColumn property="sector" title="${message(code: 'parkingSpace.sector.label', default: 'Sector')}" />
@@ -38,10 +49,18 @@
 				</thead>
 				<tbody>
 				<g:each in="${parkingSpaceInstanceList}" status="i" var="parkingSpaceInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${parkingSpaceInstance.id}">${fieldValue(bean: parkingSpaceInstance, field: "owner")}</g:link></td>
-					
+					<tr class="parking-space ${(i % 2) == 0 ? 'even' : 'odd'}" data-preferential="${parkingSpaceInstance.getPreferential()}" data-id="${parkingSpaceInstance.getId()}">
+
+						<td>
+							<g:if test="${parkingSpaceInstance.owner}">
+								<g:fieldValue bean="${parkingSpaceInstance}" field="owner.firstName" />
+							</g:if>
+							<g:else>
+								<g:link action="book" params="[parkingSpaceId: parkingSpaceInstance.getId()]">Reservar</g:link>
+							</g:else>
+							
+						</td>
+						
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "description")}</td>
 					
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "sector")}</td>

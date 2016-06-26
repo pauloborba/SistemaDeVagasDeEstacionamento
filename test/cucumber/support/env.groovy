@@ -1,5 +1,6 @@
 package support
 
+
 import geb.Browser
 import geb.binding.BindingUpdater
 import org.codehaus.groovy.grails.test.support.GrailsTestRequestEnvironmentInterceptor
@@ -17,17 +18,18 @@ Before() {
 }
 
 After() {
+
     ShiroHelper.logout()
 
-    def parkingSpaces = ParkingSpace.list()
-    parkingSpaces.each { parkingSpace ->
-        parkingSpace.delete(flush: true)
+
+    ParkingSpace.list().each {->
+        it.delete(flush: true)
+    }
+    User.list().each {->
+        it.delete(flush: true)
     }
 
-    def users = User.list()
-    users.each { user ->
-        user.delete(flush: true)
-    }
+
 
     scenarioInterceptor.destroy()
 

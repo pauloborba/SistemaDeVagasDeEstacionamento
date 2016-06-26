@@ -1,3 +1,4 @@
+
 # Sistema de vagas de estacionamento
 
 Projeto da disciplina de Engenharia de Software e Sistemas 2016.1 - CIn/UFPE
@@ -35,6 +36,7 @@ Na aba *Project*, escolha o **Project SDK** para o *1.7.0_80*, e o Project Langu
 Espere as configurações serem sincronizadas:
 
 ![alt tag](http://i.imgur.com/1ij9Kmw.png)
+
 
 Na estrutura do projeto (atalho _Alt+1_), para cada sub-pasta imediata de **test**, clicar em **Mark directory as > Test Source root:** 
 

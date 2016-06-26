@@ -61,3 +61,12 @@ web-app/images/
 web-app/js/
 .DS_Store
 .asscache
+
+.classpath
+.project
+SistemaDeVagasDeEstacionamento-grailsPlugins.iml
+SistemaDeVagasDeEstacionamento.iml
+chromedrivers/
+grailsw
+grailsw.bat
+
