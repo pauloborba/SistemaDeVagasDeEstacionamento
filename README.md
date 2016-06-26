@@ -2,7 +2,7 @@
 
 Projeto da disciplina de Engenharia de Software e Sistemas 2016.1 - CIn/UFPE
 ## Requisitos
-- Grails version: 2.5.4
+- Grails version: 2.4.3
 - JDK version: 1.7.0_80
 
 ## Configurando

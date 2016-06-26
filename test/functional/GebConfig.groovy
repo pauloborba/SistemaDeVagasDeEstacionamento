@@ -1,5 +1,5 @@
 import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.firefox.MarionetteDriver
+//import org.openqa.selenium.firefox.MarionetteDriver
 
 def prepareWebDriver(String driver) {
     def osPath = System.getProperty("os.name").toLowerCase().split(" ").first()
@@ -19,7 +19,8 @@ environments {
     firefox {
         prepareWebDriver("gecko")
 
-        driver = { new MarionetteDriver() }
+        //driver = { new MarionetteDriver() }
+        // O suporte ao Firefox teve de ser desfeito por que exigia o Grails 2.5.4
     }
 }
 
