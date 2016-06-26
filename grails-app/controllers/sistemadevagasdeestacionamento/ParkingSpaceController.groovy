@@ -43,6 +43,15 @@ class ParkingSpaceController {
     def findSpotOfUser(User userInstance) {
         return ParkingSpace.findByOwner(userInstance)
     }
+
+    def findByUsername(String username){
+        ParkingSpace.findAll().toList().each { parkingSpace ->
+            if( parkingSpace.getOwner().getUsername() == username )
+                return parkingSpace
+        }
+
+        return null
+    }
     
     def filterSpace(boolean pref, boolean sector){
         def parkingSpaces
@@ -95,16 +104,27 @@ class ParkingSpaceController {
     }
 
     def bookSpace(Long parkingSpaceId){
+        def booked = false
         User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
         ParkingSpace parkingSpace = ParkingSpace.findById(parkingSpaceId)
-        parkingSpace.setOwner(loggedUser)
+        if(parkingSpace.isAvailable()) {
+            parkingSpace.setOwner(loggedUser)
+            booked = true
+        }
         parkingSpace.save(flush: true)
+
+        return booked
     }
 
     def book(Long parkingSpaceId){
-        bookSpace(parkingSpaceId)
+        def booked = bookSpace(parkingSpaceId)
 
-        flash.message = message(code: 'parkingSpace.booked', args: [ParkingSpace.findById(parkingSpaceId).getDescription()])
+        if(booked){
+            flash.message = message(code: 'parkingSpace.booked', args: [ParkingSpace.findById(parkingSpaceId).getDescription()])
+        }else{
+            flash.message = message(code: 'parkingSpace.not.booked', args: [ParkingSpace.findById(parkingSpaceId).getDescription()])
+        }
+
 
         redirect(action: "index", method: "GET")
     }

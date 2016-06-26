@@ -36,6 +36,7 @@ def parkingSpaceController
 
 And(~/^user parked on spot "(.*?)" using the system$/) { String spot ->
     parkingSpaceController = new ParkingSpaceController()
+    user.save(flush: true)
     parkingSpaceController.save(new ParkingSpace([owner: user, description: spot, sector: "CCEN"]))
 
     def parkingSpace = ParkingSpace.findByDescription(spot)
