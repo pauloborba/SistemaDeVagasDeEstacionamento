@@ -56,7 +56,7 @@ Then(~/^the system informs that he parked on spot "(.*?)"$/) { String spot ->
 
 // GUI
 //
-Given(~/^I am logged in the system with login "(.*?)" and password "(.*?)"$/) { String username, String password ->
+Given(~/^the user is logged in the system with login "(.*?)" and password "(.*?)"$/) { String username, String password ->
     to LoginPage
     at LoginPage
 
@@ -65,38 +65,31 @@ Given(~/^I am logged in the system with login "(.*?)" and password "(.*?)"$/) { 
     assert page.login(username, password)
 }
 
-And(~/^I am at initial page$/) { ->
+And(~/^the user is at initial page$/) { ->
     at InitialPage
 }
 
-And(~/^I parked on spot "(.*?)" using the system$/) { String spot->
+And(~/^the user parked on spot "(.*?)" using the system$/) { String spot->
     def parkingSpace = new ParkingSpace([owner: user, description: spot, sector: "CCEN"])
     parkingSpace.save(flush: true)
 
     assert ParkingSpace.findByDescription(spot).description == spot
 }
 
-And(~/^I did not parked using the system$/) { ->
-    def parkingSpace = new ParkingSpace()
-
-    assert ParkingSpace.findByOwner(user) == null
-}
-
-When(~/^I ask a reminder where he parked his car$/) { ->
+When(~/^the user asks a reminder where he parked his car$/) { ->
     page.clickLembrete()
 }
 
-Then(~/^I see a message indicating that I parked on spot "(.*?)"$/) { String spot ->
+Then(~/^the user sees a message indicating that he parked on spot "(.*?)"$/) { String spot ->
     assert page.verifyMessage(spot)
 }
 
-Then(~/^I see a message indicating that the system informs that he does not have this information$/) { ->
+Then(~/^the user sees a message indicating that the system informs that he does not have this information$/) { ->
     assert page.verifyMessage()
 }
 
 
-
-And(~/^user did not parked using the system$/) { ->
+And(~/^the user did not parked using the system$/) { ->
     assert ParkingSpace.findByOwner(user) == null
 }
 
