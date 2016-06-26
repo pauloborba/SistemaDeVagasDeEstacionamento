@@ -6,6 +6,23 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'parkingSpace.label', default: 'ParkingSpace')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
+		<script>
+			$(document).ready(function() {
+				$("a[name='filter']").click(function() {
+					var sector = $("input[name='sector']").prop('checked')
+					var preferential = $("input[name='preferential']").prop('checked')
+
+					$.ajax({
+						url: "${createLink(action: 'suggestion')}" + "?sector=" + sector + "&preferential=" + preferential,
+						type: 'POST',
+						success: function(data) {
+							$("h1[id='lettering']").text("Filtradas")
+							$("div[id='list-parkingSpace']").replaceWith($(data).filter("div[id='list-parkingSpace']"))
+						}
+					});
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<a href="#list-parkingSpace" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -15,8 +32,16 @@
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
+
+		<br>
+		Somente do meu setor de preferência: <g:checkBox name="sector" checked="${params.sector}" />
+		<br>
+		Somente vagas preferenciais: <g:checkBox name="preferential" checked="${params.preferential}" />
+		<br>
+		<a href="#" name="filter">Filtrar</a>
+
+		<h1 id="lettering"><g:message code="default.list.label" args="[entityName]" /></h1>
 		<div id="list-parkingSpace" class="content scaffold-list" role="main">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -36,8 +61,10 @@
 				</thead>
 				<tbody>
 				<g:each in="${parkingSpaceInstanceList}" status="i" var="parkingSpaceInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-
+					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}" data-id="${parkingSpaceInstance.id}">
+					
+						<td><g:link action="show" id="${parkingSpaceInstance.id}">${fieldValue(bean: parkingSpaceInstance, field: "owner")}</g:link></td>
+					
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "description")}</td>
 					
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "sector")}</td>

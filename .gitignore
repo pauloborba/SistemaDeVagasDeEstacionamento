@@ -50,7 +50,17 @@ fabric.properties
 target/
 test/unit/
 test/integration/
+grails-app/conf/hibernate/
+grails-app/migrations/
+grails-app/services/
+grails-app/taglib/
+grails-app/utils/
+web-app/META-INF/
+web-app/css/
+web-app/images/
+web-app/js/
 .DS_Store
+.asscache
 
 .classpath
 .project

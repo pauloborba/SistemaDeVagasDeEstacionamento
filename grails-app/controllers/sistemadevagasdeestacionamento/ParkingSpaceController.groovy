@@ -73,8 +73,6 @@ class ParkingSpaceController {
         return parkingSpaces
     }
 
-    
-
     def pref(boolean pref, boolean sector){
 
         if((params.preferential == "on" || pref == true)&& (params.sector == "" ||sector == false)) {
@@ -96,7 +94,6 @@ class ParkingSpaceController {
         }
 
     }
-
 
     @Transactional
     def saveParkingSpace(ParkingSpace ps){
@@ -130,14 +127,36 @@ class ParkingSpaceController {
     }
 
     def suggestion() {
-        def parkingSpaces = ParkingSpace.list().findAll { it.available }
+        def parkingSpaces = ParkingSpace.list().findAll { parkingSpace ->
+            def available = parkingSpace.available
+
+            if (params.containsKey("sector")) {
+                def sector = params.sector.toBoolean()
+
+                if (sector) {
+                    User loggedUser = User.findByUsername(SecurityUtils.subject.principal)
+
+                    available = available && (parkingSpace.sector == loggedUser.preferredSector)
+                }
+            }
+
+            if (params.containsKey("preferential")) {
+                def preferential = params.preferential.toBoolean()
+
+                if (preferential)
+                {
+                    available = available && parkingSpace.preferential
+                }
+            }
+
+            return available
+        }
 
         request.withFormat {
             html { respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()]) }
             json { render(parkingSpaces as JSON) }
         }
     }
-
 
     @Transactional
     def save(ParkingSpace parkingSpaceInstance) {
