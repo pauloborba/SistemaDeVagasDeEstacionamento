@@ -46,7 +46,7 @@ class ParkingSpaceController {
 
     def findByUsername(String username){
         ParkingSpace.findAll().toList().each { parkingSpace ->
-            if( parkingSpace.getOwner().getUsername() == username )
+            if( parkingSpace.getOwner() && parkingSpace.getOwner().getUsername() == username )
                 return parkingSpace
         }
 
