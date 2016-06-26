@@ -35,9 +35,8 @@
 			<table>
 			<thead>
 					<tr>
-					
-						<th><g:message code="parkingSpace.owner.label" default="Owner" /></th>
-					
+						<g:sortableColumn property="owner" title="${message(code: 'parkingSpace.owner.label', default: 'Owner')}" />
+
 						<g:sortableColumn property="description" title="${message(code: 'parkingSpace.description.label', default: 'Description')}" />
 					
 						<g:sortableColumn property="sector" title="${message(code: 'parkingSpace.sector.label', default: 'Sector')}" />
@@ -50,8 +49,7 @@
 				</thead>
 				<tbody>
 				<g:each in="${parkingSpaceInstanceList}" status="i" var="parkingSpaceInstance">
-
-					<tr class="parking-space ${(i % 2) == 0 ? 'even' : 'odd'}" data-preferential="${parkingSpaceInstance.getPreferential()}" data-id="${parkingSpaceInstance.getId()}">
+					<tr class="parking-space ${(i % 2) == 0 ? 'even' : 'odd'}" data-preferential="${parkingSpaceInstance.getPreferential()}" data-sector="${parkingSpaceInstance.getSector()}" data-id="${parkingSpaceInstance.getId()}">
 
 						<td>
 							<g:if test="${parkingSpaceInstance.owner}">
@@ -62,8 +60,7 @@
 							</g:else>
 							
 						</td>
-
-					
+						
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "description")}</td>
 					
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "sector")}</td>

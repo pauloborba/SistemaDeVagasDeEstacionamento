@@ -6,29 +6,38 @@ import grails.transaction.Transactional
 
 import org.apache.shiro.SecurityUtils
 
+@SuppressWarnings("GroovyVariableNotAssigned")
 @Transactional(readOnly = true)
 class ParkingSpaceController {
 
+    def returnAll(){
+    User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+    def spots = ParkingSpace.list().findAll {it.preferential && it.sector == loggedUser.preferredSector }
+    return spots
+}
+    def returnBySector(){
+        User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
+        def spots = ParkingSpace.list().findAll { it.sector == loggedUser.preferredSector }
+        return spots
+    }
     def index(boolean pref, boolean sector) {
         def parkingSpaces
 
-        if((pref == true)&& (sector == false)) {
-            parkingSpaces = ParkingSpace.list().findAll { it.preferential}
+        if(pref && !sector) {
+            parkingSpaces = returnByPreferential()
 
-        }else if((pref == false)&& ( sector == true)) {
-            User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
-            parkingSpaces = ParkingSpace.list().findAll { it.sector == loggedUser.preferredSector }
+        }else if(!pref && sector) {
+            parkingSpaces = returnBySector()
 
-        }else if((pref == false)&& (sector == false)){
+        }else if(!pref && !sector){
             parkingSpaces = ParkingSpace.list()
 
-        } else if(( pref == true)&& (sector == true)){
-            User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
-            parkingSpaces = ParkingSpace.list().findAll {it.preferential && it.sector == loggedUser.preferredSector }
+        } else if(pref && sector){
+           parkingSpaces = returnAll()
 
 
         }
-
+        //noinspection GroovyVariableNotAssigned
         respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()])
     }
 
@@ -40,47 +49,55 @@ class ParkingSpaceController {
         respond(new ParkingSpace(params))
     }
 
-def filterSpace(boolean pref, boolean sector){
-    def parkingSpaces
-
-    if((pref == true)&& (sector == false)) {
-        parkingSpaces = ParkingSpace.list().findAll { it.preferential}
-
-    }else if((pref == false)&& ( sector == true)) {
-        User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
-        parkingSpaces = ParkingSpace.list().findAll { it.sector == loggedUser.preferredSector }
-
-    }else if((pref == false)&& (sector == false)){
-        parkingSpaces = ParkingSpace.list()
-
-    } else if(( pref == true)&& (sector == true)){
-        User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
-        parkingSpaces = ParkingSpace.list().findAll {it.preferential && it.sector == loggedUser.preferredSector }
-
-
+    def findSpotOfUser(User userInstance) {
+        return ParkingSpace.findByOwner(userInstance)
     }
-return parkingSpaces
+    
+
+
+    def checkPreferential(boolean pref){
+        return (params.preferential == "on" || pref);
+    }
+
+    def checkSetor(boolean sector){
+        return (params.sector == "on" || sector)
+    }
+def returnByPreferential(){
+    def spots = ParkingSpace.list().findAll { it.preferential}
+    return spots
 }
-
+    @SuppressWarnings("GroovyVariableNotAssigned")
     def pref(boolean pref, boolean sector){
+       def parkingSpaces
+        if(checkPreferential(pref) && !checkSetor(sector)) {
+            parkingSpaces = returnByPreferential()
 
-    if((params.preferential == "on" || pref == true)&& (params.sector == "" ||sector == false)) {
+            if(params.preferential == "on") {
+                redirect(action: "index", params: [pref: true, sector: false])
+            }
+        }else if(!checkPreferential(pref) && checkSetor(sector)) {
+            parkingSpaces = returnBySector()
 
-        redirect (action: "index", params: [pref: true, sector: false])
+            if(params.sector == "on"){
+                redirect (action: "index", params: [pref: false, sector: true])
+            }
 
-    }else if((params.preferential == "" || pref == false)&& (params.sector == "on" ||sector == true)) {
+            }else if(!checkPreferential(pref) && !checkSetor(sector)){
+            parkingSpaces = ParkingSpace.list()
 
+            if(params.preferential == "" && params.sector == "") {
+                    redirect(action: "index", params: [pref: false, sector: false])
+                }
+            } else if(checkPreferential(pref) && checkSetor(sector)){
 
-        redirect (action: "index", params: [pref: false, sector: true])
+            parkingSpaces = returnAll()
 
-        }else if((params.preferential == "" || pref == false)&& (params.sector == "" ||sector == false)){
-        redirect (action: "index", params: [pref: false, sector: false])
-
-        } else if((params.preferential == "on" || pref == true)&& (params.sector == "on" ||sector == true)){
-
-        redirect (action: "index", params: [pref: true, sector: true])
-
-    }
+                if(params.prefential == "on" && params.sector == "on") {
+                    redirect(action: "index", params: [pref: true, sector: true])
+                }
+        }
+        //noinspection GroovyVariableNotAssigned
+        return parkingSpaces
 
     }
 
@@ -106,8 +123,6 @@ return parkingSpaces
     }
 
     def suggestion() {
-        //User currentUser = User.findByUsername(SecurityUtils.subject.principal)
-
         def parkingSpaces = ParkingSpace.list().findAll { it.available }
 
         request.withFormat {

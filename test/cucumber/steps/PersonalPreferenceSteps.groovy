@@ -12,6 +12,7 @@ import org.apache.shiro.util.ThreadContext
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 import static cucumber.api.groovy.EN.*
 
+def prefSector
 def spotDesc
 def spotState
 //------------------------------------------------ CONTROLADOR --------------------------------------------
@@ -19,14 +20,14 @@ def spotState
 Given(~'^the system has stored the user "([^"]*)" with password "([^"]*)" and preference for parking spaces at the "([^"]*)" sector$'){String user, String password, String sector ->
 
     def currUser = user
-    signup(currUser, password, sector)
+    ShiroHelper.signup(currUser, password, sector)
 
     assert User.findByUsername(currUser)
 
 }
 And(~'^the user "([^"]*)" is logged in the system'){ String user ->
 def currUser = user
-    login(currUser)
+   ShiroHelper.login(currUser)
     def subject = SecurityUtils.subject
 
     assert subject.principal as String == user
@@ -56,7 +57,7 @@ And(~'^the spot "([^"]*)" is free'){ String description->
 When(~'^the user asks where to park$'){ ->
     def parkingSpaceController = new ParkingSpaceController()
     parkingSpaceController.request.format = "json"
-    assert parkingSpaceController.filterSpace(false, true)
+    assert parkingSpaceController.pref(false, true)
 
 
 }
@@ -102,24 +103,6 @@ When(~'^the user searches for parking spots for "([^"]*)"$'){ String typePref ->
 //Then the system do not change the state of the parking spot
 
 
-//Given the system has stored the user "Pedro" with password "456" and preference for parking spaces in the "CCEN" sector
-//And the user "Pedro" is logged in the system
-
-And(~'^the spot "([^"]*)" is not free'){String description ->
-    def parkingSpace = ParkingSpace.findByDescription(description)
-
-    def controller = new ParkingSpaceController()
-    controller.book(parkingSpace.getId())
-
-    assert !parkingSpace.available
-
-}
-
-//When user asks where to park
-//Then the system do not change the state of the parking spot
-
-
-
 //------------------------------------------ GUI ---------------------------------
 
 Given(~/^I am logged with login "([^"]*)" and password "([^"]*)"$/){ String username, String password ->
@@ -142,34 +125,22 @@ Then(~/^he is redirected to the view where all the parking spaces are preferenti
     assert page.verifyPreferential()
 }
 
+Given(~/^I am logged with login "([^"]*)" and password "([^"]*)" and have preference for parking spaces at the "([^"]*)" sector$/){ String username, String password, String sector ->
+    prefSector = sector
+    to LoginPage
+    at LoginPage
+    assert page.login(username, password)
 
+}
+//And the user is at the home page
 
-//------------------------------------------ METODOS -----------------------------
-def oldMetaClass
-
-def signup(username, password, sector) {
-    def user = new User(username: username, passwordHash: new Sha512Hash(password).toHex(), firstName: "Primeiro nome", lastName: "Último nome", preferredSector: sector)
-    user.addToRoles(Role.findByName('User'))
-    user.save(flush:true)
+When(~'^the user searches for parking spaces from his sector$'){ ->
+    page.searchParkingSpacesBySector()
 }
 
-// Simulação o login do Shiro, uma vez que o Cucumber não nos permite fazer o login através dos controladores
-// http://mrdustmite.blogspot.com.br/2010/09/integration-tests-with-shiro-and-nimble.html
+Then(~/^he is redirected to the view where all the parking spaces are from his sector$/) { ->
 
-def login(username) {
-    def metaClassRegistry = GroovySystem.metaClassRegistry
-
-    oldMetaClass = metaClassRegistry.getMetaClass(SecurityUtils)
-
-    metaClassRegistry.removeMetaClass(SecurityUtils)
-
-    def subject = [getPrincipal: { username }, isAuthenticated: { true }] as Subject
-
-    ThreadContext.put(ThreadContext.SECURITY_MANAGER_KEY, [getSubject: { subject } as SecurityManager])
-
-    SecurityUtils.metaClass.static.getSubject = { subject }
+    waitFor { at ParkingSpaceListPage }
+    assert page.verifySector(prefSector)
 }
 
-def logout() {
-    GroovySystem.metaClassRegistry.setMetaClass(SecurityUtils, oldMetaClass)
-}

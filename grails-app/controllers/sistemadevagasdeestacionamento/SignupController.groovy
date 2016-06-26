@@ -13,6 +13,7 @@ class SignupController {
 
     def register() {
         // Check to see if the username already exists
+
         def user = User.findByUsername(params.username)
         if (user) {
             flash.message = "User already exists with the username '${params.username}'"

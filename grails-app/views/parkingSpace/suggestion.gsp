@@ -23,9 +23,7 @@
 			<table>
 			<thead>
 					<tr>
-					
-						<th><g:message code="parkingSpace.owner.label" default="Owner" /></th>
-					
+
 						<g:sortableColumn property="description" title="${message(code: 'parkingSpace.description.label', default: 'Description')}" />
 					
 						<g:sortableColumn property="sector" title="${message(code: 'parkingSpace.sector.label', default: 'Sector')}" />
@@ -39,9 +37,7 @@
 				<tbody>
 				<g:each in="${parkingSpaceInstanceList}" status="i" var="parkingSpaceInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${parkingSpaceInstance.id}">${fieldValue(bean: parkingSpaceInstance, field: "owner")}</g:link></td>
-					
+
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "description")}</td>
 					
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "sector")}</td>
