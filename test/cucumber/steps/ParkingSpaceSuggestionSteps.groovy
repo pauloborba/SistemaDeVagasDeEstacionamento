@@ -38,8 +38,9 @@ And(~/^the user is logged in the system$/) { ->
 }
 
 def createParkingSpace(String description, String sector, boolean preferential) {
-    def controller = new ParkingSpaceController()
-    controller.save(new ParkingSpace([description: description, sector: sector, preferential: preferential]))
+    parkingSpaceController = new ParkingSpaceController()
+    parkingSpaceController.save(new ParkingSpace([description: description, sector: sector, preferential: preferential]))
+    parkingSpaceController.response.reset()
 
     currentParkingSpace = ParkingSpace.findByDescription(description)
 
@@ -67,6 +68,8 @@ And(~/^the parking space "([^"]*)" is not available$/) { String description ->
 }
 
 When(~/^I go to parking space's suggestion page$/) { ->
+    waitFor { at HomePage }
+
     page.goToSuggestions()
 }
 
@@ -89,7 +92,6 @@ And(~/^I confirm the filter options$/) { ->
 }
 
 def askForSuggestions(boolean sector, boolean preferential) {
-    parkingSpaceController = new ParkingSpaceController()
     parkingSpaceController.params << [sector: sector, preferential: preferential]
     parkingSpaceController.request.format = "json"
     parkingSpaceController.suggestion()
@@ -109,6 +111,8 @@ When(~/^the user asks for suggestions of preferential parking spaces on his sect
 
 def shouldInformParkingSpace(String description, boolean should) {
     def response = parkingSpaceController.response.json
+
+    parkingSpaceController.response.reset()
 
     def parkingSpace = response.find { it.description == description }
 

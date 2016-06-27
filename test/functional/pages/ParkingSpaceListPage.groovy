@@ -15,12 +15,20 @@ class ParkingSpaceListPage extends  Page{
         $("input[name='preferential']").click()
         $("input[name='Submit']").click()
     }
-
+    def searchParkingSpacesBySector(){
+        $("input[name='sector']").click()
+        $("input[name='Submit']").click()
+    }
     def verifyPreferential(){
 
 
        return $("tr.parking-space[data-preferential='false']").size() == 0
 
+    }
+
+    def verifySector(String sector){
+
+            return $("tr.parking-space[data-sector='${sector}']").size() > 0
     }
     def desc
 

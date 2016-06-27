@@ -22,13 +22,15 @@ class RoleController {
     def create() {
         respond new Role(params)
     }
-
+def checkRoleNull(Role roleInstance){
+    if(roleInstance == null){
+        notFound()
+        return
+    }
+}
     @Transactional
     def save(Role roleInstance) {
-        if (roleInstance == null) {
-            notFound()
-            return
-        }
+        checkRoleNull(reoleInstance)
 
         if (roleInstance.hasErrors()) {
             respond roleInstance.errors, view:'create'
@@ -52,10 +54,7 @@ class RoleController {
 
     @Transactional
     def update(Role roleInstance) {
-        if (roleInstance == null) {
-            notFound()
-            return
-        }
+        checkRoleNull(roleInstance)
 
         if (roleInstance.hasErrors()) {
             respond roleInstance.errors, view:'edit'
@@ -76,10 +75,7 @@ class RoleController {
     @Transactional
     def delete(Role roleInstance) {
 
-        if (roleInstance == null) {
-            notFound()
-            return
-        }
+       checkRoleNull(roleInstance)
 
         roleInstance.delete flush:true
 
