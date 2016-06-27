@@ -77,6 +77,7 @@ Feature: Parking space suggestion
         When I go to parking space's suggestion page
         Then I can not see the parking space "10" in the suggestions
 
+    @ignore
     Scenario: The system has a parking space available on the desired sector web
         Given I signed up as "alfc" with password "313233" and preference for parking spaces in the "Área II" sector
         And the parking space "11" is from the "Área II" sector
