@@ -72,11 +72,13 @@ Then(~'^the system do not change the state of the parking spot$'){ ->
 And(~'^the parking space "([^"]*)" at the sector "([^"]*)" is for "([^"]*)"'){ String description, String sector , String pref ->
     boolean preferential
     CreateParkingSpaceTestAndAplication.createParkingSpace(description, sector, null, true)
-    if (pref == "elderlies") {
-        preferential = true
-    }else{
-        preferential = false
-    }
+    preferential = pref == "elderlies"
+
+//    if (pref == "elderlies") {
+//        preferential = true
+//    }else{
+//        preferential = false
+//    }
     def parkingSpace = ParkingSpace.findByDescription(description)
 
     assert parkingSpace.description == description
@@ -88,11 +90,12 @@ And(~'^the parking space "([^"]*)" at the sector "([^"]*)" is for "([^"]*)"'){ S
 When(~'^the user searches for parking spots for "([^"]*)"$'){ String typePref ->
     boolean preferential
 
-    if (typePref == "elderlies") {
-        preferential = true
-    }else{
-        preferential = false
-    }
+    preferential = typePref == "elderlies"
+//    if (typePref == "elderlies") {
+//        preferential = true
+//    }else{
+//        preferential = false
+//    }
 
     def parkingSpaceController = new ParkingSpaceController()
     parkingSpaceController.request.format = "json"

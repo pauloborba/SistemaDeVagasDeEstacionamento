@@ -16,7 +16,7 @@ class AuthController {
     }
 
     def signIn = {
-        def authToken = new UsernamePasswordToken(params.username, params.password as String)
+        def authToken = new UsernamePasswordToken(params.username as String, params.password as String)
 
         // Support for "remember me"
         if (params.rememberMe) {

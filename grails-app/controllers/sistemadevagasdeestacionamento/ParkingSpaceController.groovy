@@ -56,17 +56,17 @@ class ParkingSpaceController {
     def filterSpace(boolean pref, boolean sector){
         def parkingSpaces
 
-        if((pref == true)&& (sector == false)) {
+        if((pref)&& (!sector)) {
             parkingSpaces = ParkingSpace.list().findAll { it.preferential}
 
-        }else if((pref == false)&& ( sector == true)) {
+        }else if((!pref)&& ( sector)) {
             User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
             parkingSpaces = ParkingSpace.list().findAll { it.sector == loggedUser.preferredSector }
 
-        }else if((pref == false)&& (sector == false)){
+        }else if((!pref)&& (!sector)){
             parkingSpaces = ParkingSpace.list()
 
-        } else if(( pref == true)&& (sector == true)){
+        } else {
             User loggedUser = User.findByUsername(SecurityUtils.subject.principal as String)
             parkingSpaces = ParkingSpace.list().findAll {it.preferential && it.sector == loggedUser.preferredSector }
         }

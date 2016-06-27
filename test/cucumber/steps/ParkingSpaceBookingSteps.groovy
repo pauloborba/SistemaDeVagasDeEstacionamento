@@ -13,7 +13,6 @@ this.metaClass.mixin(cucumber.api.groovy.EN)
 def currentUsername
 def parkingSpaceDescription
 def parkingSpace
-def parkingSpace2
 def user
 
 Given(~/^the system has the user "([^"]*)" with password "([^"]*)" with "([^"]*)" as prefered sector$/){ String username, String password, String sector ->

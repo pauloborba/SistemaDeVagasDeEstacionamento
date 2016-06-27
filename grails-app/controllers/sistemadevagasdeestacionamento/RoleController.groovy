@@ -25,7 +25,7 @@ class RoleController {
 def checkRoleNull(Role roleInstance){
     if(roleInstance == null){
         notFound()
-        return
+//        return
     }
 }
     @Transactional

@@ -13,7 +13,7 @@ class DbRealm {
 
     def authenticate(authToken) {
         log.info "Attempting to authenticate ${authToken.username} in DB realm..."
-        def username = authToken.username
+        def username = authToken.username as String
 
         // Null username is invalid
         if (username == null) {
@@ -108,13 +108,14 @@ class DbRealm {
             return perm.implies(requiredPermission)
         }
 
-        if (retval != null) {
-            // Found a matching permission!
-            return true
-        }
-        else {
-            return false
-        }
+        return retval != null
+//        if (retval != null) {
+//            // Found a matching permission!
+//            return true
+//        }
+//        else {
+//            return false
+//        }
     }
 }
 
