@@ -13,6 +13,8 @@ class ShiroHelper {
         def user = new User(username: username, passwordHash: new Sha512Hash(password).toHex(), firstName: "Primeiro nome", lastName: "Último nome", preferredSector: sector)
         user.addToRoles(Role.findByName('User'))
         user.save(flush:true)
+
+        return user
     }
 
     static def login(username) {

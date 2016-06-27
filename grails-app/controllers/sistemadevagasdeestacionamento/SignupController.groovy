@@ -4,56 +4,40 @@ import org.apache.shiro.authc.UsernamePasswordToken
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.crypto.hash.Sha512Hash
 
-class SignupController {
-    def index() {
-        def user = new User()
-
-        respond(user)
-    }
+class SignUpController {
+    def index() { }
 
     def register() {
-        // Check to see if the username already exists
+        String username = params.username
 
-        def user = User.findByUsername(params.username)
+        def user = User.findByUsername(username)
+
         if (user) {
-            flash.message = "User already exists with the username '${params.username}'"
-            redirect(action:'index')
-        }
+            flash.message = "User already exists with the username '${username}'"
 
-        // User doesn't exist with username. Let's create one
-        else {
+            redirect(action: 'index')
+        } else {
+            String password = params.password
 
-            // Make sure the passwords match
-            if (params.password != params.password2) {
+            if (password != params.password2) {
                 flash.message = "Passwords do not match"
-                redirect(action:'index')
-            }
 
-            // Passwords match. Let's attempt to save the user
-            else {
-                // Create user
-                user = new User(
-                        username: params.username,
-                        passwordHash: new Sha512Hash(params.password).toHex(),
-                        firstName: params.firstName,
-                        lastName: params.lastName,
-                        preferredSector: params.preferredSector
-                )
+                redirect(action: 'index')
+            } else {
+                String firstName = params.firstName
+                String lastName = params.lastName
+                String preferredSector = params.preferredSector
 
-                if (user.save(flush:true)) {
+                user = new User(username: username, passwordHash: new Sha512Hash(password).toHex(), firstName: firstName, lastName: lastName, preferredSector: preferredSector)
 
-                    // Add USER role to new user
-                    def userRole =  Role.findByName('User')
-                    user.addToRoles(userRole)
+                if (user.save(flush: true)) {
+                    user.addToRoles(Role.findByName('User'))
                     user.save(flush:true)
 
-                    // Login user
-                    def authToken = new UsernamePasswordToken(user.username, params.password)
-                    SecurityUtils.subject.login(authToken)
+                    SecurityUtils.subject.login(new UsernamePasswordToken(username, password))
 
                     redirect(controller: 'home', action: 'index')
-                }
-                else {
+                } else {
                     redirect(controller: 'auth', action: 'login')
                 }
             }

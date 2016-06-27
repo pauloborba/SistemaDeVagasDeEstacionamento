@@ -6,6 +6,16 @@ import sistemadevagasdeestacionamento.*
 class BootStrap {
     def shiroSecurityService
 
+    def registerParkingSpaces() {
+        def sectors = ParkingSpace.constraints.sector.inList
+        sectors.each { sector ->
+            (1..6).each { i ->
+                def parkingSpace = new ParkingSpace([description: "N${i}-${sector}", sector: sector, preferential: i % 2])
+                parkingSpace.save(flush: true)
+            }
+        }
+    }
+
     def init = { servletContext ->
         def userRole = new Role(name: "User")
 
@@ -19,6 +29,8 @@ class BootStrap {
         def masterUser = new User(username: "master", passwordHash: new Sha512Hash("master").toHex(), firstName: "Usuário", lastName: "Master", preferredSector: "CIn")
         masterUser.addToRoles(userRole)
         masterUser.save(flush: true)
+
+        registerParkingSpaces()
 
         def masterUser2 = new User(username: "reuel.jonathan", passwordHash: new Sha512Hash("123").toHex(), firstName: "Reuel", lastName: "Jonathan", preferredSector: "CCEN")
         masterUser2.addToRoles(userRole)

@@ -36,7 +36,7 @@ class AuthController {
             if (savedRequest.queryString) targetUri = targetUri + '?' + savedRequest.queryString
         }
         
-        try{
+        try {
             // Perform the actual login. An AuthenticationException
             // will be thrown if the username is unrecognised or the
             // password is incorrect.
@@ -44,7 +44,11 @@ class AuthController {
 
             log.info "Redirecting to '${targetUri}'."
 
-            redirect(uri: targetUri)
+            if (targetUri == "/") {
+                redirect(controller: "home", action: "index")
+            } else {
+                redirect(uri: targetUri)
+            }
         }
         catch (AuthenticationException ex){
             // Authentication failed, so display the appropriate message

@@ -33,7 +33,7 @@
 
                         <br>
 
-                        Não tem uma conta? <g:link controller="signup" action="index">Crie</g:link>
+                        Não tem uma conta? <g:link controller="signUp" action="index">Crie</g:link>
                     </td>
                 </tr>
             </tbody>

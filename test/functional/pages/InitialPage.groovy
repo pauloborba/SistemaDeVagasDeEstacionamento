@@ -17,4 +17,8 @@ class InitialPage extends Page {
         $("div.message").text() == ("O usuario estacionou na vaga ${spot}" as String)
     }
 
+    def verifyMessage(){
+        $("div.message").text() == ("O usuario não estacionou em nenhuma vaga")
+    }
+
 }

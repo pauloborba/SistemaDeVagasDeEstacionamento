@@ -3,11 +3,9 @@ package pages
 import geb.Page
 import sistemadevagasdeestacionamento.ParkingSpace
 
-
 class ParkingSpaceListPage extends  Page{
 
     static url = "parkingSpace/index"
-
     static at = {
         title ==~ /ParkingSpace Listagem/
     }
@@ -47,6 +45,10 @@ class ParkingSpaceListPage extends  Page{
 
     def verifyMessage(){
         $("div.message").text() == ("A vaga ${desc} foi reservada com sucesso!" as String)
+    }
+
+    def verifyFailBookMessage(){
+        $("div.message").text() == ("Não foi possível reservar a vaga ${desc}." as String)
     }
 
 }

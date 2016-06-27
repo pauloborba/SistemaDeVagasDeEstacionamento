@@ -42,20 +42,18 @@ Na estrutura do projeto (atalho _Alt+1_), para cada sub-pasta imediata de **test
 
 ![alt tag](http://i.imgur.com/LVHdZzt.png)
 
-Criar run configurations:
+Editar configurações de execução:
 
 ![alt tag](http://i.imgur.com/l2fr9VR.png)
 
-
-Para desenvolvimento:
+- Para desenvolvimento:
 ![alt tag](http://i.imgur.com/WVxKYvy.png)
-- command line: `run-app --stacktrace --verbose`
+command line: `run-app --stacktrace --verbose`
 
-Para testes:
+- Para testes:
 ![alt tag](http://i.imgur.com/q17bNAv.png)
-- command line: `test-app -Dgeb.env=chrome functional:cucumber --stacktrace --verbose`
+command line: `test-app -Dgeb.env=chrome functional:cucumber --stacktrace --verbose` (Google Chrome)
+command line: `test-app -Dgeb.env=firefox functional:cucumber --stacktrace --verbose` (Mozilla Firefox)
 
 **Obs:** 
-Devido à problemas com a versão do plugin do Cucumber, os testes rodam apenas no Google Chrome.
-Não é possível usar o Cucumber para validar o Shiro em testes de controlador, mais detalhes em http://mrdustmite.blogspot.com.br/2010/09/integration-tests-with-shiro-and-nimble.html.
-
+Não é possível usar o Cucumber devidamente para validar o uso do plugin Shiro em testes de controlador, mais detalhes em http://mrdustmite.blogspot.com.br/2010/09/integration-tests-with-shiro-and-nimble.html.

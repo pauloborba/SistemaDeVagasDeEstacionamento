@@ -36,6 +36,7 @@ def parkingSpaceController
 
 And(~/^user parked on spot "(.*?)" using the system$/) { String spot ->
     parkingSpaceController = new ParkingSpaceController()
+    user.save(flush: true)
     parkingSpaceController.save(new ParkingSpace([owner: user, description: spot, sector: "CCEN"]))
 
     def parkingSpace = ParkingSpace.findByDescription(spot)
@@ -46,6 +47,7 @@ And(~/^user parked on spot "(.*?)" using the system$/) { String spot ->
 def parkingSpot
 
 When(~/^user asks a reminder where he parked his car$/) { ->
+    parkingSpaceController = new ParkingSpaceController()
     parkingSpot = parkingSpaceController.findSpotOfUser(user)
 }
 
@@ -55,7 +57,7 @@ Then(~/^the system informs that he parked on spot "(.*?)"$/) { String spot ->
 
 // GUI
 //
-Given(~/^I am logged in the system with login "(.*?)" and password "(.*?)"$/) { String username, String password ->
+Given(~/^the user is logged in the system with login "(.*?)" and password "(.*?)"$/) { String username, String password ->
     to LoginPage
     at LoginPage
 
@@ -64,21 +66,34 @@ Given(~/^I am logged in the system with login "(.*?)" and password "(.*?)"$/) { 
     assert page.login(username, password)
 }
 
-And(~/^I am at initial page$/) { ->
+And(~/^the user is at initial page$/) { ->
     at InitialPage
 }
 
-And(~/^I parked on spot "(.*?)" using the system$/) { String spot->
+And(~/^the user parked on spot "(.*?)" using the system$/) { String spot->
     def parkingSpace = new ParkingSpace([owner: user, description: spot, sector: "CCEN"])
     parkingSpace.save(flush: true)
 
     assert ParkingSpace.findByDescription(spot).description == spot
 }
 
-When(~/^I ask a reminder where he parked his car$/) { ->
+When(~/^the user asks a reminder where he parked his car$/) { ->
     page.clickLembrete()
 }
 
-Then(~/^I see a message indicating that I parked on spot "(.*?)"$/) { String spot ->
+Then(~/^the user sees a message indicating that he parked on spot "(.*?)"$/) { String spot ->
     assert page.verifyMessage(spot)
+}
+
+Then(~/^the user sees a message indicating that the system informs that he does not have this information$/) { ->
+    assert page.verifyMessage()
+}
+
+
+And(~/^the user did not parked using the system$/) { ->
+    assert ParkingSpace.findByOwner(user) == null
+}
+
+Then(~/^the system informs that he does not have this information$/) { ->
+    assert parkingSpaceController.findSpotOfUser(user) == null
 }
