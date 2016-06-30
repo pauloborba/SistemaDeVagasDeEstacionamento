@@ -1,7 +1,7 @@
 language: groovy
 
 addons:
-  firefox: "26.0"
+  firefox: "23.0"
 
 jdk:
 - oraclejdk7
