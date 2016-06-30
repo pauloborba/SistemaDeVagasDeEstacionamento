@@ -28,13 +28,13 @@ class ParkingSpaceListPage extends  Page{
     def verifyPreferential(){
 
 
-       return $("tr.parking-space[data-preferential='false']").size() == 0
+        return $("tr.parking-space[data-preferential='false']").size() == 0
 
     }
 
     def verifySector(String sector){
 
-            return $("tr.parking-space[data-sector='${sector}']").size() > 0
+        return $("tr.parking-space[data-sector='${sector}']").size() > 0
     }
     def desc
 
@@ -49,12 +49,15 @@ class ParkingSpaceListPage extends  Page{
         $("tr[data-id='${parkingSpace.getId()}']").find('td:first-child').find('a').click()
     }
 
-    def verifyMessage(){
-        $("div.message").text() == ("A vaga ${desc} foi reservada com sucesso!" as String)
+    def verifyMessage() {
+        InternationalizationHelper helper = InternationalizationHelper.instance
+
+        $("div.message").text() == helper.getMessage("parkingSpace.booked", desc)
     }
 
-    def verifyFailBookMessage(){
-        $("div.message").text() == ("Não foi possível reservar a vaga ${desc}." as String)
-    }
+    def verifyFailBookMessage() {
+        InternationalizationHelper helper = InternationalizationHelper.instance
 
+        $("div.message").text() == helper.getMessage("parkingSpace.not.booked", desc)
+    }
 }

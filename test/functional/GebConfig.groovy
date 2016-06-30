@@ -30,10 +30,3 @@ environments {
         // --------------------------------------
     }
 }
-
-waiting {
-    timeout = 15
-    retryInterval = 0.5
-    slow { timeout = 30 }
-    reallyslow { timeout = 60 }
-}
