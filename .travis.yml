@@ -1,5 +1,8 @@
 language: groovy
 
+sudo: required
+dist: trusty
+
 jdk:
 - oraclejdk7
 
@@ -8,11 +11,9 @@ before_script:
 - "sh -e /etc/init.d/xvfb start"
 
 before_install:
-- sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-- wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-- sudo sed -i -e 's/deb http/deb [arch=amd64] http/' "/etc/apt/sources.list.d/google.list" && sudo sed -i -e 's/deb http/deb [arch=amd64] http/' "/opt/google/chrome/cron/google-chrome"
-- sudo apt-get update
-- sudo apt-get install google-chrome-stable
+- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O chrome.deb
+- sudo dpkg -i chrome.deb
+- sudo apt-get install -f
 - curl -s get.sdkman.io | bash
 - source "$HOME/.sdkman/bin/sdkman-init.sh"
 - echo sdkman_auto_answer=true > ~/.sdkman/etc/config
