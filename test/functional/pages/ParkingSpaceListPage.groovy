@@ -2,12 +2,18 @@ package pages
 
 import geb.Page
 import sistemadevagasdeestacionamento.ParkingSpace
+import steps.InternationalizationHelper
 
 class ParkingSpaceListPage extends  Page{
-
     static url = "parkingSpace/index"
+
     static at = {
-        title ==~ /ParkingSpace Listagem/
+        InternationalizationHelper helper = InternationalizationHelper.instance
+
+        String parkingSpace = "ParkingSpace"
+        String parkingSpaceList = helper.getMessage("default.list.label", parkingSpace)
+
+        title ==~ parkingSpaceList
     }
 
 

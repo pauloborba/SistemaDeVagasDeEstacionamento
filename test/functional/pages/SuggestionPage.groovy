@@ -3,12 +3,18 @@ package pages
 import geb.Page
 import geb.navigator.NonEmptyNavigator
 import sistemadevagasdeestacionamento.*
+import steps.InternationalizationHelper
 
 class SuggestionPage extends Page {
     static url = 'parkingSpace/suggestion'
 
     static at = {
-        title ==~ /ParkingSpace Listagem/
+        InternationalizationHelper helper = InternationalizationHelper.instance
+
+        String parkingSpace = "ParkingSpace"
+        String parkingSpaceList = helper.getMessage("default.list.label", parkingSpace)
+
+        title ==~ parkingSpaceList
     }
 
     def containsParkingSpace(String description) {
