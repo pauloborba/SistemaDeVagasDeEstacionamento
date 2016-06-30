@@ -1,4 +1,6 @@
 import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.firefox.FirefoxDriver
+
 //import org.openqa.selenium.firefox.MarionetteDriver
 
 def prepareWebDriver(String driver) {
@@ -17,10 +19,13 @@ environments {
     }
 
     firefox {
-        prepareWebDriver("gecko")
-
+        driver = { new FirefoxDriver() }
+        // --------------------------------------
+        // O suporte à versões mais recentes do Firefox teve de ser desfeito por que exigia o Grails 2.5.4
+        //prepareWebDriver("gecko")
+        
         //driver = { new MarionetteDriver() }
-        // O suporte ao Firefox teve de ser desfeito por que exigia o Grails 2.5.4
+        // --------------------------------------
     }
 }
 
