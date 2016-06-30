@@ -1,6 +1,7 @@
 language: groovy
 
-dist: trusty
+addons:
+  firefox: "26.0"
 
 jdk:
 - oraclejdk7
@@ -20,4 +21,4 @@ branches:
   only:
     - master
 
-script: grails test-app -Dgeb.env=chrome functional:cucumber --non-interactive --stacktrace --verbose
+script: grails test-app -Dgeb.env=firefox functional:cucumber --non-interactive --stacktrace --verbose
