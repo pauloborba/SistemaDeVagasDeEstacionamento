@@ -1,7 +1,7 @@
 language: groovy
 
-sudo: required
-dist: trusty
+addons:
+  firefox: "23.0"
 
 jdk:
 - oraclejdk7
@@ -12,8 +12,6 @@ before_script:
  - sleep 3
 
 before_install:
- - sudo apt-get install unzip;
- - wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/2.22/chromedriver_linux64.zip && sudo unzip /tmp/chromedriver.zip chromedriver -d /usr/bin/
  - curl -s get.sdkman.io | bash
  - source "$HOME/.sdkman/bin/sdkman-init.sh"
  - echo sdkman_auto_answer=true > ~/.sdkman/etc/config
@@ -24,4 +22,4 @@ branches:
   only:
     - master
 
-script: grails test-app -Dgeb.env=chrome -Dwebdriver.chrome.driver=/usr/bin/chromedriver functional:cucumber --non-interactive --stacktrace --verbose
+script: grails test-app -Dgeb.env=firefox functional:cucumber --non-interactive --stacktrace --verbose
