@@ -4,11 +4,13 @@ import org.openqa.selenium.firefox.FirefoxDriver
 //import org.openqa.selenium.firefox.MarionetteDriver
 
 def prepareWebDriver(String driver) {
-    def osPath = System.getProperty("os.name").toLowerCase().split(" ").first()
+    if (!System.getProperty("webdriver.${driver}.driver")) {
+        def osPath = System.getProperty("os.name").toLowerCase().split(" ").first()
 
-    def webDriver = new File("${driver}drivers", osPath).listFiles({ File dir, String name -> !dir.hidden } as FilenameFilter).first()
+        def webDriver = new File("${driver}drivers", osPath).listFiles({ File dir, String name -> !dir.hidden } as FilenameFilter).first()
 
-    System.setProperty("webdriver.${driver}.driver", webDriver.getAbsolutePath())
+        System.setProperty("webdriver.${driver}.driver", webDriver.getAbsolutePath())
+    }
 }
 
 environments {
