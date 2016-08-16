@@ -17,18 +17,11 @@ Before() {
 }
 
 After() {
-
     ShiroHelper.logout()
 
+    ParkingSpace.list().each { it.delete(flush: true) }
 
-    ParkingSpace.list().each {->
-        it.delete(flush: true)
-    }
-    User.list().each {->
-        it.delete(flush: true)
-    }
-
-
+    User.list().each { it.delete(flush: true) }
 
     scenarioInterceptor.destroy()
 
