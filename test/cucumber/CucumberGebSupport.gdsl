@@ -1,0 +1,25 @@
+/**
+ * Enables code completion for Geb inside Cucumber step implementations.
+ */
+def forwardedMethods = ["go", "to", "via", "at",
+                        "waitFor",
+                        "withAlert", "withNoAlert", "withConfirm", "withNoConfirm",
+                        "download", "downloadStream", "downloadText", "downloadBytes", "downloadContent",
+                        "report", "reportGroup", "cleanReportGroupDir"]
+
+def scriptContext = context(filetypes: ['.groovy'], pathRegexp: ".*/test/cucumber/.*", scope: closureScope())
+contributor(scriptContext) {
+    property name: 'browser', type: 'geb.Browser'
+
+    def methods = findClass('geb.Browser').getMethods()
+
+    methods.findAll { it.name in forwardedMethods }.each { def browserMethod ->
+
+        def params = [:]
+        for (def param : browserMethod.getParameterList().getParameters())  {
+            params.put(param.name.toLowerCase(), param.type.canonicalText)
+        }
+
+        method name: browserMethod.name, type: browserMethod.returnType.canonicalText, params: params
+    }
+}
