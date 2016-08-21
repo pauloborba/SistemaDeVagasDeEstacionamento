@@ -1,3 +1,4 @@
+/*
 package steps
 
 import org.apache.shiro.SecurityUtils
@@ -92,4 +93,4 @@ And(~/^the user did not parked using the system$/) { ->
 
 Then(~/^the system informs that he does not have this information$/) { ->
     assert ParkingSpace.findByOwner(user) == null
-}
+}*/

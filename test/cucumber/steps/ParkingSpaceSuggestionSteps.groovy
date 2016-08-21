@@ -1,7 +1,5 @@
 package steps
 
-import org.apache.shiro.SecurityUtils
-import org.apache.shiro.crypto.hash.Sha512Hash
 import pages.*
 import sistemadevagasdeestacionamento.*
 
@@ -11,12 +9,11 @@ this.metaClass.mixin(cucumber.api.groovy.EN)
 Given(~/^the system has stored the user "([^"]*)" with password "([^"]*)" and preference for parking spaces in the "([^"]*)" sector$/) { String username, String password, String sector ->
     currentUsername = username
 
-    ShiroHelper.signup(username, password, sector)
+    AuthHelper.instance.signup(username, sector)
 
     def user = User.findByUsername(username)
 
     assert user.username == username
-    assert user.passwordHash == new Sha512Hash(password).toHex()
     assert user.preferredSector == sector
 }
 
@@ -24,17 +21,14 @@ Given(~/^I signed up as "([^"]*)" with password "([^"]*)" and preference for par
     currentUsername = username
 
     waitFor { to SignUpPage }
-    page.proceed(username, sector, password)
+    page.proceed(username, sector)
     waitFor { at HomePage }
 }
 
 And(~/^the user is logged in the system$/) { ->
-    ShiroHelper.login(currentUsername)
+    AuthHelper.instance.login(currentUsername)
 
-    def subject = SecurityUtils.subject
-
-    assert subject.principal == currentUsername
-    assert subject.authenticated
+    assert AuthHelper.instance.currentUsername == currentUsername
 }
 
 def createParkingSpace(String description, String sector, boolean preferential) {

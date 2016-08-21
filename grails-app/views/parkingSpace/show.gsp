@@ -50,15 +50,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${parkingSpaceInstance?.available}">
-				<li class="fieldcontain">
-					<span id="available-label" class="property-label"><g:message code="parkingSpace.available.label" default="Available" /></span>
-					
-						<span class="property-value" aria-labelledby="available-label"><g:formatBoolean boolean="${parkingSpaceInstance?.available}" /></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${parkingSpaceInstance?.preferential}">
 				<li class="fieldcontain">
 					<span id="preferential-label" class="property-label"><g:message code="parkingSpace.preferential.label" default="Preferential" /></span>

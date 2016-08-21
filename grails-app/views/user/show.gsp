@@ -13,6 +13,7 @@
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="show-user" class="content scaffold-show" role="main">
@@ -58,23 +59,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${userInstance?.passwordHash}">
-				<li class="fieldcontain">
-					<span id="passwordHash-label" class="property-label"><g:message code="user.passwordHash.label" default="Password Hash" /></span>
-					
-						<span class="property-value" aria-labelledby="passwordHash-label"><g:fieldValue bean="${userInstance}" field="passwordHash"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${userInstance?.permissions}">
-				<li class="fieldcontain">
-					<span id="permissions-label" class="property-label"><g:message code="user.permissions.label" default="Permissions" /></span>
-					
-						<span class="property-value" aria-labelledby="permissions-label"><g:fieldValue bean="${userInstance}" field="permissions"/></span>
-					
-				</li>
-				</g:if>
 			</ol>
 			<g:form url="[resource:userInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">
@@ -84,6 +68,4 @@
 			</g:form>
 		</div>
 	</body>
-
 </html>
-

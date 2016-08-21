@@ -38,30 +38,3 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'passwordHash', 'error')} required">
-	<label for="passwordHash">
-		<g:message code="user.passwordHash.label" default="Password Hash" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="passwordHash" required="" value="${userInstance?.passwordHash}"/>
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'permissions', 'error')} ">
-	<label for="permissions">
-		<g:message code="user.permissions.label" default="Permissions" />
-		
-	</label>
-	
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'roles', 'error')} ">
-	<label for="roles">
-		<g:message code="user.roles.label" default="Roles" />
-		
-	</label>
-	<g:select name="roles" from="${sistemadevagasdeestacionamento.Role.list()}" multiple="multiple" optionKey="id" size="5" value="${userInstance?.roles*.id}" class="many-to-many"/>
-
-</div>
-

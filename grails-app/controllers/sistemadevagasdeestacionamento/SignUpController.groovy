@@ -1,9 +1,5 @@
 package sistemadevagasdeestacionamento
 
-import org.apache.shiro.authc.UsernamePasswordToken
-import org.apache.shiro.SecurityUtils
-import org.apache.shiro.crypto.hash.Sha512Hash
-
 class SignUpController {
     def index() { }
 
@@ -17,30 +13,16 @@ class SignUpController {
 
             redirect(action: 'index')
         } else {
-            String password = params.password
+            String firstName = params.firstName
+            String lastName = params.lastName
+            String preferredSector = params.preferredSector
 
-            if (password != params.password2) {
-                flash.message = "Passwords do not match"
+            user = new User(username: username, firstName: firstName, lastName: lastName, preferredSector: preferredSector)
+            user.save(flush: true)
 
-                redirect(action: 'index')
-            } else {
-                String firstName = params.firstName
-                String lastName = params.lastName
-                String preferredSector = params.preferredSector
+            AuthHelper.instance.login(username)
 
-                user = new User(username: username, passwordHash: new Sha512Hash(password).toHex(), firstName: firstName, lastName: lastName, preferredSector: preferredSector)
-
-                if (user.save(flush: true)) {
-                    user.addToRoles(Role.findByName('User'))
-                    user.save(flush:true)
-
-                    SecurityUtils.subject.login(new UsernamePasswordToken(username, password))
-
-                    redirect(controller: 'home', action: 'index')
-                } else {
-                    redirect(controller: 'auth', action: 'login')
-                }
-            }
+            redirect(controller: 'home', action: 'index')
         }
     }
 }

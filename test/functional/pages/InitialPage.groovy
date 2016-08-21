@@ -1,3 +1,4 @@
+/*
 package pages
 
 import geb.Page
@@ -21,4 +22,4 @@ class InitialPage extends Page {
         $("div.message").text() == ("O usuário não estacionou em nenhuma vaga")
     }
 
-}
+}*/

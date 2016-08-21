@@ -1,11 +1,10 @@
+/*
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.crypto.hash.Sha512Hash
 import pages.LoginPage
 import pages.ParkingSpaceListPage
-import sistemadevagasdeestacionamento.ParkingSpaceController
 import sistemadevagasdeestacionamento.User
 import sistemadevagasdeestacionamento.ParkingSpace
-import steps.ShiroHelper
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
@@ -174,4 +173,4 @@ Then(~/^I see a message indicating that the parking space was booked with succes
 Then(~/^I see a message indicating that the parking space was not possible book the parking space$/){ ->
     waitFor { at ParkingSpaceListPage }
     assert page.verifyFailBookMessage()
-}
+}*/

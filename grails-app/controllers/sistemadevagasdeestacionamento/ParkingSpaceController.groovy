@@ -3,8 +3,6 @@ package sistemadevagasdeestacionamento
 import grails.converters.JSON
 import grails.transaction.Transactional
 
-import org.apache.shiro.SecurityUtils
-
 @Transactional(readOnly = true)
 class ParkingSpaceController {
     def index() {
@@ -21,6 +19,18 @@ class ParkingSpaceController {
         respond(new ParkingSpace(params))
     }
 
+    def book(ParkingSpace parkingSpaceInstance) {
+        User loggedUser = User.findByUsername(AuthHelper.instance.currentUsername)
+
+        if (parkingSpaceInstance.isAvailable()) {
+            parkingSpaceInstance.owner = loggedUser
+            parkingSpaceInstance.save(flush: true)
+        }
+
+        redirect(action: "index")
+        // TODO: Exibir mensagem de erro caso não seja possível fazer a reserva
+    }
+
     def suggestion() {
         def parkingSpaces = ParkingSpace.list().findAll { parkingSpace ->
             def available = parkingSpace.available
@@ -29,7 +39,7 @@ class ParkingSpaceController {
                 def sector = params.sector.toBoolean()
 
                 if (sector) {
-                    User loggedUser = User.findByUsername(SecurityUtils.subject.principal)
+                    User loggedUser = User.findByUsername(AuthHelper.instance.currentUsername)
 
                     available = available && (parkingSpace.sector == loggedUser.preferredSector)
                 }

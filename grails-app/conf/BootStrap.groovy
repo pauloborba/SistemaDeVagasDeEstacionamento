@@ -1,9 +1,6 @@
-import org.apache.shiro.crypto.hash.Sha512Hash
 import sistemadevagasdeestacionamento.*
 
 class BootStrap {
-    def shiroSecurityService
-
     /**
      * Registrando vagas de estacionamento
      */
@@ -19,14 +16,9 @@ class BootStrap {
     }
 
     def init = { servletContext ->
-        // Por questões de simplificação, só existe um tipo de usuário no sistema
-        def userRole = new Role(name: "User")
-        userRole.save(flush: true)
-
         // Usuário padrão do sistema, esse login quando você desejar logar no sistema
         // sem ter criado um outro usuário previamente
-        def masterUser = new User(username: "master", passwordHash: new Sha512Hash("master").toHex(), firstName: "Usuário", lastName: "Master", preferredSector: "CIn")
-        masterUser.addToRoles(userRole)
+        def masterUser = new User(username: "master", firstName: "Usuário", lastName: "Master", preferredSector: "CIn")
         masterUser.save(flush: true)
 
         // Registra vagas de estacionamento

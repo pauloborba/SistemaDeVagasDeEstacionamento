@@ -1,3 +1,4 @@
+/*
 package pages
 
 import geb.Page
@@ -60,4 +61,4 @@ class ParkingSpaceListPage extends  Page{
 
         $("div.message").text() == helper.getMessage("parkingSpace.not.booked", desc)
     }
-}
+}*/

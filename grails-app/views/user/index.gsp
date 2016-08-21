@@ -32,8 +32,6 @@
 					
 						<g:sortableColumn property="preferredSector" title="${message(code: 'user.preferredSector.label', default: 'Preferred Sector')}" />
 					
-						<g:sortableColumn property="passwordHash" title="${message(code: 'user.passwordHash.label', default: 'Password Hash')}" />
-					
 					</tr>
 				</thead>
 				<tbody>
@@ -48,8 +46,6 @@
 					
 						<td>${fieldValue(bean: userInstance, field: "preferredSector")}</td>
 					
-						<td>${fieldValue(bean: userInstance, field: "passwordHash")}</td>
-					
 					</tr>
 				</g:each>
 				</tbody>
@@ -59,6 +55,4 @@
 			</div>
 		</div>
 	</body>
-
 </html>
-
