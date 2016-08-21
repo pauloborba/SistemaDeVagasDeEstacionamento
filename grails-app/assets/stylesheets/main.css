@@ -65,8 +65,7 @@ body {
 }
 
 a:link, a:visited, a:hover {
-	/*color: #48802c;*/
-	color: inherit
+	color: #48802c;
 }
 
 a:hover, a:active {
@@ -123,7 +122,7 @@ img {
 }
 
 .spinner {
-	background: url(../../../../ExemploDaAulaDeGrails/web-app/images/spinner.gif) 50% 50% no-repeat transparent;
+	background: url(../images/spinner.gif) 50% 50% no-repeat transparent;
 	height: 16px;
 	width: 16px;
     padding: 0.5em;
@@ -192,15 +191,15 @@ img {
 }
 
 .nav a.home {
-	background-image: url(../../../../ExemploDaAulaDeGrails/web-app/images/skin/house.png);
+	background-image: url(../images/skin/house.png);
 }
 
 .nav a.list {
-	background-image: url(../../../../ExemploDaAulaDeGrails/web-app/images/skin/database_table.png);
+	background-image: url(../images/skin/database_table.png);
 }
 
 .nav a.create {
-	background-image: url(../../../../ExemploDaAulaDeGrails/web-app/images/skin/database_add.png);
+	background-image: url(../images/skin/database_add.png);
 }
 
 /* CREATE/EDIT FORMS AND SHOW PAGES */
@@ -360,12 +359,12 @@ fieldset.embedded legend {
 
 .errors li {
 	list-style: none;
-	background: transparent url(../../../../ExemploDaAulaDeGrails/web-app/images/skin/exclamation.png) 0.5em 50% no-repeat;
+	background: transparent url(../images/skin/exclamation.png) 0.5em 50% no-repeat;
 	text-indent: 2.2em;
 }
 
 .message {
-	background: transparent url(../../../../ExemploDaAulaDeGrails/web-app/images/skin/information.png) 0.5em 50% no-repeat;
+	background: transparent url(../images/skin/information.png) 0.5em 50% no-repeat;
 	text-indent: 2.2em;
 }
 
@@ -461,11 +460,11 @@ th.sortable a {
 }
 
 th.asc a {
-	background-image: url(../../../../ExemploDaAulaDeGrails/web-app/images/skin/sorted_asc.gif);
+	background-image: url(../images/skin/sorted_asc.gif);
 }
 
 th.desc a {
-	background-image: url(../../../../ExemploDaAulaDeGrails/web-app/images/skin/sorted_desc.gif);
+	background-image: url(../images/skin/sorted_desc.gif);
 }
 
 .odd {
@@ -474,14 +473,6 @@ th.desc a {
 
 .even {
 	background: #ffffff;
-}
-
-.green {
-	color: green;
-}
-
-.red {
-	color: red;
 }
 
 th:hover, tr:hover {
@@ -588,15 +579,15 @@ th:hover, tr:hover {
 }
 
 .buttons .delete {
-	background-image: url(../../../../ExemploDaAulaDeGrails/web-app/images/skin/database_delete.png);
+	background-image: url(../images/skin/database_delete.png);
 }
 
 .buttons .edit {
-	background-image: url(../../../../ExemploDaAulaDeGrails/web-app/images/skin/database_edit.png);
+	background-image: url(../images/skin/database_edit.png);
 }
 
 .buttons .save {
-	background-image: url(../../../../ExemploDaAulaDeGrails/web-app/images/skin/database_save.png);
+	background-image: url(../images/skin/database_save.png);
 }
 
 a.skip {
