@@ -20,15 +20,60 @@ class ParkingSpaceController {
     }
 
     def book(ParkingSpace parkingSpaceInstance) {
-        User loggedUser = User.findByUsername(AuthHelper.instance.currentUsername)
 
-        if (parkingSpaceInstance.isAvailable()) {
-            parkingSpaceInstance.owner = loggedUser
-            parkingSpaceInstance.save(flush: true)
+        if (parkingSpaceInstance){
+            def username = AuthHelper.instance.currentUsername
+            def user = User.findByUsername(username)
+
+            if (parkingSpaceInstance.isAvailable() && !parkingSpaceInstance.isPreferential()) {
+
+                def lastParkingSpace = ParkingSpace.findByOwner(user)
+
+                if (lastParkingSpace) {
+                    unbook(lastParkingSpace)
+                    response.reset()
+                }
+                parkingSpaceInstance.owner = user
+                parkingSpaceInstance.save(flush: true)
+
+            }else if (!parkingSpaceInstance.isAvailable()){
+                flash.message = message(code: 'default.not.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+
+            }else if (parkingSpaceInstance.isAvailable() && parkingSpaceInstance.isPreferential()){
+
+                if (user.preferential){
+
+                    def lastParkingSpace = ParkingSpace.findByOwner(user)
+
+                    if (lastParkingSpace) {
+                        unbook(lastParkingSpace)
+                        response.reset()
+                    }
+                    parkingSpaceInstance.isPreferential()
+                    parkingSpaceInstance.owner = user
+                    parkingSpaceInstance.save(flush: true)
+
+                }else{
+                    flash.message = message(code: 'default.not.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+                }
+
+            }
+
+        }else{
+            notFound()
         }
-
         redirect(action: "index")
-        // TODO: Exibir mensagem de erro caso não seja possível fazer a reserva
+    }
+
+    def unbook(ParkingSpace parkingSpace) {
+        if(parkingSpace){
+            parkingSpace.owner = null
+            parkingSpace.save(flush: true)
+
+        }else{
+            notFound()
+        }
+        redirect(action: "index")
     }
 
     def suggestion() {

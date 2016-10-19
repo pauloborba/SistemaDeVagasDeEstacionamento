@@ -8,10 +8,11 @@ public final class AuthHelper {
         return mCurrentUsername
     }
 
-    public void signup(String username, String sector) {
-        def user = new User(username: username, firstName: "Primeiro nome", lastName: "Último nome", preferredSector: sector)
+    public static void signup(String username, String sector, boolean preferential) {
+        def user = new User(username: username, firstName: "Primeiro nome", lastName: "Último nome", preferredSector: sector, preferential: preferential)
         user.save(flush:true)
     }
+
 
     public void login(String username) {
         mCurrentUsername = username

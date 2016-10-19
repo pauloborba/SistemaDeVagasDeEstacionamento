@@ -3,37 +3,39 @@ Feature: Parking space booking
   I want to book a parking space
   So I can park on the parking space I'd booked
 
+# Reserva de Vagas Controller
+
+  Scenario: Alterar reserva de vaga
+    Given O sistema possui o usuario "joao" cadastrado com preferencia no setor "CIn" "sem" uso preferencial
+    And O usuario "joao" esta logado no sistema
+    And A vaga "CIn-02" pertence ao setor "CIn" "sem" uso preferencial
+    And A vaga "CIn-06" pertence ao setor "CIn" "sem" uso preferencial
+    And O usuario logado possui uma reserva na vaga "CIn-02"
+    When O usuario logado tenta reservar a vaga "CIn-06"
+    Then O sistema altera a reserva de vaga do usuário "joao" que era "CIn-02" para a vaga "CIn-06"
+
+  Scenario: Falha ao Alterar reserva de vaga por causa de preferencia
+    Given O sistema possui o usuario "joao" cadastrado com preferencia no setor "CIn" "sem" uso preferencial
+    And O usuario "joao" esta logado no sistema
+    And A vaga "CIn-03" pertence ao setor "CIn" "sem" uso preferencial
+    And A vaga "CIn-05" pertence ao setor "CIn" "com" uso preferencial
+    And O usuario logado possui uma reserva na vaga "CIn-03"
+    When O usuario logado tenta reservar a vaga "CIn-05"
+    Then O sistema não permite a reserva da vaga "CIn-05"
+
+# Reserva de Vagas Web
   @ignore
-  Scenario: Book parking space
-    Given the system has the user "rjss" with password "123" with "CCEN" as prefered sector
-    And the user logged in the system
-    And the parking space "CIN-01" is available in the system
-    When the user tries to book the parking space "CIN-01"
-    Then the system books the parking space for the user
+  Scenario: Alterar reserva de vaga web
+    Given Eu estou logado no sistema como "Joao"
+    And Eu estou na tela inicial
+    And Eu seleciono a opcao "Parking spot list" no menu inicial
+    When Eu seleciono a opcao "Reservar" na vaga com descricao "N6-CIn"
+    Then O sistema apresenta uma mensagem de vaga reservada com sucesso
 
   @ignore
-  Scenario: Try to book an unavailable parking space
-    Given the system has the user "rjss" with password "123" with "CCEN" as prefered sector
-    And the user logged in the system
-    And the parking space "CIN-01" isn't available in the system
-    When the user tries to book the unavailable parking space "CIN-01"
-    Then the system doesn't change its state
-
-  @ignore
-  Scenario: Book parking space web
-    Given I am active with login "reuel.jonathan" and password "123"
-    And The parking space "CIN-02" in the sector "CIn" is stored
-    And I am at the parking space list page
-    And I see the parking space "CIN-02" available in the list
-    When I ask to book the parking space "CIN-02" available
-    Then I see a message indicating that the parking space was booked with success
-
-  @ignore
-  Scenario: Try to book an unavailable parking space web
-    Given I am active with login "reuel.jonathan" and password "123"
-    And The parking space "CIN-03" in the sector "CIn" is stored
-    And I am at the parking space list page
-    And I see the parking space "CIN-03" available in the list
-    And Other user books the parking space "CIN-03" before me
-    When I ask to book the parking space "CIN-03" available
-    Then I see a message indicating that the parking space was not possible book the parking space
+  Scenario: Falha ao tentar reservar vaga por causa de preferencia web
+    Given Eu estou logado no sistema como "Joao"
+    And Eu estou na tela inicial
+    And Eu seleciono a opcao "Parking spot list" no menu inicial
+    When Eu seleciono a opcao "Reservar" na vaga com descricao "N5-CIn"
+    Then O sistema apresenta uma mensagem de que a vaga nao pode ser reservada

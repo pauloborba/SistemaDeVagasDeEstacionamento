@@ -38,3 +38,12 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'preferential', 'error')} ">
+	<label for="preferential">
+		<g:message code="user.preferential.label" default="Preferential" />
+		
+	</label>
+	<g:checkBox name="preferential" value="${userInstance?.preferential}" />
+
+</div>
+

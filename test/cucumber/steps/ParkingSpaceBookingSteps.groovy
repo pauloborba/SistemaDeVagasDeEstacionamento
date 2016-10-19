@@ -1,19 +1,14 @@
-/*
-import org.apache.shiro.SecurityUtils
-import org.apache.shiro.crypto.hash.Sha512Hash
-import pages.LoginPage
-import pages.ParkingSpaceListPage
-import sistemadevagasdeestacionamento.User
+import sistemadevagasdeestacionamento.AuthHelper
+
+//import pages.ParkingSpaceListPage
 import sistemadevagasdeestacionamento.ParkingSpace
+import sistemadevagasdeestacionamento.User
+import steps.ParkingSpaceTestDataAndOperations
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
-def currentUsername
-def parkingSpaceDescription
-def parkingSpace
-def user
-
+/*
 Given(~/^the system has the user "([^"]*)" with password "([^"]*)" with "([^"]*)" as prefered sector$/){ String username, String password, String sector ->
     currentUsername = username
 
@@ -174,3 +169,99 @@ Then(~/^I see a message indicating that the parking space was not possible book 
     waitFor { at ParkingSpaceListPage }
     assert page.verifyFailBookMessage()
 }*/
+
+////GUI Steps
+//And(~/^Eu seleciono a opcao "([^"]*)" no menu inicial$/) { String arg1 ->
+//    // Write code here that turns the phrase above into concrete actions
+////    throw new PendingException()
+//}
+//And(~/^Eu estou na tela inicial$/) { ->
+//    // Write code here that turns the phrase above into concrete actions
+////    throw new PendingException()
+//}
+//When(~/^Eu seleciono a opcao "([^"]*)" na vaga com descricao "([^"]*)"$/) { String arg1, String arg2 ->
+//    // Write code here that turns the phrase above into concrete actions
+////    throw new PendingException()
+//}
+//Then(~/^O sistema apresenta uma mensagem de vaga reservada com sucesso$/) { ->
+//    // Write code here that turns the phrase above into concrete actions
+////    throw new PendingException()
+//}
+//Then(~/^O sistema apresenta uma mensagem de que a vaga nao pode ser reservada$/) { ->
+//    // Write code here that turns the phrase above into concrete actions
+////    throw new PendingException()
+//}
+
+//Controller
+Given(~/^O sistema possui o usuario "([^"]*)" cadastrado com preferencia no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String username, String sector, String preferential_tag ->
+    def preferential = false
+
+    if (preferential_tag == "com"){
+        preferential = true
+    }
+
+    AuthHelper.instance.signup(username, sector, preferential)
+
+    def user = User.findByUsername(username)
+
+    assert user.preferential == preferential
+    assert user.username == username
+    assert user.preferredSector == sector
+}
+
+And(~/^O usuario "([^"]*)" esta logado no sistema$/) { String username ->
+    AuthHelper.instance.login(username)
+
+    assert AuthHelper.instance.currentUsername == username
+}
+
+And(~/^A vaga "([^"]*)" pertence ao setor "([^"]*)" "([^"]*)" uso preferencial$/) { String vaga, String setor, String preferential_tag ->
+
+    def preferential = false
+
+    if (preferential_tag == "com"){
+        preferential = true
+    }
+
+    ParkingSpaceTestDataAndOperations.createParkingSpace(vaga, setor, preferential)
+    ParkingSpace parkingSpace = ParkingSpace.findByDescription(vaga)
+
+    assert parkingSpace?.description == vaga
+    assert parkingSpace?.sector == setor
+}
+
+And(~/^O usuario logado possui uma reserva na vaga "([^"]*)"$/) { String description ->
+    def currentUsername = AuthHelper.instance.currentUsername
+    def currentUser = User.findByUsername(currentUsername)
+
+    def currentParkingSpace = ParkingSpace.findByDescription(description)
+    ParkingSpaceTestDataAndOperations.bookParkingSpace(currentParkingSpace);
+
+    assert currentParkingSpace.owner == currentUser
+}
+
+When(~/^O usuario logado tenta reservar a vaga "([^"]*)"$/) {String description ->
+
+    def currentParkingSpace = ParkingSpace.findByDescription(description)
+    assert currentParkingSpace != null
+
+    ParkingSpaceTestDataAndOperations.bookParkingSpace(currentParkingSpace)
+}
+
+Then(~/^O sistema altera a reserva de vaga do usuário "([^"]*)" que era "([^"]*)" para a vaga "([^"]*)"$/) { String username, String vaga1, String vaga2 ->
+    def currentUser = User.findByUsername(username)
+    def pastParkingSpace = ParkingSpace.findByDescription(vaga1)
+    def currentParkingSpace = ParkingSpace.findByDescription(vaga2)
+
+    assert pastParkingSpace.isAvailable()
+    assert currentParkingSpace.owner == currentUser
+    assert !currentParkingSpace.isAvailable()
+}
+
+Then(~/^O sistema não permite a reserva da vaga "([^"]*)"$/) { String vaga ->
+    def currentUsername = AuthHelper.instance.currentUsername
+    def currentUser = User.findByUsername(currentUsername)
+    def pastParkingSpace = ParkingSpace.findByDescription(vaga)
+
+    assert pastParkingSpace.owner != currentUser
+}
