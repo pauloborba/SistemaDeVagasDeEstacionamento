@@ -50,6 +50,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${parkingSpaceInstance?.book}">
+				<li class="fieldcontain">
+					<span id="book-label" class="property-label"><g:message code="parkingSpace.book.label" default="Book" /></span>
+					
+						<span class="property-value" aria-labelledby="book-label"><g:link controller="book" action="show" id="${parkingSpaceInstance?.book?.id}">${parkingSpaceInstance?.book?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${parkingSpaceInstance?.preferential}">
 				<li class="fieldcontain">
 					<span id="preferential-label" class="property-label"><g:message code="parkingSpace.preferential.label" default="Preferential" /></span>

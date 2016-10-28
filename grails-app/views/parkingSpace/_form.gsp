@@ -29,6 +29,15 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: parkingSpaceInstance, field: 'book', 'error')} ">
+	<label for="book">
+		<g:message code="parkingSpace.book.label" default="Book" />
+		
+	</label>
+	<g:select id="book" name="book.id" from="${sistemadevagasdeestacionamento.Book.list()}" optionKey="id" value="${parkingSpaceInstance?.book?.id}" class="many-to-one" noSelection="['null': '']"/>
+
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: parkingSpaceInstance, field: 'preferential', 'error')} ">
 	<label for="preferential">
 		<g:message code="parkingSpace.preferential.label" default="Preferential" />

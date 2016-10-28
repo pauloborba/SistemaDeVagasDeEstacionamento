@@ -27,7 +27,7 @@ class ParkingSpaceController {
             parkingSpaceInstance.save(flush: true)
         }
 
-        redirect(action: "index")
+        redirect(controller: "book", action: "create", params: [bookInstance: new Book(parkingSpace: parkingSpaceInstance)], method: "POST")
         // TODO: Exibir mensagem de erro caso não seja possível fazer a reserva
     }
 
