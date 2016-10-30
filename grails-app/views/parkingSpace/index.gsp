@@ -48,7 +48,7 @@
                                 <g:link action="book" id="${parkingSpaceInstance.id}">Reservar</g:link>
                             </g:else>
                         </td>
-					
+
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "description")}</td>
 					
 						<td>${fieldValue(bean: parkingSpaceInstance, field: "sector")}</td>
