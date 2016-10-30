@@ -26,8 +26,9 @@ class ParkingSpaceController {
             parkingSpaceInstance.owner = loggedUser
             parkingSpaceInstance.save(flush: true)
         }
-
-        redirect(controller: "book", action: "create", params: [bookInstance: new Book(parkingSpace: parkingSpaceInstance)], method: "POST")
+        def inHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY), outHour = inHour
+        redirect(controller: "book", action: "create",
+                params: [parkingSpace: parkingSpaceInstance, inHour: inHour, outHour: outHour], method: "POST")
         // TODO: Exibir mensagem de erro caso não seja possível fazer a reserva
     }
 

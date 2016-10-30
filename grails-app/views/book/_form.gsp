@@ -7,7 +7,8 @@
 		<g:message code="book.parkingSpace.label" default="Parking Space" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="parkingSpace" name="parkingSpace.id" from="${sistemadevagasdeestacionamento.ParkingSpace.list()}" optionKey="id" required="" value="${bookInstance?.parkingSpace?.id}" class="many-to-one"/>
+	<g:select id="parkingSpace" name="parkingSpace.id" from="${sistemadevagasdeestacionamento.ParkingSpace.list()}"
+              optionKey="id" required="" value="${fieldValue(bean: bookInstance, field: 'parkingSpace.id')}" class="many-to-one"/>
 
 </div>
 

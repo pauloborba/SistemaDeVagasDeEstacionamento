@@ -20,7 +20,9 @@ class BookController {
     }
 
     def create() {
-        respond new Book(params)
+        println params.parkingSpace
+        def parkingSpace = ParkingSpace.findByDescription(params.parkingSpace)
+        respond new Book(parkingSpace: parkingSpace, inHour: params.inHour, outHour: params.outHour)
     }
 
     @Transactional
