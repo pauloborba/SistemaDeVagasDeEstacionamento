@@ -1,10 +1,7 @@
-import cucumber.api.PendingException
-import net.sf.ehcache.search.expression.And
 import pages.*
 import sistemadevagasdeestacionamento.AuthHelper
 
 import sistemadevagasdeestacionamento.ParkingSpace
-import sistemadevagasdeestacionamento.ParkingSpaceController
 import sistemadevagasdeestacionamento.User
 import steps.ParkingSpaceTestDataAndOperations
 

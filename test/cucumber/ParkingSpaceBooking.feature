@@ -12,7 +12,7 @@ Feature: Parking space booking
     And O usuario logado possui uma reserva na vaga "CIn-02"
     When O usuario logado tenta reservar a vaga "CIn-06"
     Then O sistema altera a reserva de vaga do usuário "joao" que era "CIn-02" para a vaga "CIn-06"
-
+    
   Scenario: Falha ao Alterar reserva de vaga por causa de preferencia
     Given O sistema possui o usuario "joao" cadastrado com preferencia no setor "CIn" "sem" uso preferencial
     And O usuario "joao" esta logado no sistema
@@ -23,6 +23,7 @@ Feature: Parking space booking
     Then O sistema não permite a reserva da vaga "CIn-05"
 
 # Reserva de Vagas Web
+
   Scenario: Alterar reserva de vaga web
     Given Eu estou logado no sistema como "Joao" com preferencia no setor "CIn" "sem" uso preferencial
     And Eu estou na pagina de home
@@ -45,3 +46,4 @@ Feature: Parking space booking
     And Eu vou para a pagina de listagem de vagas
     And Eu tento reservar a vaga com descricao "CIn-07"
     Then Uma mensagem de error aparece na tela
+

@@ -26,7 +26,6 @@ class ParkingSpaceController {
             def user = User.findByUsername(username)
 
             if (parkingSpaceInstance.isAvailable() && !parkingSpaceInstance.isPreferential()) {
-                response.reset()
 
                 def lastParkingSpace = ParkingSpace.findByOwner(user)
 
@@ -76,6 +75,7 @@ class ParkingSpaceController {
         }else{
             notFound()
         }
+
     }
 
     def suggestion() {
