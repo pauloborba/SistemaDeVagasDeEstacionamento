@@ -36,7 +36,6 @@
                         <td>Preferential:</td>
                         <td><g:checkBox name="preferential" value="${false}" /></td>
                     </tr>
-
                     <tr>
                         <td/>
                         <td><input type="submit" name="signUp" value="Sign up"/></td>

@@ -46,4 +46,3 @@ Feature: Parking space booking
     And Eu vou para a pagina de listagem de vagas
     And Eu tento reservar a vaga com descricao "CIn-07"
     Then Uma mensagem de error aparece na tela
-

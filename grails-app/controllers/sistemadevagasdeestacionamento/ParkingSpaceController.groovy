@@ -66,6 +66,8 @@ class ParkingSpaceController {
         redirect(action: "index")
     }
 
+
+
     @Transactional
     def unbook(ParkingSpace parkingSpace) {
         if(parkingSpace){
@@ -75,7 +77,6 @@ class ParkingSpaceController {
         }else{
             notFound()
         }
-
     }
 
     def suggestion() {

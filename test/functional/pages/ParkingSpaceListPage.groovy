@@ -7,7 +7,6 @@ class ParkingSpaceListPage extends Page {
     static url = 'parkingSpace/index'
 
     static at = {
-
         InternationalizationHelper helper = InternationalizationHelper.instance
 
         String parkingSpace = "ParkingSpace"

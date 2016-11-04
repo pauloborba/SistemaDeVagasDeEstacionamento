@@ -1,6 +1,6 @@
 import pages.*
-import sistemadevagasdeestacionamento.AuthHelper
 
+import sistemadevagasdeestacionamento.AuthHelper
 import sistemadevagasdeestacionamento.ParkingSpace
 import sistemadevagasdeestacionamento.User
 import steps.ParkingSpaceTestDataAndOperations
@@ -243,6 +243,7 @@ Then(~/^O sistema não permite a reserva da vaga "([^"]*)"$/) { String vaga ->
 
     assert pastParkingSpace.owner != currentUser
 }
+
 
 // GUI Scenarios
 Given(~/^Eu estou logado no sistema como "([^"]*)" com preferencia no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String username, String sector, String preferential_tag ->
