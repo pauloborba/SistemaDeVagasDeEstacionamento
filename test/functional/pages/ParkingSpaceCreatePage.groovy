@@ -3,7 +3,7 @@ package pages
 import geb.Page
 import steps.InternationalizationHelper;
 
-class CreateParkingSpacePage extends Page {
+class ParkingSpaceCreatePage extends Page {
     static url = "/parkingSpace/create"
 
     static at = {
@@ -18,9 +18,8 @@ class CreateParkingSpacePage extends Page {
     def createParkingSpace(String description, String sector, boolean preferential) {
         $("input[name='description']").value(description)
         $("select[name='sector']").value(sector)
-        $("checkBox[name='preferential']").value(preferential)
+        $("input[name='preferential']").value(preferential)
         $("input[name='create']").click()
     }
-
 
 }

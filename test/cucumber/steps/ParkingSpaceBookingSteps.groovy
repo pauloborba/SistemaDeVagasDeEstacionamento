@@ -1,7 +1,10 @@
+import cucumber.api.PendingException
+import net.sf.ehcache.search.expression.And
+import pages.*
 import sistemadevagasdeestacionamento.AuthHelper
 
-//import pages.ParkingSpaceListPage
 import sistemadevagasdeestacionamento.ParkingSpace
+import sistemadevagasdeestacionamento.ParkingSpaceController
 import sistemadevagasdeestacionamento.User
 import steps.ParkingSpaceTestDataAndOperations
 
@@ -170,28 +173,6 @@ Then(~/^I see a message indicating that the parking space was not possible book 
     assert page.verifyFailBookMessage()
 }*/
 
-////GUI Steps
-//And(~/^Eu seleciono a opcao "([^"]*)" no menu inicial$/) { String arg1 ->
-//    // Write code here that turns the phrase above into concrete actions
-////    throw new PendingException()
-//}
-//And(~/^Eu estou na tela inicial$/) { ->
-//    // Write code here that turns the phrase above into concrete actions
-////    throw new PendingException()
-//}
-//When(~/^Eu seleciono a opcao "([^"]*)" na vaga com descricao "([^"]*)"$/) { String arg1, String arg2 ->
-//    // Write code here that turns the phrase above into concrete actions
-////    throw new PendingException()
-//}
-//Then(~/^O sistema apresenta uma mensagem de vaga reservada com sucesso$/) { ->
-//    // Write code here that turns the phrase above into concrete actions
-////    throw new PendingException()
-//}
-//Then(~/^O sistema apresenta uma mensagem de que a vaga nao pode ser reservada$/) { ->
-//    // Write code here that turns the phrase above into concrete actions
-////    throw new PendingException()
-//}
-
 //Controller
 Given(~/^O sistema possui o usuario "([^"]*)" cadastrado com preferencia no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String username, String sector, String preferential_tag ->
     def preferential = false
@@ -264,4 +245,88 @@ Then(~/^O sistema não permite a reserva da vaga "([^"]*)"$/) { String vaga ->
     def pastParkingSpace = ParkingSpace.findByDescription(vaga)
 
     assert pastParkingSpace.owner != currentUser
+}
+
+// GUI Scenarios
+Given(~/^Eu estou logado no sistema como "([^"]*)" com preferencia no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String username, String sector, String preferential_tag ->
+    def preferential = false
+    if (preferential_tag == "com"){
+        preferential = true
+    }
+
+    waitFor { to SignUpPage }
+    page.proceed(username, sector, preferential)
+    waitFor { at HomePage }
+    assert AuthHelper.instance.currentUsername != null
+}
+
+And(~/^Eu estou na pagina de home/) { ->
+    at HomePage
+}
+
+When(~/^Eu vou para a pagina de listagem de vagas$/) { ->
+    page.goToParkingSpotList()
+    at ParkingSpaceListPage
+}
+
+When(~/^Eu vou para a pagina de criacao de vaga$/) { ->
+    waitFor { at ParkingSpaceListPage }
+    page.goToCreateParkingSpace()
+    at ParkingSpaceCreatePage
+}
+
+And(~/^Eu estou na tela de criacao de vagas/) { ->
+    to ParkingSpaceCreatePage
+    at ParkingSpaceCreatePage
+}
+
+And(~/^Eu estou na pagina de listagem de vagas$/) { ->
+    at ParkingSpaceListPage
+}
+
+And(~/^Eu crio uma vaga com descricao "([^"]*)", no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String descricao, String setor, String preferencial ->
+    boolean preferential = false
+
+    if (preferencial == "com"){
+        preferential = true
+    }
+    page.createParkingSpace(descricao, setor, preferential)
+    at ParkingSpaceShowPage
+    page.goToParkingSpaceListPage()
+    at ParkingSpaceListPage
+}
+
+When(~/^Eu reservo a vaga com descricao "([^"]*)"$/) { String description ->
+    def currentUsername = AuthHelper.instance.currentUsername
+    at ParkingSpaceListPage
+    assert page.bookParkingSpace(description)
+    assert page.checkParkingSpace(description, currentUsername)
+}
+
+And(~/^Eu tento reservar a vaga com descricao "([^"]*)"$/) { String description ->
+    def currentUsername = AuthHelper.instance.currentUsername
+    at ParkingSpaceListPage
+    assert page.bookParkingSpace(description)
+    assert !page.checkParkingSpace(description, currentUsername)
+}
+
+And(~/^Eu possuo uma reserva na vaga "([^"]*)"$/) { String descricao ->
+    def currentUsername = AuthHelper.instance.currentUsername
+    assert page.checkParkingSpace(descricao, currentUsername)
+}
+
+
+And(~/^Eu nao possuo uma reserva na vaga "([^"]*)"$/) { String descricao ->
+    def currentUsername = AuthHelper.instance.currentUsername
+    assert !page.checkParkingSpace(descricao, currentUsername)
+}
+
+Then(~/^Uma mensagem de error aparece na tela$/) { ->
+    assert !page.checkSuccessMessage()
+}
+
+Then(~/^Eu vejo minha vaga ser alterada da vaga "([^"]*)" para a vaga "([^"]*)"$/) { String vaga1, String vaga2 ->
+    def currentUsername = AuthHelper.instance.currentUsername
+    assert !page.checkParkingSpace(vaga1, currentUsername)
+    assert page.checkParkingSpace(vaga2, currentUsername)
 }

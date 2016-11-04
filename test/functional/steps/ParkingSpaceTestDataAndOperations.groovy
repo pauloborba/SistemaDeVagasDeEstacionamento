@@ -9,7 +9,6 @@ class ParkingSpaceTestDataAndOperations {
 
     static public void createParkingSpace(String description, String sector, boolean preferential) {
         def parkingSpaceController = new ParkingSpaceController()
-        parkingSpaceController.create()
         parkingSpaceController.save(new ParkingSpace([owner:null, description: description, sector: sector, preferential: preferential]))
         parkingSpaceController.response.reset()
     }

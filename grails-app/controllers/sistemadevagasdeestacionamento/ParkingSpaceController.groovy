@@ -26,6 +26,7 @@ class ParkingSpaceController {
             def user = User.findByUsername(username)
 
             if (parkingSpaceInstance.isAvailable() && !parkingSpaceInstance.isPreferential()) {
+                response.reset()
 
                 def lastParkingSpace = ParkingSpace.findByOwner(user)
 
@@ -35,6 +36,7 @@ class ParkingSpaceController {
                 }
                 parkingSpaceInstance.owner = user
                 parkingSpaceInstance.save(flush: true)
+                flash.message = message(code: 'default.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
 
             }else if (!parkingSpaceInstance.isAvailable()){
                 flash.message = message(code: 'default.not.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
@@ -52,7 +54,7 @@ class ParkingSpaceController {
                     parkingSpaceInstance.isPreferential()
                     parkingSpaceInstance.owner = user
                     parkingSpaceInstance.save(flush: true)
-
+                    flash.message = message(code: 'default.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
                 }else{
                     flash.message = message(code: 'default.not.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
                 }
@@ -65,6 +67,7 @@ class ParkingSpaceController {
         redirect(action: "index")
     }
 
+    @Transactional
     def unbook(ParkingSpace parkingSpace) {
         if(parkingSpace){
             parkingSpace.owner = null
@@ -73,7 +76,6 @@ class ParkingSpaceController {
         }else{
             notFound()
         }
-        redirect(action: "index")
     }
 
     def suggestion() {

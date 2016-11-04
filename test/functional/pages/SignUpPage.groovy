@@ -9,11 +9,12 @@ class SignUpPage extends Page {
         title ==~ /Sign up/
     }
 
-    def proceed(String username, String preferredSector) {
+    def proceed(String username, String preferredSector, boolean preferential) {
         $("input[name='username']").value(username)
         $("input[name='firstName']").value("Primeiro nome")
         $("input[name='lastName']").value("Último nome")
         $("select[name='preferredSector']").value(preferredSector)
+        $("input[name='preferential']").value(preferential)
         $("input[name='signUp']").click()
     }
 }

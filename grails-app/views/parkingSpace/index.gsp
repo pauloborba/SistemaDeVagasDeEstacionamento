@@ -34,13 +34,13 @@
                 </thead>
                 <tbody>
                     <g:each in="${parkingSpaceInstanceList}" status="i" var="parkingSpaceInstance">
-                        <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+                        <tr id="${parkingSpaceInstance.id}" class="${(i % 2) == 0 ? 'even' : 'odd'}">
                             <td>
                                 <g:if test="${parkingSpaceInstance.owner}">
-                                    <g:fieldValue bean="${parkingSpaceInstance}" field="owner.firstName" />
+                                    <h4 id="${parkingSpaceInstance.id}"><g:fieldValue bean="${parkingSpaceInstance}" field="owner.username" /></h4>
                                 </g:if>
                                 <g:else>
-                                    <g:link action="book" id="${parkingSpaceInstance.id}">Reservar</g:link>
+                                    <g:link id="${parkingSpaceInstance.id}" action="book"><h4 id="${parkingSpaceInstance.id}">Reservar</h4></g:link>
                                 </g:else>
                             </td>
                             <td>${fieldValue(bean: parkingSpaceInstance, field: "description")}</td>

@@ -31,6 +31,10 @@
                         <td>Preferred sector:</td>
                         <td><g:select name="preferredSector" from="${User.constraints.preferredSector.inList}"/></td>
                     </tr>
+                    <tr>
+                        <td>Preferential:</td>
+                        <td><g:checkBox name="preferential" value="${false}" /></td>
+                    </tr>
 
                     <tr>
                         <td/>
