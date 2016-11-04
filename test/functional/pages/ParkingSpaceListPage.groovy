@@ -1,6 +1,7 @@
 package pages
 
 import geb.Page
+import sistemadevagasdeestacionamento.ParkingSpace
 import steps.InternationalizationHelper
 
 class ParkingSpaceListPage extends Page {
