@@ -18,4 +18,8 @@ class ParkingSpaceShowPage extends Page {
     def goToParkingSpaceListPage() {
         $("a[class='list']").click()
     }
+
+    def goToCreateParkingSpacePage() {
+        $("a[class='create']").click()
+    }
 }

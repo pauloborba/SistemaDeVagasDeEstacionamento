@@ -1,3 +1,4 @@
+import cucumber.api.PendingException
 import pages.*
 
 import sistemadevagasdeestacionamento.AuthHelper
@@ -262,14 +263,14 @@ And(~/^Eu estou na pagina de home/) { ->
     at HomePage
 }
 
-When(~/^Eu vou para a pagina de listagem de vagas$/) { ->
-    page.goToParkingSpotList()
+And(~/^Eu vou para a pagina de listagem de vagas$/) { ->
+    page.goToParkingSpotListPage()
     at ParkingSpaceListPage
 }
 
-When(~/^Eu vou para a pagina de criacao de vaga$/) { ->
+And(~/^Eu vou para a pagina de criacao de vaga$/) { ->
     waitFor { at ParkingSpaceListPage }
-    page.goToCreateParkingSpace()
+    page.goToCreateParkingSpacePage()
     at ParkingSpaceCreatePage
 }
 
@@ -301,6 +302,13 @@ When(~/^Eu reservo a vaga com descricao "([^"]*)"$/) { String description ->
     assert page.checkParkingSpace(description, currentUsername)
 }
 
+
+Then(~/^Eu vejo minha vaga ser alterada da vaga "([^"]*)" para a vaga "([^"]*)"$/) { String vaga1, String vaga2 ->
+    def currentUsername = AuthHelper.instance.currentUsername
+    assert !page.checkParkingSpace(vaga1, currentUsername)
+    assert page.checkParkingSpace(vaga2, currentUsername)
+}
+
 And(~/^Eu tento reservar a vaga com descricao "([^"]*)"$/) { String description ->
     def currentUsername = AuthHelper.instance.currentUsername
     at ParkingSpaceListPage
@@ -313,7 +321,6 @@ And(~/^Eu possuo uma reserva na vaga "([^"]*)"$/) { String descricao ->
     assert page.checkParkingSpace(descricao, currentUsername)
 }
 
-
 And(~/^Eu nao possuo uma reserva na vaga "([^"]*)"$/) { String descricao ->
     def currentUsername = AuthHelper.instance.currentUsername
     assert !page.checkParkingSpace(descricao, currentUsername)
@@ -323,8 +330,4 @@ Then(~/^Uma mensagem de error aparece na tela$/) { ->
     assert !page.checkSuccessMessage()
 }
 
-Then(~/^Eu vejo minha vaga ser alterada da vaga "([^"]*)" para a vaga "([^"]*)"$/) { String vaga1, String vaga2 ->
-    def currentUsername = AuthHelper.instance.currentUsername
-    assert !page.checkParkingSpace(vaga1, currentUsername)
-    assert page.checkParkingSpace(vaga2, currentUsername)
-}
+

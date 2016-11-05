@@ -9,19 +9,19 @@ class HomePage extends Page {
         title ==~ "Home"
     }
 
-    def goToSuggestions() {
+    def goToSuggestionsPage() {
         $("a[name='suggestions']").click()
     }
 
-    def goToParkingSpotList() {
+    def goToParkingSpotListPage() {
         $("a[name='spotlist']").click()
     }
 
-    def goToMyProfile() {
+    def goToMyProfilePage() {
         $("a[name='profile']").click()
     }
 
-    def goToParkingSpotListReminder() {
+    def goToParkingSpotListReminderPage() {
         $("a[name='reminder']").click()
     }
 }
