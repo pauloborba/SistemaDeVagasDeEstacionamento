@@ -55,7 +55,7 @@
 
                         <td>
                             <g:if test="${parkingSpaceInstance.book}">
-                                <g:fieldValue bean="${parkingSpaceInstance}" field="book" />
+								<span style="color: ${parkingSpaceInstance.book.status}">${parkingSpaceInstance.book}</span>
                             </g:if>
                             <g:else>
                                 Disponível

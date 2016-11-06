@@ -7,6 +7,16 @@ import grails.transaction.Transactional
 class ParkingSpaceController {
     def index() {
         def parkingSpaces = ParkingSpace.list()
+        def currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+
+        parkingSpaces.each {ps ->
+            if (ps.book) {
+                ps.book.status = (ps.book.outHour < currentHour) ? "red" : "green"
+                ps.save(flush: true)
+                println ps.description
+                println ps.book.status
+            }
+        }
 
         respond(parkingSpaces, model: [parkingSpaceInstanceCount: parkingSpaces.size()])
     }

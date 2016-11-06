@@ -5,6 +5,7 @@ class Book {
 
     Integer inHour
     Integer outHour
+    String status = "red"
 
     static constraints = {
         parkingSpace unique: true, display: false
