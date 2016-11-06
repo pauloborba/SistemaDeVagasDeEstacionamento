@@ -8,7 +8,7 @@ import sistemadevagasdeestacionamento.User
  */
 class CreateProblemReportPage extends Page{
 
-    def titulo = "Criar ProblemReport"
+    def titulo = "Create ProblemReport"
     static url = "/SistemaDeVagasDeEstacionamento/problemReport/create"
 
     static at = {
