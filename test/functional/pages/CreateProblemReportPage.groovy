@@ -2,17 +2,23 @@ package pages
 
 import geb.Page
 import sistemadevagasdeestacionamento.User
+import steps.InternationalizationHelper
 
 /**
  * Created by João Pedro on 03/11/2016.
  */
 class CreateProblemReportPage extends Page{
 
-    def titulo = "Create ProblemReport"
+
     static url = "/SistemaDeVagasDeEstacionamento/problemReport/create"
 
     static at = {
-        title ==~ titulo
+        InternationalizationHelper helper = InternationalizationHelper.instance
+        String problemReport = "ProblemReport"
+        String createProblemReport = helper.getMessage("default.create.label", problemReport)
+
+        title ==~ createProblemReport
+
     }
 
     def fillProblemReportInformations(String title,String sector, String description){
@@ -27,11 +33,7 @@ class CreateProblemReportPage extends Page{
     }
 
     def boolean hasErrors(){
-        if($(".errors") == null){
-            return false
-        }else{
-            return true
-        }
+        return $(".errors") != null
     }
 
 }
