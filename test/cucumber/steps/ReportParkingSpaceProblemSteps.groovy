@@ -29,7 +29,6 @@ When(~/the user tries to send the report with Title "([^"]*)", Sector "([^"]*)" 
     def user = User.findByUsername(username)
     ProblemReportTestDataAndOperations.createProblemReport(user, title, sector, description)
     def currentProblemReport = ProblemReport.findByTitle(title)
-
     assert currentProblemReport != null
 
 }
