@@ -29,8 +29,7 @@ class UserController {
             respond userInstance.errors, view:'create'
             return
         }
-
-        userInstance.save flush:true
+        userInstance.save(flush: true)
 
         request.withFormat {
             form multipartForm {

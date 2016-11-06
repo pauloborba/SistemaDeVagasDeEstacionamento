@@ -15,7 +15,7 @@ class ParkingSpaceShowPage extends Page {
         title ==~ pageTitle
     }
 
-    def goToParkingSpaceListPage() {
+    def goToParkingSpotListPage() {
         $("a[class='list']").click()
     }
 

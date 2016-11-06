@@ -23,15 +23,16 @@ Feature: Parking space booking
     Then O sistema não permite a reserva da vaga "CIn-05"
 
 # Reserva de Vagas Web
-
   Scenario: Alterar reserva de vaga web
     Given Eu estou logado no sistema como "Joao" com preferencia no setor "CIn" "sem" uso preferencial
     And Eu estou na pagina de home
     And Eu vou para a pagina de listagem de vagas
     And Eu vou para a pagina de criacao de vaga
     And Eu crio uma vaga com descricao "CIn-02", no setor "CIn" "sem" uso preferencial
+    And Eu estou na pagina de visualizacao da vaga
     And Eu vou para a pagina de criacao de vaga
     And Eu crio uma vaga com descricao "CIn-06", no setor "CIn" "sem" uso preferencial
+    And Eu estou na pagina de visualizacao da vaga
     And Eu vou para a pagina de listagem de vagas
     And Eu reservo a vaga com descricao "CIn-02"
     When Eu reservo a vaga com descricao "CIn-06"
@@ -40,9 +41,10 @@ Feature: Parking space booking
   Scenario: Falha ao tentar reservar vaga por causa de preferencia web
     Given Eu estou logado no sistema como "Lucas" com preferencia no setor "CIn" "sem" uso preferencial
     And Eu estou na pagina de home
-    When Eu vou para a pagina de listagem de vagas
+    And Eu vou para a pagina de listagem de vagas
     And Eu vou para a pagina de criacao de vaga
     And Eu crio uma vaga com descricao "CIn-07", no setor "CIn" "com" uso preferencial
+    And Eu estou na pagina de visualizacao da vaga
     And Eu vou para a pagina de listagem de vagas
-    And Eu tento reservar a vaga com descricao "CIn-07"
+    When Eu tento reservar a vaga com descricao "CIn-07"
     Then Uma mensagem de error aparece na tela
