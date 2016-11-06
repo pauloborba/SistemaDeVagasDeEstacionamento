@@ -14,6 +14,8 @@
         <br> <g:link controller="parkingSpace" action="suggestion" name="suggestions">Parking spot suggestions</g:link>
         <br> <g:link controller="user" action="index">My profile</g:link>
         <br> <g:link class="reminder-link" controller="user" action="lembrete" id="${userInstance.id}">Lembrete de vaga</g:link>
+        <!-- adicionei -->
+        <br> <g:link controller="problemReport" action="create" name="report">Reportar problemas com vaga</g:link>
 
         <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>

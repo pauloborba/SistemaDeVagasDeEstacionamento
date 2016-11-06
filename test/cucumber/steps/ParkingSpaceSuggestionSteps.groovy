@@ -19,7 +19,6 @@ Given(~/^the system has stored the user "([^"]*)" with password "([^"]*)" and pr
 
 Given(~/^I signed up as "([^"]*)" with password "([^"]*)" and preference for parking spaces in the "([^"]*)" sector$/) { String username, String password, String sector ->
     currentUsername = username
-
     waitFor { to SignUpPage }
     page.proceed(username, sector)
     waitFor { at HomePage }
@@ -36,8 +35,7 @@ def createParkingSpace(String description, String sector, boolean preferential) 
     parkingSpaceController.save(new ParkingSpace([description: description, sector: sector, preferential: preferential]))
     parkingSpaceController.response.reset()
 
-    currentParkingSpace = ParkingSpace.findByDescription(description)
-
+   currentParkingSpace = ParkingSpace.findByDescription(description)
     assert currentParkingSpace.description == description
     assert currentParkingSpace.sector == sector
 }

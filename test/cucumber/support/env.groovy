@@ -18,9 +18,13 @@ Before() {
 After() {
     AuthHelper.instance.logout()
 
+    ProblemReport.list().each { it.delete(flush: true) }
+
     ParkingSpace.list().each { it.delete(flush: true) }
 
     User.list().each { it.delete(flush: true) }
+
+
 
     scenarioInterceptor.destroy()
 

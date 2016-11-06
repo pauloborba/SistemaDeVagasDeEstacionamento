@@ -18,3 +18,8 @@ environments {
         driver = { new FirefoxDriver() }
     }
 }
+
+waiting{
+    timeout = 30
+    retryIterval = 0.1
+}
