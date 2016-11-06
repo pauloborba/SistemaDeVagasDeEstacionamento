@@ -249,6 +249,7 @@ Then(~/^O sistema não permite a reserva da vaga "([^"]*)"$/) { String vaga ->
 // GUI Scenarios
 Given(~/^Eu estou logado no sistema como "([^"]*)" com preferencia no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String username, String sector, String preferential_tag ->
     def preferential = false
+
     if (preferential_tag == "com"){
         preferential = true
     }
@@ -269,13 +270,7 @@ And(~/^Eu vou para a pagina de listagem de vagas$/) { ->
 }
 
 And(~/^Eu vou para a pagina de criacao de vaga$/) { ->
-    waitFor { at ParkingSpaceListPage }
     page.goToCreateParkingSpacePage()
-    at ParkingSpaceCreatePage
-}
-
-And(~/^Eu estou na tela de criacao de vagas/) { ->
-    to ParkingSpaceCreatePage
     at ParkingSpaceCreatePage
 }
 
@@ -291,12 +286,15 @@ And(~/^Eu crio uma vaga com descricao "([^"]*)", no setor "([^"]*)" "([^"]*)" us
     }
     page.createParkingSpace(descricao, setor, preferential)
     at ParkingSpaceShowPage
-    page.goToParkingSpaceListPage()
-    at ParkingSpaceListPage
+}
+
+And(~/^Eu estou na pagina de visualizacao da vaga$/) { ->
+    at ParkingSpaceShowPage
 }
 
 When(~/^Eu reservo a vaga com descricao "([^"]*)"$/) { String description ->
     def currentUsername = AuthHelper.instance.currentUsername
+
     at ParkingSpaceListPage
     assert page.bookParkingSpace(description)
     assert page.checkParkingSpace(description, currentUsername)
@@ -305,29 +303,19 @@ When(~/^Eu reservo a vaga com descricao "([^"]*)"$/) { String description ->
 
 Then(~/^Eu vejo minha vaga ser alterada da vaga "([^"]*)" para a vaga "([^"]*)"$/) { String vaga1, String vaga2 ->
     def currentUsername = AuthHelper.instance.currentUsername
+
+    at ParkingSpaceListPage
     assert !page.checkParkingSpace(vaga1, currentUsername)
     assert page.checkParkingSpace(vaga2, currentUsername)
 }
 
 And(~/^Eu tento reservar a vaga com descricao "([^"]*)"$/) { String description ->
     def currentUsername = AuthHelper.instance.currentUsername
+
     at ParkingSpaceListPage
     assert page.bookParkingSpace(description)
-    assert !page.checkParkingSpace(description, currentUsername)
-}
-
-And(~/^Eu possuo uma reserva na vaga "([^"]*)"$/) { String descricao ->
-    def currentUsername = AuthHelper.instance.currentUsername
-    assert page.checkParkingSpace(descricao, currentUsername)
-}
-
-And(~/^Eu nao possuo uma reserva na vaga "([^"]*)"$/) { String descricao ->
-    def currentUsername = AuthHelper.instance.currentUsername
-    assert !page.checkParkingSpace(descricao, currentUsername)
 }
 
 Then(~/^Uma mensagem de error aparece na tela$/) { ->
     assert !page.checkSuccessMessage()
 }
-
-
