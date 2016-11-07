@@ -8,7 +8,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class BookController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -19,35 +19,51 @@ class BookController {
         respond bookInstance
     }
 
+    def setOwner (ParkingSpace parkingSpace, User loggedUser) {
+        if (parkingSpace.isAvailable()) {
+            parkingSpace.owner = loggedUser
+            parkingSpace.save flush:true
+        }
+    }
+
     def create() {
         println params.parkingSpace
         def parkingSpace = ParkingSpace.findByDescription(params.parkingSpace)
 
         User loggedUser = User.findByUsername(AuthHelper.instance.currentUsername)
 
-        if (parkingSpace.isAvailable()) {
-            parkingSpace.owner = loggedUser
-            parkingSpace.save(flush: true)
-        }
+        setOwner(parkingSpace, loggedUser)
 
         respond new Book(parkingSpace: parkingSpace, inHour: params.inHour, outHour: params.outHour)
     }
 
     @Transactional
     def save(Book bookInstance) {
-        if (bookInstance == null) {
+        if (bookInstance != null) {
+            if (!bookInstance.hasErrors()) {
+                bookInstance.save(flush: true)
+
+                redirect(controller: "parkingSpace", action: "index", method: "GET")
+            } else {
+                respond(bookInstance.errors, view: 'create')
+            }
+        } else {
             notFound()
-            return
         }
 
-        if (bookInstance.hasErrors()) {
-            respond bookInstance.errors, view:'create'
-            return
-        }
-
-        bookInstance.save flush:true
-
-        redirect(controller: "parkingSpace", action: "index", method: "GET")
+//        if (bookInstance == null) {
+//            notFound()
+//            return
+//        }
+//
+//        if (bookInstance.hasErrors()) {
+//            respond bookInstance.errors, view:'create'
+//            return
+//        }
+//
+//        bookInstance.save flush:true
+//
+//        redirect(controller: "parkingSpace", action: "index", method: "GET")
     }
 
     def edit(Book bookInstance) {

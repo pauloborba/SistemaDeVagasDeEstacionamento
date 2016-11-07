@@ -43,21 +43,21 @@ And(~/^As vagas "([^"]*)" e "([^"]*)" dos setores "([^"]*)" e "([^"]*)" estão l
 }
 
 When(~/^"([^"]*)" cria uma reserva da vaga "([^"]*)" para o horário das "([^"]*)" às "([^"]*)" horas do dia corrente$/) { String username, String desc, Integer entrada, Integer saida ->
-    ParkingSpaceTestDataAndOperations.createBook(desc, entrada, saida)
+    ParkingSpaceTestDataAndOperations.createBook(username, desc, entrada, saida)
 //    controller.create(params: [parkingSpace: desc, inHour: entrada, outHour: saida])
 }
 Then(~/^O Sistema reserva a vaga "([^"]*)" para "([^"]*)"$/) { String desc, String username ->
     def vaga = ParkingSpace.findByDescription(desc)
-    assert vaga.owner == username
+    assert vaga.owner.getUsername() == username
 }
 And(~/^A reserva da vaga "([^"]*)" recebe o valor "([^"]*)" para Hora de entrada$/) { String desc, Integer entrada ->
-    def vaga = ParkingSpace.findByDescription(desc)
+    ParkingSpace vaga = ParkingSpace.findByDescription(desc)
     def reserva = Book.findByParkingSpace(vaga)
-    assert reserva.inHour == entrada
+    assert reserva.getInHour() == entrada
 }
 And(~/^A reserva da vaga "([^"]*)" recebe o valor "([^"]*)" para Hora de saída$/) { String desc, Integer saida ->
     def vaga = ParkingSpace.findByDescription(desc)
     def reserva = Book.findByParkingSpace(vaga)
 
-    assert reserva.outHour == saida
+    assert reserva.getOutHour() == saida
 }

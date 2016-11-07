@@ -13,7 +13,6 @@ class ParkingSpaceTestDataAndOperations {
         def parkingSpaceController = new ParkingSpaceController()
         parkingSpaceController.save(new ParkingSpace([owner:null, description: description, sector: sector, preferential: preferential]))
         parkingSpaceController.response.reset()
-        print("Vaga " + description + " criada")
     }
 
     static public void bookParkingSpace(ParkingSpace parkingSpace){
@@ -23,11 +22,13 @@ class ParkingSpaceTestDataAndOperations {
     }
 
 
-    static public void createBook(String parkingSpaceDescription, Integer inHour, Integer outHour) {
-
+    static public void createBook(String username, String parkingSpaceDescription, Integer inHour, Integer outHour) {
         def bookController = new BookController()
         def parkingSpace = ParkingSpace.findByDescription(parkingSpaceDescription)
-        bookController.save(new Book([parkingSpace: parkingSpace, inHour: inHour, outHour: outHour]))
+        def loggedUser = User.findByUsername(username)
+        bookController.setOwner(parkingSpace, loggedUser)
+        Book bookInstance = new Book([parkingSpace: parkingSpace, inHour: inHour, outHour: outHour])
+        bookController.save(bookInstance)
         bookController.response.reset()
     }
 }
