@@ -78,3 +78,27 @@ When(~/^The user try to set as solved the problem "([^"]*)"$/) { String arg1 ->
 
 
 }
+When(~/^I go to parking report list page$/) { ->
+    waitFor { at HomePage }
+
+    page.goToProblemReport()
+}
+
+def shouldContainProblemReport(String title, boolean should) {
+    waitFor { at ProblemReportPage }
+
+    assert page.containsProblemReport(title) == should
+}
+
+And(~/^I see problem "([^"]*)" in parkin report list$/) { String title ->
+    shouldContainProblemReport(title, true)
+}
+Then(~/^I can not see the problem "([^"]*)" in the parking problem list$/) { String title ->
+    shouldContainProblemReport(title, false)
+}
+And(~/^I see the problem "([^"]*)" continues in the parking report list$/) { String title ->
+    shouldContainProblemReport(title, true)
+}
+And(~/^I select the option to set the problem "([^"]*)" as solved$/) { String title ->
+    assert page.resolve(title)
+}

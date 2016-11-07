@@ -47,6 +47,7 @@
                             <td>
                                 <g:form url="[resource:problemReportInstance, action:'resolve']" method="DELETE">
                                     <g:actionSubmit class="resolve"
+                                                    name="resolve"
                                                     action="resolve"
                                                     value="${message(code: 'default.button.delete.label', default: 'Resolve')}"
                                                     onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>

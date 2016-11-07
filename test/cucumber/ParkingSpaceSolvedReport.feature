@@ -21,7 +21,7 @@ Feature: Set solved parking space problem
     And The system has stored the user "marcio" with preference for parking spaces in the "CIn" sector
     And The user "marcio" has sended a report with the title "Iluminaçao", sector "Área II", and description "Iluminaçao"
     When I go to parking report list page
-    And I see problem "Iluminaçao" in parkin report list flaged as not solved
+    And I see problem "Iluminaçao" in parkin report list
     And I select the option to set the problem "Iluminaçao" as solved
     Then I can not see the problem "Iluminaçao" in the parking problem list
 @ignore
@@ -30,6 +30,6 @@ Feature: Set solved parking space problem
     And The system has stored the user "marcio" with preference for parking spaces in the "CIn" sector
     And The user "marcio" has sended a report with the title "Iluminaçao", sector "Área II", and description "Iluminaçao"
     When I go to parking report list page
+    And I see problem "Iluminaçao" in parkin report list
     And I select the option to set the problem "Iluminaçao" as solved
-    Then I see a message that i don't have the privileges
     And I see the problem "Iluminacao" continues in the parking report list

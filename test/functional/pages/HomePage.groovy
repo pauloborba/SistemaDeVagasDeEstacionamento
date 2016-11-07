@@ -12,4 +12,8 @@ class HomePage extends Page {
     def goToSuggestions() {
         $("a[name='suggestions']").click()
     }
+
+    def goToProblemReport() {
+        $("a[name='problemReport']").click()
+    }
 }
