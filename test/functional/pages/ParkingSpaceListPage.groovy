@@ -17,6 +17,7 @@ class ParkingSpaceListPage extends Page {
     }
 
     //#if($ParkingSpaceBooking)
+
     def goToCreateParkingSpacePage(){
         $("a[class='create']").click()
     }
@@ -46,6 +47,6 @@ class ParkingSpaceListPage extends Page {
             return false
         }
     }
-    //#end
+
 
 }
