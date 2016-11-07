@@ -61,3 +61,23 @@ And(~/^A reserva da vaga "([^"]*)" recebe o valor "([^"]*)" para Hora de saída$
 
     assert reserva.getOutHour() == saida
 }
+
+And(~/^"([^"]*)" reservou a vaga "([^"]*)" das "([^"]*)" às "([^"]*)" horas do dia corrente$/) { String username, String desc, Integer entrada, Integer saida ->
+    ParkingSpaceTestDataAndOperations.createBook(username, desc, entrada, saida)
+    def vaga = ParkingSpace.findByDescription(desc)
+    assert vaga.owner.getUsername() == username
+}
+When(~/^o horário do sistema passar das "([^"]*)" horas$/) { Integer saida ->
+    def currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+    assert currentHour > saida
+}
+And(~/^"([^"]*)" ainda está na vaga "([^"]*)"$/) { String username, String desc ->
+    def vaga = ParkingSpace.findByDescription(desc)
+    assert vaga.getOwner().getUsername() == username
+}
+
+Then(~/^A reserva da vaga "([^"]*)" recebe o status "([^"]*)"$/) { String desc, String status ->
+    def vaga = ParkingSpace.findByDescription(desc)
+    ParkingSpaceTestDataAndOperations.checkBooksTimes()
+    assert vaga.getBook().getStatus() == status
+}
