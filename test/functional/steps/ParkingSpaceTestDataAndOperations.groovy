@@ -7,6 +7,7 @@ import sistemadevagasdeestacionamento.UserController
 
 class ParkingSpaceTestDataAndOperations {
 
+    //#if($ParkingSpaceBooking)
     static public void createParkingSpace(String description, String sector, boolean preferential) {
         def parkingSpaceController = new ParkingSpaceController()
         parkingSpaceController.save(new ParkingSpace([owner:null, description: description, sector: sector, preferential: preferential]))
@@ -18,4 +19,5 @@ class ParkingSpaceTestDataAndOperations {
         parkingSpaceController.book(parkingSpace)
         parkingSpaceController.response.reset()
     }
+    //#end
 }

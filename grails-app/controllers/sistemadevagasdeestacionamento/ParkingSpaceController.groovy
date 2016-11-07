@@ -19,6 +19,7 @@ class ParkingSpaceController {
         respond(new ParkingSpace(params))
     }
 
+    //#if($ParkingSpaceBooking)
     def book(ParkingSpace parkingSpaceInstance) {
 
         if (parkingSpaceInstance){
@@ -78,6 +79,8 @@ class ParkingSpaceController {
             notFound()
         }
     }
+    //#end
+
 
     def suggestion() {
         def parkingSpaces = ParkingSpace.list().findAll { parkingSpace ->

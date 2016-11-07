@@ -3,6 +3,7 @@ Feature: Parking space booking
   I want to book a parking space
   So I can park on the parking space I'd booked
 
+  #if($ParkingSpaceBooking)
 # Reserva de Vagas Controller
   Scenario: Alterar reserva de vaga
     Given O sistema possui o usuario "joao" cadastrado com preferencia no setor "CIn" "sem" uso preferencial
@@ -48,3 +49,6 @@ Feature: Parking space booking
     And Eu vou para a pagina de listagem de vagas
     When Eu tento reservar a vaga com descricao "CIn-07"
     Then Uma mensagem de error aparece na tela
+
+  #end
+  

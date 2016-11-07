@@ -1,6 +1,7 @@
 package sistemadevagasdeestacionamento
 
 class User {
+    //#if($ParkingSpaceBooking)
     String username
     String firstName
     String lastName
@@ -14,4 +15,5 @@ class User {
         preferredSector inList: ["CIn", "CCEN", "Área II"]
         preferential nullable: false, blank: false
     }
+    //#end
 }

@@ -7,7 +7,6 @@ class CreateParkingSpacePage extends Page {
     static url = "/parkingSpace/create"
 
     static at = {
-//        def pageTitle = new GetPageTitle()
         InternationalizationHelper helper = InternationalizationHelper.instance
 
         String parkingSpace = "ParkingSpace"

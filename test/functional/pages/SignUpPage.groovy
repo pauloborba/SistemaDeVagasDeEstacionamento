@@ -9,6 +9,7 @@ class SignUpPage extends Page {
         title ==~ /Sign up/
     }
 
+    //#if($ParkingSpaceBooking)
     def proceed(String username, String preferredSector, boolean preferential) {
         $("input[name='username']").value(username)
         $("input[name='firstName']").value("Primeiro nome")
@@ -17,4 +18,5 @@ class SignUpPage extends Page {
         $("input[name='preferential']").value(preferential)
         $("input[name='signUp']").click()
     }
+    //#end
 }

@@ -1,6 +1,7 @@
 package sistemadevagasdeestacionamento
 
 class ParkingSpace {
+    //#if($ParkingSpaceBooking)
     User owner
     String description
     String sector
@@ -18,5 +19,5 @@ class ParkingSpace {
     {
         return owner == null
     }
-
+    //#end
 }

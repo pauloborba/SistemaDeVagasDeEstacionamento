@@ -21,7 +21,8 @@
             <h1><g:message code="default.list.label" args="[entityName]"/></h1>
             <g:if test="${flash.message}">
                 <div class="message" role="status">${flash.message}</div>
-            </g:if>
+            </g:if
+                %{--#if($ParkingSpaceBooking)--}%
             <table>
                 <thead>
                     <tr>
@@ -50,6 +51,7 @@
                     </g:each>
                 </tbody>
             </table>
+            %{--#end--}%
 
             <div class="pagination">
                 <g:paginate total="${parkingSpaceInstanceCount ?: 0}"/>

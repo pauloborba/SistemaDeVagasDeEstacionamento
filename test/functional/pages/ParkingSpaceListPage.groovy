@@ -16,6 +16,7 @@ class ParkingSpaceListPage extends Page {
         title ==~ pageTitle
     }
 
+    //#if($ParkingSpaceBooking)
     def goToCreateParkingSpacePage(){
         $("a[class='create']").click()
     }
@@ -44,7 +45,7 @@ class ParkingSpaceListPage extends Page {
         }else{
             return false
         }
-
     }
+    //#end
 
 }

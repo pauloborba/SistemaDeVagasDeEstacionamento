@@ -1,6 +1,6 @@
 <%@ page import="sistemadevagasdeestacionamento.ParkingSpace" %>
 
-
+%{--#if($ParkingSpaceBooking)--}%
 <div class="fieldcontain ${hasErrors(bean: parkingSpaceInstance, field: 'description', 'error')} required">
 	<label for="description">
 		<g:message code="parkingSpace.description.label" default="Description" />
@@ -27,4 +27,5 @@
 	<g:checkBox name="preferential" value="${parkingSpaceInstance?.preferential}" />
 
 </div>
+%{--#end--}%
 

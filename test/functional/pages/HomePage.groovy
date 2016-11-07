@@ -12,11 +12,13 @@ class HomePage extends Page {
     def goToSuggestionsPage() {
         $("a[name='suggestions']").click()
     }
+//#if($ParkingSpaceBooking)
 
     def goToParkingSpotListPage() {
         $("a[name='spotlist']").click()
     }
 
+//#end
     def goToMyProfilePage() {
         $("a[name='profile']").click()
     }

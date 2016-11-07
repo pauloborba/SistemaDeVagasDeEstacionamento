@@ -171,6 +171,7 @@ Then(~/^I see a message indicating that the parking space was not possible book 
     assert page.verifyFailBookMessage()
 }*/
 
+//#if($ParkingSpaceBooking)
 //Controller
 Given(~/^O sistema possui o usuario "([^"]*)" cadastrado com preferencia no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String username, String sector, String preferential_tag ->
     def preferential = false
@@ -319,3 +320,4 @@ And(~/^Eu tento reservar a vaga com descricao "([^"]*)"$/) { String description 
 Then(~/^Uma mensagem de error aparece na tela$/) { ->
     assert !page.checkSuccessMessage()
 }
+//#end
