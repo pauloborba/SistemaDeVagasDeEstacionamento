@@ -9,25 +9,32 @@ import sistemadevagasdeestacionamento.UserController
 
 class ParkingSpaceTestDataAndOperations {
 
-    static public void createParkingSpace(String description, String sector, boolean preferential) {
+    public static void createParkingSpace(String description, String sector, boolean preferential) {
         def parkingSpaceController = new ParkingSpaceController()
         parkingSpaceController.save(new ParkingSpace([owner:null, description: description, sector: sector, preferential: preferential]))
         parkingSpaceController.response.reset()
-        print("Vaga " + description + " criada")
     }
 
-    static public void bookParkingSpace(ParkingSpace parkingSpace){
+    public static void bookParkingSpace(ParkingSpace parkingSpace){
         def parkingSpaceController = new ParkingSpaceController()
         parkingSpaceController.book(parkingSpace)
         parkingSpaceController.response.reset()
     }
 
 
-    static public void createBook(String parkingSpaceDescription, Integer inHour, Integer outHour) {
-
+    public static void createBook(String username, String parkingSpaceDescription, Integer inHour, Integer outHour) {
         def bookController = new BookController()
         def parkingSpace = ParkingSpace.findByDescription(parkingSpaceDescription)
-        bookController.save(new Book([parkingSpace: parkingSpace, inHour: inHour, outHour: outHour]))
+        def loggedUser = User.findByUsername(username)
+        bookController.setOwner(parkingSpace, loggedUser)
+        Book bookInstance = new Book([parkingSpace: parkingSpace, inHour: inHour, outHour: outHour])
+        bookController.save(bookInstance)
         bookController.response.reset()
+    }
+
+    public static void checkBooksTimes() {
+        ParkingSpaceController parkingController = new ParkingSpaceController()
+        def parkings = ParkingSpace.list()
+        parkingController.checkBooksTimes(parkings)
     }
 }
