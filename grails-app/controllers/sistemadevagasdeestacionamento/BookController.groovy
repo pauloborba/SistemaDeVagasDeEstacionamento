@@ -22,6 +22,14 @@ class BookController {
     def create() {
         println params.parkingSpace
         def parkingSpace = ParkingSpace.findByDescription(params.parkingSpace)
+
+        User loggedUser = User.findByUsername(AuthHelper.instance.currentUsername)
+
+        if (parkingSpace.isAvailable()) {
+            parkingSpace.owner = loggedUser
+            parkingSpace.save(flush: true)
+        }
+
         respond new Book(parkingSpace: parkingSpace, inHour: params.inHour, outHour: params.outHour)
     }
 

@@ -30,12 +30,6 @@ class ParkingSpaceController {
     }
 
     def book(ParkingSpace parkingSpaceInstance) {
-        User loggedUser = User.findByUsername(AuthHelper.instance.currentUsername)
-
-        if (parkingSpaceInstance.isAvailable()) {
-            parkingSpaceInstance.owner = loggedUser
-            parkingSpaceInstance.save(flush: true)
-        }
         def inHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY), outHour = inHour
         redirect(controller: "book", action: "create",
                 params: [parkingSpace: parkingSpaceInstance, inHour: inHour, outHour: outHour], method: "POST")
