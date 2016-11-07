@@ -18,8 +18,9 @@ environments {
         driver = { new FirefoxDriver() }
     }
 }
-
+//#if($ReportParkingSpaceProblem)
 waiting{
     timeout = 30
     retryIterval = 0.1
 }
+//#end

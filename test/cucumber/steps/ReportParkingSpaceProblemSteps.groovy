@@ -1,6 +1,4 @@
-/**
- * Created by João Pedro on 03/10/2016.
- */
+//#if($ReportParkingSpaceProblem)
 package steps
 
 import sistemadevagasdeestacionamento.AuthHelper
@@ -25,9 +23,8 @@ And(~/^the user is logged in the system as "([^"]*)"$/) { String username->
 }
 
 When(~/the user tries to send the report with Title "([^"]*)", Sector "([^"]*)" and Description "([^"]*)"$/) { String title, String sector, String description ->
-    def username = AuthHelper.instance.currentUsername
-    def user = User.findByUsername(username)
-    ProblemReportTestDataAndOperations.createProblemReport(user, title, sector, description)
+
+    ProblemReportTestDataAndOperations.createProblemReport(title, sector, description)
     def currentProblemReport = ProblemReport.findByTitle(title)
     assert currentProblemReport != null
 
@@ -50,9 +47,7 @@ And(~/^The system has no problem report stored with Title "([^"]*)"$/) { String 
 
 And(~/^The system has a problem report stored with Title "([^"]*)"$/) { String title ->
 
-    def username = AuthHelper.instance.currentUsername
-    def user = User.findByUsername(username)
-    ProblemReportTestDataAndOperations.createProblemReport(user, title,"CIn","Acidente nas vagas c3 e c4")
+    ProblemReportTestDataAndOperations.createProblemReport(title,"CIn","Acidente nas vagas c3 e c4")
     def problemReport = ProblemReport.findByTitle(title)
     assert problemReport != null
 }
@@ -97,3 +92,4 @@ Then(~/^I shoud see an error message$/){ ->
     assert page.hasErrors()
 }
 
+//#end

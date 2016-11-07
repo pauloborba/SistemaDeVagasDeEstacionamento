@@ -1,6 +1,5 @@
+//#if($ReportParkingSpaceProblem)
 package sistemadevagasdeestacionamento
-
-
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -103,3 +102,4 @@ class ProblemReportController {
         }
     }
 }
+//#end

@@ -1,12 +1,11 @@
+//#if($ReportParkingSpaceProblem)
 package pages
 
 import geb.Page
 import sistemadevagasdeestacionamento.User
 import steps.InternationalizationHelper
 
-/**
- * Created by João Pedro on 03/11/2016.
- */
+
 class CreateProblemReportPage extends Page{
 
 
@@ -37,3 +36,4 @@ class CreateProblemReportPage extends Page{
     }
 
 }
+//#end

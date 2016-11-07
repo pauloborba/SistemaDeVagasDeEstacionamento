@@ -1,3 +1,4 @@
+//#if($ReportParkingSpaceProblem)
 package sistemadevagasdeestacionamento
 
 class ProblemReport {
@@ -15,3 +16,4 @@ class ProblemReport {
 
     }
 }
+//#end

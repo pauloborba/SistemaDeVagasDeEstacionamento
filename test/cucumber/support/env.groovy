@@ -17,9 +17,9 @@ Before() {
 
 After() {
     AuthHelper.instance.logout()
-
+    //#if($ReportParkingSpaceProblem)
     ProblemReport.list().each { it.delete(flush: true) }
-
+    //#end
     ParkingSpace.list().each { it.delete(flush: true) }
 
     User.list().each { it.delete(flush: true) }

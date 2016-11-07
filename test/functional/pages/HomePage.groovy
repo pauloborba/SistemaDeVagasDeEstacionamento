@@ -12,8 +12,9 @@ class HomePage extends Page {
     def goToSuggestions() {
         $("a[name='suggestions']").click()
     }
-
+//#if($ReportParkingSpaceProblem)
     def goToCreateProblemReport() {
         $("a[name='report']").click()
     }
+//#end
 }

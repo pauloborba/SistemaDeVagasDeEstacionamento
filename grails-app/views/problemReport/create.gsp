@@ -1,3 +1,4 @@
+%{--#if($ReportParkingSpaceProblem)--}%
 <!DOCTYPE html>
 <html>
 	<head>
@@ -36,3 +37,4 @@
 		</div>
 	</body>
 </html>
+%{--#end--}%

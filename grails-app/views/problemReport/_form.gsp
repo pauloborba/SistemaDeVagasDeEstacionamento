@@ -1,3 +1,4 @@
+%{--#if($ReportParkingSpaceProblem)--}%
 <%@ page import="sistemadevagasdeestacionamento.ProblemReport" %>
 
 
@@ -30,3 +31,4 @@
 
 </div>
 
+%{--#end--}%

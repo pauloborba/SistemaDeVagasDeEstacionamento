@@ -1,4 +1,5 @@
 #++ Reportar problemas com a vaga (vaga danificada ou uso incorreto).
+##if($ReportParkingSpaceProblem)
 Feature: Report parking space problem
   As a system user
   I want to send a problem report
@@ -32,3 +33,4 @@ Scenario: Send a problem report that already exists in the system web
   And I send the problem report
   And I try to send a different problem report with title "irregularidade na vaga E5"
   Then I shoud see an error message
+##end
