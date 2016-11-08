@@ -1,5 +1,5 @@
 # Sistema de Vagas de Estacionamento [![Build Status](https://travis-ci.org/pauloborba/SistemaDeVagasDeEstacionamento.svg?branch=master)](https://travis-ci.org/pauloborba/SistemaDeVagasDeEstacionamento)
- 
+
 Projeto da disciplina de Engenharia de Software e Sistemas - CIn/UFPE
 ## Requisitos
 - Grails version: 2.4.3
