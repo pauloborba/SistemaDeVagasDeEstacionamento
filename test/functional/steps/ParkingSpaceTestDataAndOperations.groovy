@@ -37,4 +37,12 @@ class ParkingSpaceTestDataAndOperations {
         def parkings = ParkingSpace.list()
         parkingController.checkBooksTimes(parkings)
     }
+
+    public static String getRgbColorString(String colorInEnglish) {
+        switch (colorInEnglish.toLowerCase()) {
+            case "red": return "rgb(255, 0, 0)"
+            case "green": return "rgb(0, 255, 0)"
+            default: return "rgb(0, 0, 0)"
+        }
+    }
 }
