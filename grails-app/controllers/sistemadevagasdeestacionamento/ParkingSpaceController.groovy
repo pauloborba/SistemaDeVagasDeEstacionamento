@@ -25,6 +25,21 @@ class ParkingSpaceController {
         if (parkingSpaceInstance.isAvailable()) {
             parkingSpaceInstance.owner = loggedUser
             parkingSpaceInstance.save(flush: true)
+
+            Date firstTime = new Date()
+            Date lastTime = new Date()// have to change this variable
+
+            def reserve = new ReservedParkingSpace()
+
+            reserve.firstDate = firstTime
+            reserve.lastDate = lastTime
+            reserve.totalTime = 0
+            loggedUser.reservedPS.add(reserve)
+            reserve.reserved = parkingSpaceInstance
+            reserve.save()
+            loggedUser.save(flush: true)
+
+
         }
 
         redirect(action: "index")
