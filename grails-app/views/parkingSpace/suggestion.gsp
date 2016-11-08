@@ -10,8 +10,9 @@
                 $("a[name='filter']").click(function () {
                     var sector = $("input[name='sector']").prop('checked')
                     var preferential = $("input[name='preferential']").prop('checked')
+                    var historico = $("input[name='historico']").prop('checked')
                     $.ajax({
-                        url: "${createLink(action: 'suggestion')}" + "?sector=" + sector + "&preferential=" + preferential,
+                        url: "${createLink(action: 'suggestion')}" + "?sector=" + sector + "&preferential=" + preferential + "&historico=" + historico,
                         type: 'POST',
                         success: function (data) {
                             $("h1[id='lettering']").text("Filtradas")
@@ -38,6 +39,9 @@
         <br>
         Somente vagas preferenciais: <g:checkBox name="preferential" checked="${params.preferential}"/>
         <br>
+        Somente vagas do meu historico: <g:checkBox name="historico" checked="${params.historico}"/>
+        <br>
+
         <a href="#" name="filter">Filtrar</a>
 
         <h1 id="lettering"><g:message code="default.list.label" args="[entityName]"/></h1>

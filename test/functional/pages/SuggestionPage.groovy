@@ -36,4 +36,8 @@ class SuggestionPage extends Page {
     def confirmFilterOptions() {
         $("a[name='filter']").click()
     }
+    def selectHistoricoFilter(){
+        $("input[name='historico']").value(true)
+    }
+
 }

@@ -3,6 +3,8 @@ package sistemadevagasdeestacionamento
 import grails.converters.JSON
 import grails.transaction.Transactional
 
+import javax.print.attribute.standard.DateTimeAtCreation
+
 @Transactional(readOnly = true)
 class ParkingSpaceController {
     def index() {
@@ -20,27 +22,83 @@ class ParkingSpaceController {
     }
 
     def book(ParkingSpace parkingSpaceInstance) {
-        User loggedUser = User.findByUsername(AuthHelper.instance.currentUsername)
 
-        if (parkingSpaceInstance.isAvailable()) {
-            parkingSpaceInstance.owner = loggedUser
-            parkingSpaceInstance.save(flush: true)
+        if (parkingSpaceInstance){
+            def username = AuthHelper.instance.currentUsername
+            def user = User.findByUsername(username)
+
+            if (parkingSpaceInstance.isAvailable() && !parkingSpaceInstance.isPreferential()) {
+
+                def lastParkingSpace = ParkingSpace.findByOwner(user)
+
+                if (lastParkingSpace) {
+                    unbook(lastParkingSpace)
+                    response.reset()
+                }
+
+                parkingSpaceInstance.owner = user
+                def reserva = new Reserva()
+                reserva.vaga = parkingSpaceInstance
+                user.historicoReservas.add(reserva)
+                parkingSpaceInstance.save(flush: true)
+                user.save(flush: true)
+
+                flash.message = message(code: 'default.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+
+            }else if (!parkingSpaceInstance.isAvailable()){
+                flash.message = message(code: 'default.not.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+
+            }else if (parkingSpaceInstance.isAvailable() && parkingSpaceInstance.isPreferential()){
+
+                if (user.preferential){
+
+                    def lastParkingSpace = ParkingSpace.findByOwner(user)
+
+                    if (lastParkingSpace) {
+                        unbook(lastParkingSpace)
+                        response.reset()
+                    }
+
+                    parkingSpaceInstance.isPreferential()
+                    parkingSpaceInstance.owner = user
+                    def reserva = new Reserva()
+                    reserva.vaga = parkingSpaceInstance
+                    user.historicoReservas.add(reserva)
+                    user.save(flush:true)
+
+                    parkingSpaceInstance.save(flush: true)
+                    flash.message = message(code: 'default.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+                }else{
+                    flash.message = message(code: 'default.not.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+                }
+
+            }
+
+        }else{
+            notFound()
         }
+        redirect(action: 'index')
+    }
 
-        redirect(action: "index")
-        // TODO: Exibir mensagem de erro caso não seja possível fazer a reserva
+    @Transactional
+    def unbook(ParkingSpace parkingSpace) {
+        if(parkingSpace){
+            parkingSpace.owner = null
+            parkingSpace.save(flush: true)
+
+        }else{
+            notFound()
+        }
     }
 
     def suggestion() {
         def parkingSpaces = ParkingSpace.list().findAll { parkingSpace ->
             def available = parkingSpace.available
-
+            User loggedUser = User.findByUsername(AuthHelper.instance.currentUsername)
             if (params.containsKey("sector")) {
                 def sector = params.sector.toBoolean()
 
                 if (sector) {
-                    User loggedUser = User.findByUsername(AuthHelper.instance.currentUsername)
-
                     available = available && (parkingSpace.sector == loggedUser.preferredSector)
                 }
             }
@@ -51,6 +109,14 @@ class ParkingSpaceController {
                 if (preferential)
                 {
                     available = available && parkingSpace.preferential
+                }
+            }
+            if(params.containsKey("historico")){
+                def historico = params.historico.toBoolean()
+
+                if(historico){
+
+                    available = available && each(loggedUser.historicoReservas.vaga)
                 }
             }
 
