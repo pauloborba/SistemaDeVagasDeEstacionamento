@@ -18,8 +18,8 @@ Feature: Gestor de Vagas
     Given O sistema possui o usuário "Sicrano" cadastrado com preferencia no setor "CCEN"
     And O usuário "Sicrano" está logado no sistema
     And As vagas "11" e "12" dos setores "CIn" e "CCEN" estão livres
-    And "Sicrano" reservou a vaga "12" das "7" às "8" horas do dia corrente
-    When o horário do sistema passar das "8" horas
+    And "Sicrano" reservou a vaga "12" das "0" às "1" horas do dia corrente
+    When o horário do sistema passar das "0" horas
     And "Sicrano" ainda está na vaga "12"
     Then A reserva da vaga "12" recebe o status "red"
 
@@ -48,8 +48,8 @@ Feature: Gestor de Vagas
     And Eu crio uma vaga com descricao "14", no setor "CCEN"
     And Eu estou na página de visualização da vaga
     And Eu vou para página da listagem de vagas
-    And o horário do sistema passou das "6" horas
+    And o horário do sistema passou das "1" horas
     When Eu seleciono a opção Reservar da vaga com descrição "14"
-    And Eu crio uma reserva para a vaga para o horário de "5" às "6" horas do dia corrente
+    And Eu crio uma reserva para a vaga para o horário de "0" às "1" horas do dia corrente
     Then Eu estou na página da listagem de vagas
     And Eu vejo o texto da coluna Book da vaga com descrição "14" na cor "red"
