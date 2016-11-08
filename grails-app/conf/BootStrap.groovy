@@ -15,6 +15,17 @@ class BootStrap {
         }
     }
 
+    def registerProblemReport() {
+        def sectors = ParkingSpace.constraints.sector.inList
+        def user = User.findByUsername("master")
+        sectors.each { sector ->
+            (1..6).each { i ->
+                def problemReport = new ProblemReport([user:user, title:"Report-${i}", sector: sector, description: "N${i}-${sector}"])
+                problemReport.save(flush: true)
+            }
+        }
+    }
+
     def init = { servletContext ->
         // Usuário padrão do sistema, esse login quando você desejar logar no sistema
         // sem ter criado um outro usuário previamente
@@ -23,6 +34,7 @@ class BootStrap {
 
         // Registra vagas de estacionamento
         registerParkingSpaces()
+        registerProblemReport()
     }
 
     def destroy = {
