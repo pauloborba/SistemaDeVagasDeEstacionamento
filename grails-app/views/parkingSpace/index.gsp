@@ -45,7 +45,7 @@
                                 <g:fieldValue bean="${parkingSpaceInstance}" field="owner.firstName" />
                             </g:if>
                             <g:else>
-                                <g:link action="book" id="${parkingSpaceInstance.id}">Reservar</g:link>
+                                <g:link action="book" id="${parkingSpaceInstance.id}"><h4 id="${parkingSpaceInstance.id}">Reservar</h4></g:link>
                             </g:else>
                         </td>
 
@@ -55,7 +55,7 @@
 
                         <td>
                             <g:if test="${parkingSpaceInstance.book}">
-								<span style="color: ${parkingSpaceInstance.book.status}">${parkingSpaceInstance.book}</span>
+								<span style="color: ${parkingSpaceInstance.book.status}" id="${parkingSpaceInstance.id}">${parkingSpaceInstance.book}</span>
                             </g:if>
                             <g:else>
                                 Disponível

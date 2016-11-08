@@ -3,7 +3,7 @@
 	<head>
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'book.label', default: 'Book')}" />
-		<title><g:message code="default.create.label" args="[bookInstance.parkingSpace.description]" /></title>
+		<title><g:message code="default.create.label" args="[entityName]" /></title>
 	</head>
 	<body>
 		<a href="#create-book" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
