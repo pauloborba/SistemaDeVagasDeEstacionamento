@@ -99,7 +99,7 @@ And(~/^Eu estou na página de home$/) { ->
 }
 And(~/^Eu vou para página da listagem de vagas$/) { ->
     page.goToParkingSpotListPage()
-    at ParkingSpaceListPage 
+    at ParkingSpaceListPage
 }
 And(~/^Eu seleciono a opção Criar Vaga$/) { ->
     page.goToCreateParkingSpace()
