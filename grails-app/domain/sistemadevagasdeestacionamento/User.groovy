@@ -6,6 +6,8 @@ class User {
     String lastName
     String preferredSector
 
+    static hasMany = [reservedPS : ReservedParkingSpace]
+
     static constraints = {
         username nullable: false, blank: false, unique: true
         firstName nullable: false, blank: false
