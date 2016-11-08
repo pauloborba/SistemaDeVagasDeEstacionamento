@@ -7,7 +7,7 @@ Feature: Set solved parking space problem
     And The problem report list has the problem with title "irregularidade", sector "Área II" and description "Iluminaçao"
     When The user try to set as solved the problem "irregularidade"
     Then The problem "irregularidade" is removed from parking report list
-
+# TODO (so esta pegando um teste por vez)
   Scenario: The user has no privileges to set the problem as solved
     Given The system has stored the user "outro" with preference for parking spaces in the "CIn" sector
     And The user is logged in the system
