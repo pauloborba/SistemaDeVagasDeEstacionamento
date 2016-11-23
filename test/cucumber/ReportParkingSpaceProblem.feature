@@ -21,16 +21,15 @@ Scenario: Send a problem report that already exists in the system
 
 Scenario: Send a problem report web
   Given I signed up in the system as "chico" with "CIn" as preferred sector
-  When I go to report parking space problem page
-  And I fill the report informations with Title "Carro mal estacionado", Sector "Cin" and Description "Carro de placa XXX -1111"
-  And I send the problem report
+  And I am at report parking space problem page
+  When I try to send a report with Title "Carro mal estacionado", Sector "Cin" and Description "Carro de placa XXX -1111"
   Then I shoud see a message indicating that the report was created
 
 Scenario: Send a problem report that already exists in the system web
   Given I signed up in the system as "joao" with "CIn" as preferred sector
-  When I go to report parking space problem page
-  And I fill the report informations with Title "irregularidade na vaga E5", Sector "Cin" and Description "Carro de placa XXX -1111"
-  And I send the problem report
-  And I try to send a different problem report with title "irregularidade na vaga E5"
+  And I sent a report with Title "Carro mal estacionado"
+  And I am at report parking space problem page
+  When I try to send a report with Title "Carro mal estacionado", Sector "Cin" and Description "Carro de placa XXX -1111"
   Then I shoud see an error message
+
 ##end

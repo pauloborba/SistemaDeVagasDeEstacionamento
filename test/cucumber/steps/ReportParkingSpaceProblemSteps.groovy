@@ -60,32 +60,27 @@ Given(~/^I signed up in the system as "([^"]*)" with "([^"]*)" as preferred sect
     waitFor { at HomePage }
 }
 
-When(~/^I go to report parking space problem page$/){ ->
-
-    page.goToCreateProblemReport()
+And(~/^I am at report parking space problem page$/){ ->
+    waitFor { to CreateProblemReportPage }
     waitFor { at CreateProblemReportPage }
+
 }
 
-And(~/^I fill the report informations with Title "([^"]*)", Sector "([^"]*)" and Description "([^"]*)"$/) { String title, String sector, String description ->
+And(~/^I sent a report with Title "([^"]*)"$/){ title ->
+    waitFor { to CreateProblemReportPage }
+    waitFor { at CreateProblemReportPage }
+    page.fillProblemReportInformations(title,"CIn","description")
+    page.selectCreateProblemReport()
+}
+
+When(~/^I try to send a report with Title "([^"]*)", Sector "([^"]*)" and Description "([^"]*)"$/){ String title, String sector, String description ->
     waitFor { at CreateProblemReportPage }
     page.fillProblemReportInformations(title,sector,description)
-}
-
-And(~/^I send the problem report$/){ ->
-
-    waitFor { at CreateProblemReportPage }
     page.selectCreateProblemReport()
 }
 
 Then(~/^I shoud see a message indicating that the report was created$/){ ->
     assert page.readFlashMessage() != null
-}
-
-And(~/^I try to send a different problem report with title "([^"]*)"$/){ String title ->
-    waitFor { to CreateProblemReportPage }
-    waitFor { at CreateProblemReportPage }
-    page.fillProblemReportInformations(title,"Cin","description")
-    page.selectCreateProblemReport()
 }
 
 Then(~/^I shoud see an error message$/){ ->
