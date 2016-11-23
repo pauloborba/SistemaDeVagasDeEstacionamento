@@ -3,7 +3,7 @@ package sistemadevagasdeestacionamento
 public class AuthController {
     def index = { redirect(action: "login", params: params) }
 
-        def login = {
+    def login = {
         [username: params.username]
     }
 

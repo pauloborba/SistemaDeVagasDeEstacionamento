@@ -174,50 +174,42 @@ Then(~/^I see a message indicating that the parking space was not possible book 
 //#if($ParkingSpaceBooking)
 //Controller
 Given(~/^O sistema possui o usuario "([^"]*)" cadastrado com preferencia no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String username, String sector, String preferential_tag ->
-    def preferential = false
-
-    if (preferential_tag == "com"){
-        preferential = true
-    }
+    def preferential = (preferential_tag == "com")
 
     AuthHelper.instance.signup(username, sector, preferential)
 
     def user = User.findByUsername(username)
 
-    assert user.preferential == preferential
-    assert user.username == username
-    assert user.preferredSector == sector
+    assert user.getPreferential() == preferential
+    assert user.getUsername() == username
+    assert user.getPreferredSector() == sector
 }
 
 And(~/^O usuario "([^"]*)" esta logado no sistema$/) { String username ->
     AuthHelper.instance.login(username)
 
-    assert AuthHelper.instance.currentUsername == username
+    assert AuthHelper.instance.getCurrentUsername() == username
 }
 
 And(~/^A vaga "([^"]*)" pertence ao setor "([^"]*)" "([^"]*)" uso preferencial$/) { String vaga, String setor, String preferential_tag ->
+    def preferential = (preferential_tag == "com")
 
-    def preferential = false
-
-    if (preferential_tag == "com"){
-        preferential = true
-    }
 
     ParkingSpaceTestDataAndOperations.createParkingSpace(vaga, setor, preferential)
     ParkingSpace parkingSpace = ParkingSpace.findByDescription(vaga)
 
-    assert parkingSpace?.description == vaga
-    assert parkingSpace?.sector == setor
+    assert parkingSpace?.getDescription() == vaga
+    assert parkingSpace?.getSector() == setor
 }
 
 And(~/^O usuario logado possui uma reserva na vaga "([^"]*)"$/) { String description ->
-    def currentUsername = AuthHelper.instance.currentUsername
+    def currentUsername = AuthHelper.instance.getCurrentUsername()
     def currentUser = User.findByUsername(currentUsername)
 
     def currentParkingSpace = ParkingSpace.findByDescription(description)
-    ParkingSpaceTestDataAndOperations.bookParkingSpace(currentParkingSpace);
+    ParkingSpaceTestDataAndOperations.bookParkingSpace(currentParkingSpace)
 
-    assert currentParkingSpace.owner == currentUser
+    assert currentParkingSpace.getOwner() == currentUser
 }
 
 When(~/^O usuario logado tenta reservar a vaga "([^"]*)"$/) {String description ->
@@ -234,85 +226,63 @@ Then(~/^O sistema altera a reserva de vaga do usuário "([^"]*)" que era "([^"]*
     def currentParkingSpace = ParkingSpace.findByDescription(vaga2)
 
     assert pastParkingSpace.isAvailable()
-    assert currentParkingSpace.owner == currentUser
+    assert currentParkingSpace.getOwner() == currentUser
     assert !currentParkingSpace.isAvailable()
 }
 
 Then(~/^O sistema não permite a reserva da vaga "([^"]*)"$/) { String vaga ->
-    def currentUsername = AuthHelper.instance.currentUsername
+    def currentUsername = AuthHelper.instance.getCurrentUsername()
     def currentUser = User.findByUsername(currentUsername)
     def pastParkingSpace = ParkingSpace.findByDescription(vaga)
 
-    assert pastParkingSpace.owner != currentUser
+    assert pastParkingSpace.getOwner() != currentUser
 }
-
 
 // GUI Scenarios
 Given(~/^Eu estou logado no sistema como "([^"]*)" com preferencia no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String username, String sector, String preferential_tag ->
-    def preferential = false
-
-    if (preferential_tag == "com"){
-        preferential = true
-    }
+    def preferential = (preferential_tag == "com")
 
     waitFor { to SignUpPage }
     page.proceed(username, sector, preferential)
     waitFor { at HomePage }
-    assert AuthHelper.instance.currentUsername != null
-}
-
-And(~/^Eu estou na pagina de home/) { ->
-    at HomePage
-}
-
-And(~/^Eu vou para a pagina de listagem de vagas$/) { ->
-    page.goToParkingSpotListPage()
-    at ParkingSpaceListPage
-}
-
-And(~/^Eu vou para a pagina de criacao de vaga$/) { ->
-    page.goToCreateParkingSpacePage()
-    at ParkingSpaceCreatePage
+    assert AuthHelper.instance.getCurrentUsername() != null
 }
 
 And(~/^Eu estou na pagina de listagem de vagas$/) { ->
+    to ParkingSpaceListPage
     at ParkingSpaceListPage
 }
 
-And(~/^Eu crio uma vaga com descricao "([^"]*)", no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String descricao, String setor, String preferencial ->
-    boolean preferential = false
-
-    if (preferencial == "com"){
-        preferential = true
-    }
+And(~/^Eu criei uma vaga com descricao "([^"]*)", no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String descricao, String setor, String preferential_tag ->
+    def preferential = (preferential_tag == "com")
+    page.goToParkingSpotListPage()
+    at ParkingSpaceListPage
+    page.goToCreateParkingSpacePage()
+    at ParkingSpaceCreatePage
     page.createParkingSpace(descricao, setor, preferential)
     at ParkingSpaceShowPage
-}
-
-And(~/^Eu estou na pagina de visualizacao da vaga$/) { ->
-    at ParkingSpaceShowPage
+    page.goToParkingSpotListPage()
 }
 
 When(~/^Eu reservo a vaga com descricao "([^"]*)"$/) { String description ->
-    def currentUsername = AuthHelper.instance.currentUsername
+    def currentUsername = AuthHelper.instance.getCurrentUsername()
 
+    to ParkingSpaceListPage
     at ParkingSpaceListPage
     assert page.bookParkingSpace(description)
     assert page.checkParkingSpace(description, currentUsername)
 }
 
-
 Then(~/^Eu vejo minha vaga ser alterada da vaga "([^"]*)" para a vaga "([^"]*)"$/) { String vaga1, String vaga2 ->
-    def currentUsername = AuthHelper.instance.currentUsername
+    def currentUsername = AuthHelper.instance.getCurrentUsername()
 
+    to ParkingSpaceListPage
     at ParkingSpaceListPage
     assert !page.checkParkingSpace(vaga1, currentUsername)
     assert page.checkParkingSpace(vaga2, currentUsername)
 }
 
 And(~/^Eu tento reservar a vaga com descricao "([^"]*)"$/) { String description ->
-    def currentUsername = AuthHelper.instance.currentUsername
-
     at ParkingSpaceListPage
     assert page.bookParkingSpace(description)
 }

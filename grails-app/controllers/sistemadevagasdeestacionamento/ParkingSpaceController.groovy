@@ -21,44 +21,24 @@ class ParkingSpaceController {
 
     //#if($ParkingSpaceBooking)
     def book(ParkingSpace parkingSpaceInstance) {
-
         if (parkingSpaceInstance){
-            def username = AuthHelper.instance.currentUsername
-            def user = User.findByUsername(username)
+            def user = User.findByUsername(AuthHelper.instance.getCurrentUsername())
 
             if (parkingSpaceInstance.isAvailable() && !parkingSpaceInstance.isPreferential()) {
-
-                def lastParkingSpace = ParkingSpace.findByOwner(user)
-
-                if (lastParkingSpace) {
-                    unbook(lastParkingSpace)
-                    response.reset()
-                }
-                parkingSpaceInstance.owner = user
-                parkingSpaceInstance.save(flush: true)
-                flash.message = message(code: 'default.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
-
-            }else if (!parkingSpaceInstance.isAvailable()){
-                flash.message = message(code: 'default.not.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+                bookValidator(parkingSpaceInstance, user)
 
             }else if (parkingSpaceInstance.isAvailable() && parkingSpaceInstance.isPreferential()){
 
-                if (user.preferential){
-
-                    def lastParkingSpace = ParkingSpace.findByOwner(user)
-
-                    if (lastParkingSpace) {
-                        unbook(lastParkingSpace)
-                        response.reset()
-                    }
-                    parkingSpaceInstance.isPreferential()
-                    parkingSpaceInstance.owner = user
-                    parkingSpaceInstance.save(flush: true)
+                if (user.isPreferential()){
+                    bookValidator(parkingSpaceInstance, user)
                     flash.message = message(code: 'default.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+
                 }else{
-                    flash.message = message(code: 'default.not.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+                    flash.message = message(code: 'default.not.preference.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
                 }
 
+            }else if (!parkingSpaceInstance.isAvailable()) {
+                flash.message = message(code: 'default.not.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
             }
 
         }else{
@@ -67,16 +47,23 @@ class ParkingSpaceController {
         redirect(action: "index")
     }
 
+    def bookValidator(ParkingSpace parkingSpaceInstance, User user) {
+        def lastParkingSpace = ParkingSpace.findByOwner(user)
 
+        if (lastParkingSpace) {
+            unbook(lastParkingSpace)
+            response.reset()
+        }
+        parkingSpaceInstance.setOwner(user)
+        parkingSpaceInstance.save(flush: true)
+    }
 
     @Transactional
     def unbook(ParkingSpace parkingSpace) {
         if(parkingSpace){
-            parkingSpace.owner = null
+            parkingSpace.setOwner(null)
             parkingSpace.save(flush: true)
 
-        }else{
-            notFound()
         }
     }
     //#end

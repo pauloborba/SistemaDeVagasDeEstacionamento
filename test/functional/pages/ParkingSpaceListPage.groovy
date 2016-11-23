@@ -12,7 +12,6 @@ class ParkingSpaceListPage extends Page {
 
         String parkingSpace = "ParkingSpace"
         String pageTitle = helper.getMessage("default.list.label", parkingSpace)
-        print pageTitle
         title ==~ pageTitle
     }
 
@@ -30,9 +29,7 @@ class ParkingSpaceListPage extends Page {
     def checkSuccessMessage(){
         def message = $("div[class='message']").text()
 
-        if (message.contains("not")){
-            return false
-        }else{
+        if (!message.contains("not")){
             return true
         }
     }
