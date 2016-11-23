@@ -29,6 +29,10 @@ When(~/the user tries to send the report with Title "([^"]*)", Sector "([^"]*)" 
     assert currentProblemReport != null
 
 }
+When(~/the user tries to send the report "([^"]*)" with some information left incomplete$/) { String title->
+    ProblemReportTestDataAndOperations.createProblemReport(title, "CCEN", "")
+
+}
 
 Then(~/the system stores the report "([^"]*)"$/){ String title ->
     def problemReport = ProblemReport.findByTitle(title)
@@ -38,6 +42,11 @@ Then(~/the system stores the report "([^"]*)"$/){ String title ->
 Then(~/the system doesn't store the report "([^"]*)" with description "([^"]*)"$/) { String title, String description ->
     def problemReport = ProblemReport.findByTitle(title)
     assert problemReport.description != description
+}
+
+Then(~/the system doesn't store the report "([^"]*)"$/) { String title ->
+
+    assert ProblemReport.findByTitle(title) == null
 }
 
 And(~/^The system has no problem report stored with Title "([^"]*)"$/) { String title ->
@@ -79,12 +88,19 @@ When(~/^I try to send a report with Title "([^"]*)", Sector "([^"]*)" and Descri
     page.selectCreateProblemReport()
 }
 
-Then(~/^I shoud see a message indicating that the report was created$/){ ->
+When(~/^I try to send a report with some information left incomplete$/){ ->
+    waitFor { at CreateProblemReportPage }
+    page.fillProblemReportInformations("titulo","CCEN","")
+    page.selectCreateProblemReport()
+}
+
+Then(~/^I should see a message indicating that the report was created$/){ ->
     assert page.readFlashMessage() != null
 }
 
-Then(~/^I shoud see an error message$/){ ->
+Then(~/^I should see an error message$/){ ->
     assert page.hasErrors()
 }
+
 
 //#end
