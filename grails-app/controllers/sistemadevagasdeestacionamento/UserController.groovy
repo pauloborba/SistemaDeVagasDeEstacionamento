@@ -18,18 +18,16 @@ class UserController {
         respond new User(params)
     }
 
-    @Transactional
     def save(User userInstance) {
         if (userInstance == null) {
             notFound()
             return
         }
 
-        if (userInstance.hasErrors()) {
+        if (!userInstance.save(flush:true)) {
             respond userInstance.errors, view:'create'
             return
         }
-        userInstance.save(flush: true)
 
         request.withFormat {
             form multipartForm {

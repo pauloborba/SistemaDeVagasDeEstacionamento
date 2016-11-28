@@ -264,19 +264,9 @@ And(~/^Eu criei uma vaga com descricao "([^"]*)", no setor "([^"]*)" "([^"]*)" u
     page.goToParkingSpotListPage()
 }
 
-When(~/^Eu reservo a vaga com descricao "([^"]*)"$/) { String description ->
-    def currentUsername = AuthHelper.instance.getCurrentUsername()
-
-    to ParkingSpaceListPage
-    at ParkingSpaceListPage
-    assert page.bookParkingSpace(description)
-    assert page.checkParkingSpace(description, currentUsername)
-}
-
 Then(~/^Eu vejo minha vaga ser alterada da vaga "([^"]*)" para a vaga "([^"]*)"$/) { String vaga1, String vaga2 ->
     def currentUsername = AuthHelper.instance.getCurrentUsername()
 
-    to ParkingSpaceListPage
     at ParkingSpaceListPage
     assert !page.checkParkingSpace(vaga1, currentUsername)
     assert page.checkParkingSpace(vaga2, currentUsername)
@@ -284,7 +274,7 @@ Then(~/^Eu vejo minha vaga ser alterada da vaga "([^"]*)" para a vaga "([^"]*)"$
 
 And(~/^Eu tento reservar a vaga com descricao "([^"]*)"$/) { String description ->
     at ParkingSpaceListPage
-    assert page.bookParkingSpace(description)
+    page.bookParkingSpace(description)
 }
 
 Then(~/^Uma mensagem de error aparece na tela$/) { ->

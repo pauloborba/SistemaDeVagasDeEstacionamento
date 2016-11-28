@@ -1,6 +1,7 @@
 package pages
 
 import geb.Page
+import geb.navigator.NonEmptyNavigator
 import sistemadevagasdeestacionamento.ParkingSpace
 import steps.InternationalizationHelper
 
@@ -23,7 +24,8 @@ class ParkingSpaceListPage extends Page {
 
     def bookParkingSpace(String description){
         def parkingSpace = ParkingSpace.findByDescription(description)
-        $("h4[id='${parkingSpace.id}']").click()
+        $("h4[id='${parkingSpace.getId()}']").click()
+
     }
 
     def checkSuccessMessage(){
