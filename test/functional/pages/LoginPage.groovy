@@ -9,7 +9,7 @@ class LoginPage extends Page {
         title ==~ /Login/
     }
 
-    def login(String username, String password){
+    def login(String username){
         $("input[name='username'").value(username)
         $("input[type='submit'").click()
     }

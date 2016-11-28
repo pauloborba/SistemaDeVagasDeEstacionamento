@@ -6,37 +6,37 @@ import sistemadevagasdeestacionamento.*
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
+//Controller Steps
 Given(~/^the system has stored the user "([^"]*)" with preference for parking spaces in the "([^"]*)" sector$/) { String username, String sector ->
-    currentUsername = username
 
-    AuthHelper.instance.signup(username, sector)
+    AuthHelper.instance.signup(username, sector, false)
 
     def user = User.findByUsername(username)
 
-    assert user.username == username
-    assert user.preferredSector == sector
+    assert user.getUsername() == username
+    assert user.getPreferredSector() == sector
 }
 
 Given(~/^I signed up as "([^"]*)" with preference for parking spaces in the "([^"]*)" sector$/) { String username, String sector ->
-    currentUsername = username
+    def preferential = false
 
     waitFor { to SignUpPage }
-    page.proceed(username, sector)
+    page.proceed(username, sector, preferential)
     waitFor { at HomePage }
 }
 
-And(~/^the user is logged in the system$/) { ->
-    AuthHelper.instance.login(currentUsername)
+And(~/^the user "([^"]*)" is logged in the system$/) { String username ->
+    AuthHelper.instance.login(username)
 
-    assert AuthHelper.instance.currentUsername == currentUsername
+    assert AuthHelper.instance.currentUsername == username
 }
 
 def createParkingSpace(String description, String sector, boolean preferential) {
-    parkingSpaceController = new ParkingSpaceController()
+    def parkingSpaceController = new ParkingSpaceController()
     parkingSpaceController.save(new ParkingSpace([description: description, sector: sector, preferential: preferential]))
     parkingSpaceController.response.reset()
 
-    currentParkingSpace = ParkingSpace.findByDescription(description)
+    def currentParkingSpace = ParkingSpace.findByDescription(description)
 
     assert currentParkingSpace.description == description
     assert currentParkingSpace.sector == sector
@@ -51,20 +51,25 @@ And(~/^the preferential parking space "([^"]*)" is from the "([^"]*)" sector$/) 
 }
 
 And(~/^the parking space "([^"]*)" is available$/) { String description ->
+    def currentParkingSpace = ParkingSpace.findByDescription(description)
+
     assert currentParkingSpace.available
 }
 
 And(~/^the parking space "([^"]*)" is not available$/) { String description ->
-    currentParkingSpace.owner = User.findByUsername(currentUsername)
+    def currentParkingSpace = ParkingSpace.findByDescription(description)
+
+    currentParkingSpace.owner = User.findByUsername(AuthHelper.instance.currentUsername)
     currentParkingSpace.save(flush: true)
 
     assert !currentParkingSpace.available
 }
 
+//GUI Steps
 When(~/^I go to parking space's suggestion page$/) { ->
     waitFor { at HomePage }
 
-    page.goToSuggestions()
+    page.goToSuggestionsPage()
 }
 
 And(~/^I select the filter from parking spaces in my preferred sector$/) { ->
@@ -86,6 +91,7 @@ And(~/^I confirm the filter options$/) { ->
 }
 
 def askForSuggestions(boolean sector, boolean preferential) {
+    def parkingSpaceController = new ParkingSpaceController()
     parkingSpaceController.params << [sector: sector, preferential: preferential]
     parkingSpaceController.request.format = "json"
     parkingSpaceController.suggestion()
@@ -104,6 +110,7 @@ When(~/^the user asks for suggestions of preferential parking spaces on his sect
 }
 
 def shouldInformParkingSpace(String description, boolean should) {
+    def parkingSpaceController = new ParkingSpaceController()
     def response = parkingSpaceController.response.json
 
     parkingSpaceController.response.reset()
