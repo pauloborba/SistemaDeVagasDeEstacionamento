@@ -20,22 +20,18 @@
 			<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<g:each in="${reservedParkingSpaceInstanceList}" status="i" var="reservedParkingSpaceInstance">
-				<h3>${i+1}. ${reservedParkingSpaceInstance.reserved.owner.username}</h3>
+			<g:each in="${reservedInstance}" status="i" var="reservedParkingSpaceInstance">
+				<h3>${i+1}. ${reservedParkingSpaceInstance.user.username}</h3>
 				<p>
-					Horário de Entrada: ${reservedParkingSpaceInstance.firstDate}
+					Data e Horário de Entrada: ${reservedParkingSpaceInstance.date}
+				</p>
+					Setor: ${reservedParkingSpaceInstance.parkingSpace.sector}
 				</p>
 				<p>
-					Horário de Saída: ${reservedParkingSpaceInstanceList.lastDate}
+					Preferencial: ${reservedParkingSpaceInstance.parkingSpace.preferential}
 				</p>
 				<p>
-					Tempo Total da Reserva: ${reservedParkingSpaceInstanceList.totalTime}
-				</p>
-				<p>
-					Setor: ${reservedParkingSpaceInstance.reserved.sector}
-				</p>
-				<p>
-					Preferencial: ${reservedParkingSpaceInstance.reserved.preferential}
+					Descrição: ${reservedParkingSpaceInstance.parkingSpace.description}
 				</p>
 				<br/>
 			</g:each>

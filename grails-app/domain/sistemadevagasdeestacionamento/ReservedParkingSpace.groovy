@@ -2,13 +2,11 @@ package sistemadevagasdeestacionamento
 
 class ReservedParkingSpace {
 
-    Date firstDate
-    Date lastDate
-    Integer totalTime
-
-    static belongsTo = [ reserved : ParkingSpace]
+    User user
+    Date date
+    ParkingSpace parkingSpace
 
     static constraints = {
-        totalTime blank: false
+            user nullable: false
     }
 }
