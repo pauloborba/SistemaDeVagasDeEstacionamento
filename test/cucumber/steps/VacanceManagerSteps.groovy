@@ -36,16 +36,14 @@ And(~/^O usuário "([^"]*)" está logado no sistema$/) { String username ->
     assert AuthHelper.instance.currentUsername == username
 }
 
-And(~/^As vagas "([^"]*)" e "([^"]*)" dos setores "([^"]*)" e "([^"]*)" estão livres$/) {
-    String desc1, String desc2, String sector1, String sector2->
+And(~/^A vaga "([^"]*)" do setor "([^"]*)" está livre$/) {
+    String desc1, String sector1 ->
 
     ParkingSpaceTestDataAndOperations.createParkingSpace(desc1, sector1, false)
-    ParkingSpaceTestDataAndOperations.createParkingSpace(desc2, sector2, false)
 
     def vaga1 = ParkingSpace.findByDescription(desc1)
-    def vaga2 = ParkingSpace.findByDescription(desc2)
 
-    assert vaga1.isAvailable() && vaga2.isAvailable()
+    assert vaga1.isAvailable()
 }
 
 When(~/^"([^"]*)" cria uma reserva da vaga "([^"]*)" para o horário das "([^"]*)" às "([^"]*)" horas do dia corrente$/) { String username, String desc, Integer entrada, Integer saida ->
@@ -68,10 +66,12 @@ And(~/^A reserva da vaga "([^"]*)" recebe o valor "([^"]*)" para Hora de saída$
     assert reserva.getOutHour() == saida
 }
 
-And(~/^"([^"]*)" reservou a vaga "([^"]*)" das "([^"]*)" às "([^"]*)" horas do dia corrente$/) { String username, String desc, Integer entrada, Integer saida ->
-    ParkingSpaceTestDataAndOperations.createBook(username, desc, entrada, saida)
-    def vaga = ParkingSpace.findByDescription(desc)
-    assert vaga.owner.getUsername() == username
+And(~/^"([^"]*)" reservou a vaga "([^"]*)" do setor "([^"]*)" das "([^"]*)" às "([^"]*)" horas do dia corrente$/) {
+    String username, String desc, String sector, Integer entrada, Integer saida ->
+        ParkingSpaceTestDataAndOperations.createParkingSpace(desc, sector, false)
+        ParkingSpaceTestDataAndOperations.createBook(username, desc, entrada, saida)
+        def vaga = ParkingSpace.findByDescription(desc)
+        assert vaga.owner.getUsername() == username
 }
 When(~/^o horário do sistema passar das "([^"]*)" horas$/) { Integer saida ->
     def currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
