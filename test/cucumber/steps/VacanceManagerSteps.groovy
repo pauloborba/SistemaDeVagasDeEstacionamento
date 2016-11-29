@@ -94,42 +94,31 @@ Given(~/^Eu estou logado no sistema como "([^"]*)" com preferência no setor "([
     waitFor { at HomePage }
     assert AuthHelper.instance.currentUsername == username
 }
-And(~/^Eu estou na página de home$/) { ->
+And(~/^Eu criei uma vaga com com descricao "([^"]*)", no setor "([^"]*)"$/) { String desc, String sector ->
     at HomePage
-}
-And(~/^Eu vou para página da listagem de vagas$/) { ->
     page.goToParkingSpotListPage()
     at ParkingSpaceListPage
-}
-And(~/^Eu seleciono a opção Criar Vaga$/) { ->
     page.goToCreateParkingSpace()
-}
-And(~/^Eu estou na página de criação de vaga$/) { ->
     at ParkingSpaceCreatePage
-}
-And(~/^Eu crio uma vaga com descricao "([^"]*)", no setor "([^"]*)"$/) { String desc, String sector ->
     page.createParkingSpace(desc, sector)
-}
-And(~/^Eu estou na página de visualização da vaga$/) { ->
     at ParkingSpaceShowPage
 }
+
 When(~/^Eu seleciono a opção Reservar da vaga com descrição "([^"]*)"$/) { String desc ->
     page.goToBookParkingSpace(desc)
     at BookCreatePage
 }
 And(~/^Eu crio uma reserva para a vaga para o horário de "([^"]*)" às "([^"]*)" horas do dia corrente$/) {
     Integer entrada, Integer saida ->
-
     page.createBook(entrada, saida)
-
 }
+
 Then(~/^Eu estou na página da listagem de vagas$/) { ->
+    page.goToParkingSpotListPage()
     at ParkingSpaceListPage
 }
 And(~/^Eu vejo "([^"]*)" na coluna Book da vaga com descrição "([^"]*)"$/) { String tempoDeReservaEsperado, String desc ->
-    // Write code here that turns the phrase above into concrete actions
     String tempoDeReserva = page.getBookTime(desc)
-//    assert tempoDeReserva.getClass() == String
     assert tempoDeReserva.equals(tempoDeReservaEsperado)
 }
 And(~/^o horário do sistema passou das "([^"]*)" horas$/) { Integer saida ->

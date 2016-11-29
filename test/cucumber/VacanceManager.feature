@@ -26,13 +26,8 @@ Feature: Gestor de Vagas
 
   Scenario: Informações sobre as vagas reservadas web
     Given Eu estou logado no sistema como "Gustavo" com preferência no setor "CIn"
-    And Eu estou na página de home
-    And Eu vou para página da listagem de vagas
-    And Eu seleciono a opção Criar Vaga
-    And Eu estou na página de criação de vaga
-    And Eu crio uma vaga com descricao "13", no setor "CIn"
-    And Eu estou na página de visualização da vaga
-    And Eu vou para página da listagem de vagas
+    And Eu criei uma vaga com com descricao "13", no setor "CIn"
+    And Eu estou na página da listagem de vagas
     When Eu seleciono a opção Reservar da vaga com descrição "13"
     And Eu crio uma reserva para a vaga para o horário de "8" às "10" horas do dia corrente
     Then Eu estou na página da listagem de vagas
@@ -41,13 +36,8 @@ Feature: Gestor de Vagas
 
   Scenario: Tempo de reserva da vaga acabou web
     Given Eu estou logado no sistema como "Alfredo" com preferência no setor "CCEN"
-    And Eu estou na página de home
-    And Eu vou para página da listagem de vagas
-    And Eu seleciono a opção Criar Vaga
-    And Eu estou na página de criação de vaga
-    And Eu crio uma vaga com descricao "14", no setor "CCEN"
-    And Eu estou na página de visualização da vaga
-    And Eu vou para página da listagem de vagas
+    And Eu criei uma vaga com com descricao "14", no setor "CCEN"
+    And Eu estou na página da listagem de vagas
     And o horário do sistema passou das "1" horas
     When Eu seleciono a opção Reservar da vaga com descrição "14"
     And Eu crio uma reserva para a vaga para o horário de "0" às "1" horas do dia corrente

@@ -12,8 +12,6 @@ class ParkingSpaceController {
             if (ps.book) {
                 ps.book.status = (ps.book.outHour < currentHour) ? "red" : "green"
                 ps.save(flush: true)
-                println ps.description
-                println ps.book.status
             }
         }
 

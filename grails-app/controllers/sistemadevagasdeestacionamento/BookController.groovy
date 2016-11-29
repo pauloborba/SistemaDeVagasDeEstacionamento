@@ -27,7 +27,6 @@ class BookController {
     }
 
     def create() {
-        println params.parkingSpace
         def parkingSpace = ParkingSpace.findByDescription(params.parkingSpace)
 
         User loggedUser = User.findByUsername(AuthHelper.instance.currentUsername)
@@ -51,19 +50,6 @@ class BookController {
             notFound()
         }
 
-//        if (bookInstance == null) {
-//            notFound()
-//            return
-//        }
-//
-//        if (bookInstance.hasErrors()) {
-//            respond bookInstance.errors, view:'create'
-//            return
-//        }
-//
-//        bookInstance.save flush:true
-//
-//        redirect(controller: "parkingSpace", action: "index", method: "GET")
     }
 
     def edit(Book bookInstance) {
