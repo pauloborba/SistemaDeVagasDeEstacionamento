@@ -1,4 +1,4 @@
-Feature: Gestor de Vagas
+Feature: Vacance Manager
   As um usuário do sistema cadastrado como gestor de vagas
   I quero ser capaz de manipular e ter acesso às informarções das vagas
   so that eu posso gerenciar a logística do sistema
@@ -7,7 +7,7 @@ Feature: Gestor de Vagas
   Scenario: Informações sobre a reserva
     Given O sistema possui o usuário "Fulano" cadastrado com preferencia no setor "CIn"
     And O usuário "Fulano" está logado no sistema
-    And As vagas "11" e "12" dos setores "CIn" e "CCEN" estão livres
+    And A vaga "11" do setor "CIn" está livre
     When "Fulano" cria uma reserva da vaga "11" para o horário das "13" às "15" horas do dia corrente
     Then O Sistema reserva a vaga "11" para "Fulano"
     And A reserva da vaga "11" recebe o valor "13" para Hora de entrada
@@ -17,8 +17,7 @@ Feature: Gestor de Vagas
   Scenario: Tempo de reserva da vaga acabou
     Given O sistema possui o usuário "Sicrano" cadastrado com preferencia no setor "CCEN"
     And O usuário "Sicrano" está logado no sistema
-    And As vagas "11" e "12" dos setores "CIn" e "CCEN" estão livres
-    And "Sicrano" reservou a vaga "12" das "0" às "1" horas do dia corrente
+    And "Sicrano" reservou a vaga "12" do setor "CCEN" das "0" às "1" horas do dia corrente
     When o horário do sistema passar das "0" horas
     And "Sicrano" ainda está na vaga "12"
     Then A reserva da vaga "12" recebe o status "red"
