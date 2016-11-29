@@ -64,7 +64,7 @@ And(~/^the parking space "([^"]*)" is not available$/) { String description ->
 When(~/^I go to parking space's suggestion page$/) { ->
     waitFor { at HomePage }
 
-    page.goToSuggestions()
+    page.goToSuggestionsPage()
 }
 
 And(~/^I select the filter from parking spaces in my preferred sector$/) { ->
