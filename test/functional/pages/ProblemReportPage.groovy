@@ -19,16 +19,13 @@ class ProblemReportPage extends Page {
     }
 
     def containsProblemReport(String title) {
-        def problemReport = ProblemReport.findByTitle(title)
-
-        def tr = $("tr[data-id='${problemReport.id}']")
-
+        def tr = $("tr[data-id='${title}']")
         return tr instanceof NonEmptyNavigator
     }
 
     def resolve(String title){
         def problemReport = ProblemReport.findByTitle(title)
-        $("tr[data-id='${problemReport.getId()}']").find('td:last-child').find("g:actionSubmit[name='resolve']").click()
+        $("input[name='${problemReport.id}']").click()
     }
 
 }

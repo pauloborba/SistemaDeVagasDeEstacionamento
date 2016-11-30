@@ -36,7 +36,7 @@
                 </thead>
                 <tbody>
                     <g:each in="${problemReportInstanceList}" status="i" var="problemReportInstance">
-                        <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+                        <tr class="${(i % 2) == 0 ? 'even' : 'odd'}" data-id="${problemReportInstance.title}">
 
                             <td>
                                 <g:link action="show" id="${problemReportInstance.id}">${fieldValue(bean: problemReportInstance, field: "user.username")}</g:link>
@@ -46,11 +46,7 @@
                             <td>${fieldValue(bean: problemReportInstance, field: "description")}</td>
                             <td>
                                 <g:form url="[resource:problemReportInstance, action:'resolve']" method="DELETE">
-                                    <g:actionSubmit class="resolve"
-                                                    name="resolve"
-                                                    action="resolve"
-                                                    value="${message(code: 'default.button.delete.label', default: 'Resolve')}"
-                                                    onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
+                                    <input type="submit" name="${problemReportInstance.id}" value="Resolve"/></td>
                                 </g:form>
                             </td>
 

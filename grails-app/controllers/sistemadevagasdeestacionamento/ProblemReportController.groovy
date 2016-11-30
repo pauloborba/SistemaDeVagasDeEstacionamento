@@ -49,8 +49,9 @@ class ProblemReportController {
 
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'problemReport.label', default: 'ProblemReport'), problemReportInstance.id])
 
-                redirect(action: "index", method: "GET")
             }
+            redirect(action: "index", method: "GET")
+
             return true
         } else {
             notFound()

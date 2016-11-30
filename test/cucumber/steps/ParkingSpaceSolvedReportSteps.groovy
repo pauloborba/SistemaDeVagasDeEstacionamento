@@ -65,11 +65,10 @@ And(~/^The user is logged in the system$/) { ->
     assert AuthHelper.instance.currentUsername == currentUsername
 }
 Given(~/^I signed up as "([^"]*)" with preference parking spaces in the "([^"]*)" sector$/) { String username, String sector ->
-    currentUsername = username
-
     waitFor { to SignUpPage }
     page.proceed(username, sector)
     waitFor { at HomePage }
+    assert AuthHelper.instance.currentUsername == username
 }
 When(~/^The user try to set as solved the problem "([^"]*)"$/) { String arg1 ->
     def problemReport = ProblemReport.findByTitle(arg1)
@@ -85,7 +84,7 @@ When(~/^I go to parking report list page$/) { ->
 }
 
 def shouldContainProblemReport(String title, boolean should) {
-    waitFor { at ProblemReportPage }
+    at ProblemReportPage
 
     assert page.containsProblemReport(title) == should
 }
