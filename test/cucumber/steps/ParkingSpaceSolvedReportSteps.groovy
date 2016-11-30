@@ -49,7 +49,7 @@ Then(~/^The problem "([^"]*)" is removed from parking report list$/) { String ar
     def problemReport = ProblemReport.findByTitle(arg1)
     assert problemReport == null
 }
-Given(~/^The system has stored the user "([^"]*)" with preference for parking spaces in the "([^"]*)" sector$/) { String username, String sector ->
+Given(~/^The system has stored the user "([^"]*)" with preference parking spaces in the "([^"]*)" sector$/) { String username, String sector ->
     currentUsername = username
 
     AuthHelper.instance.signup(username, sector)
@@ -64,7 +64,7 @@ And(~/^The user is logged in the system$/) { ->
 
     assert AuthHelper.instance.currentUsername == currentUsername
 }
-Given(~/^I signed up as "([^"]*)" with preference for parking spaces in the "([^"]*)" sector$/) { String username, String sector ->
+Given(~/^I signed up as "([^"]*)" with preference parking spaces in the "([^"]*)" sector$/) { String username, String sector ->
     currentUsername = username
 
     waitFor { to SignUpPage }

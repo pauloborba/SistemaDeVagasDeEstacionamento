@@ -1,4 +1,3 @@
-@ignore
 Feature: Parking space suggestion
   Scenario: The system has a parking space available
     Given the system has stored the user "pasg" with preference for parking spaces in the "CCEN" sector

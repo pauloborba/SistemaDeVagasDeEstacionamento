@@ -1,4 +1,4 @@
-/*package steps
+package steps
 
 import pages.*
 import sistemadevagasdeestacionamento.*
@@ -133,4 +133,4 @@ Then(~/^I can see the parking space "([^"]*)" in the suggestions$/) { String des
 
 Then(~/^I can not see the parking space "([^"]*)" in the suggestions$/) { String description ->
     shouldContainParkingSpace(description, false)
-}*/
+}

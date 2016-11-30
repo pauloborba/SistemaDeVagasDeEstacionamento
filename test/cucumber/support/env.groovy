@@ -20,6 +20,8 @@ After() {
 
     ParkingSpace.list().each { it.delete(flush: true) }
 
+    ProblemReport.list().each { it.delete(flush:true)}
+
     User.list().each { it.delete(flush: true) }
 
     scenarioInterceptor.destroy()
