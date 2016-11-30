@@ -37,7 +37,9 @@
                         <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
                             <td>
                                 <g:if test="${parkingSpaceInstance.owner}">
-                                    <g:fieldValue bean="${parkingSpaceInstance}" field="owner.firstName" />
+                                    <!--#if($Parking Space's reserve report)-->
+                                    <h4 id="${parkingSpaceInstance.id}"><g:fieldValue bean="${parkingSpaceInstance}" field="owner.username" /></h4>
+                                    <!--#end-->
                                 </g:if>
                                 <g:else>
                                     <g:link action="book" id="${parkingSpaceInstance.id}">Reservar</g:link>
