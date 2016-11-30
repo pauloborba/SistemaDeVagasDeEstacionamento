@@ -2,7 +2,7 @@ package pages
 
 import geb.Page
 import steps.InternationalizationHelper;
-
+//#if($Parking Space's reserve report)
 class ParkingSpaceCreatePage extends Page{
     static url = "/parkingSpace/create"
 
@@ -14,7 +14,7 @@ class ParkingSpaceCreatePage extends Page{
         print pageTitle
         title ==~ pageTitle
     }
-//#if()
+
     def createParkingSpace(String description, String sector) {
         $("input[name='description']").value(description)
         $("select[name='sector']").value(sector)

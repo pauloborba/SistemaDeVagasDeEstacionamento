@@ -3,7 +3,7 @@ package pages
 import geb.Page
 import sistemadevagasdeestacionamento.ParkingSpace
 import steps.InternationalizationHelper
-
+//#if($Parking Space's reserve report)
 class ParkingSpaceList extends Page {
     static url = 'parkingSpace/index'
 
@@ -41,6 +41,5 @@ class ParkingSpaceList extends Page {
             return false
         }
     }
-
-
+//#end
 }

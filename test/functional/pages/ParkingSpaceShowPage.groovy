@@ -2,7 +2,7 @@ package pages
 
 import steps.InternationalizationHelper
 import geb.Page
-
+//#if($Parking Space's reserve report)
 class ParkingSpaceShowPage extends Page {
 
     static at = {
@@ -14,7 +14,7 @@ class ParkingSpaceShowPage extends Page {
         print pageTitle
         title ==~ pageTitle
     }
-    //#if()
+
     def goToParkingSpotListPage() {
         $("a[class='list']").click()
     }
