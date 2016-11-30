@@ -14,15 +14,10 @@ import sistemadevagasdeestacionamento.BookController
 import sistemadevagasdeestacionamento.ParkingSpace
 import sistemadevagasdeestacionamento.ParkingSpaceController
 
-/**
- * Created by gustavo on 06/11/16.
- */
-
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
 Given(~/^O sistema possui o usuário "([^"]*)" cadastrado com preferencia no setor "([^"]*)"$/) { String username, String sector->
-    // Write code here that turns the phrase above into concrete actions
     AuthHelper.instance.signup(username, sector)
 
     def user = User.findByUsername(username)
@@ -48,7 +43,6 @@ And(~/^A vaga "([^"]*)" do setor "([^"]*)" está livre$/) {
 
 When(~/^"([^"]*)" cria uma reserva da vaga "([^"]*)" para o horário das "([^"]*)" às "([^"]*)" horas do dia corrente$/) { String username, String desc, Integer entrada, Integer saida ->
     ParkingSpaceTestDataAndOperations.createBook(username, desc, entrada, saida)
-//    controller.create(params: [parkingSpace: desc, inHour: entrada, outHour: saida])
 }
 Then(~/^O Sistema reserva a vaga "([^"]*)" para "([^"]*)"$/) { String desc, String username ->
     def vaga = ParkingSpace.findByDescription(desc)
