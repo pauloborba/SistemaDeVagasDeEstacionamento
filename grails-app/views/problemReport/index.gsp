@@ -39,14 +39,18 @@
                         <tr class="${(i % 2) == 0 ? 'even' : 'odd'}" data-id="${problemReportInstance.title}">
 
                             <td>
-                                <g:link action="show" id="${problemReportInstance.id}">${fieldValue(bean: problemReportInstance, field: "user.username")}</g:link>
+                                <g:link controller="user" action="index" id="${problemReportInstance.id}">
+                                    ${fieldValue(bean: problemReportInstance, field: "user.username")}
+                                </g:link>
                             </td>
                             <td>${fieldValue(bean: problemReportInstance, field: "title")}</td>
                             <td>${fieldValue(bean: problemReportInstance, field: "sector")}</td>
                             <td>${fieldValue(bean: problemReportInstance, field: "description")}</td>
                             <td>
                                 <g:form url="[resource:problemReportInstance, action:'resolve']" method="DELETE">
-                                    <input type="submit" name="${problemReportInstance.id}" value="Resolve"/></td>
+                                    <input type="submit"
+                                           name="${problemReportInstance.id}"
+                                           value="${message(code: 'problemReport.resolve.button')}"/>
                                 </g:form>
                             </td>
 

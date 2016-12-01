@@ -12,8 +12,8 @@ class ProblemReportPage extends Page {
     static at = {
         InternationalizationHelper helper = InternationalizationHelper.instance
 
-        String problemReport = "ProblemReport"
-        String problemReportList = helper.getMessage("default.list.label", problemReport)
+        String label = helper.getMessage("problemReport.label")
+        String problemReportList = helper.getMessage("default.list.label",label )
 
         title ==~ problemReportList
     }

@@ -47,11 +47,16 @@ class ProblemReportController {
             if (AuthHelper.instance.currentUsername == "master") {
                 problemReportInstance.delete(flush: true)
 
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'problemReport.label', default: 'ProblemReport'), problemReportInstance.id])
+                flash.message = message(
+                        code: 'problemReport.resolve.message',
+                        args: [message(code: problemReportInstance.title)])
 
+            } else {
+                flash.message = message(
+                        code: 'problemReport.refuse.message',
+                        args: [message(code: AuthHelper.instance.currentUsername)])
             }
             redirect(action: "index", method: "GET")
-
             return true
         } else {
             notFound()
