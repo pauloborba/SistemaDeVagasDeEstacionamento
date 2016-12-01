@@ -19,7 +19,7 @@ class UserController {
     }
 
     // TODO: É necessário internacionalizar as mensagens
-    def lembrete(User userInstance) {
+    def lembrete( User userInstance) {
         def vaga = ParkingSpace.findByOwner(userInstance)
 
         flash.message = vaga ? "O usuário estacionou na vaga ${vaga.description}" : "O usuário não estacionou em nenhuma vaga"

@@ -25,6 +25,13 @@ class ParkingSpaceController {
         if (parkingSpaceInstance.isAvailable()) {
             parkingSpaceInstance.owner = loggedUser
             parkingSpaceInstance.save(flush: true)
+
+            def date = new Date()
+            def reserve = new ReservedParkingSpace()
+            reserve.user = loggedUser
+            reserve.parkingSpace = parkingSpaceInstance
+            reserve.date = date
+            reserve.save(flush: true)
         }
 
         redirect(action: "index")

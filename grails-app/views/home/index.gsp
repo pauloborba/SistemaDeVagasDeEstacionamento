@@ -13,6 +13,9 @@
         <br> <g:link controller="parkingSpace" action="index">Parking spot list</g:link>
         <br> <g:link controller="parkingSpace" action="suggestion" name="suggestions">Parking spot suggestions</g:link>
         <br> <g:link controller="user" action="index">My profile</g:link>
+        %{--#if($Parking Space's reserve report)--}%
+        <br> <g:link class="reminder-link" controller="ReservedParkingSpace" action="index">Reserves Report</g:link>
+        %{--#end--}%
         <br> <g:link class="reminder-link" controller="user" action="lembrete" id="${userInstance.id}">Lembrete de vaga</g:link>
 
         <g:if test="${flash.message}">

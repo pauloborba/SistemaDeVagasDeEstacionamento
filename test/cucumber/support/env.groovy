@@ -22,6 +22,8 @@ After() {
 
     User.list().each { it.delete(flush: true) }
 
+    ReservedParkingSpace.list().each { it.delete(flush: true)}
+
     scenarioInterceptor.destroy()
 
     bindingUpdater.remove()
