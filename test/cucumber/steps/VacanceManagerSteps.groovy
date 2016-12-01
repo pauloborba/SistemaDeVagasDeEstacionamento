@@ -1,6 +1,7 @@
 package steps
 
 import cucumber.api.PendingException
+import org.h2.util.DateTimeUtils
 import pages.BookCreatePage
 import pages.HomePage
 import pages.ParkingSpaceCreatePage
@@ -115,9 +116,11 @@ And(~/^Eu vejo "([^"]*)" na coluna Book da vaga com descrição "([^"]*)"$/) { S
     String tempoDeReserva = page.getBookTime(desc)
     assert tempoDeReserva.equals(tempoDeReservaEsperado)
 }
-And(~/^o horário do sistema passou das "([^"]*)" horas$/) { Integer saida ->
-    def currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-    assert currentHour > saida
+And(~/^o horário do sistema passou das "([^"]*)" horas$/) { Integer outHour ->
+    Calendar calendar = Calendar.getInstance()
+    calendar.set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, (outHour+1)%24, Calendar.MINUTE)
+    def systemHour = calendar.getTime().getHours()
+    assert systemHour > outHour
 }
 And(~/^Eu vejo o texto da coluna Book da vaga com descrição "([^"]*)" na cor "([^"]*)"$/) { String desc, String color ->
     def rgbColor = ParkingSpaceTestDataAndOperations.getRgbColorString(color)
