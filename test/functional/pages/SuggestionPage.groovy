@@ -25,6 +25,7 @@ class SuggestionPage extends Page {
         return tr instanceof NonEmptyNavigator
     }
 
+
     def selectSectorFilter() {
         $("input[name='sector']").value(true)
     }
@@ -36,4 +37,16 @@ class SuggestionPage extends Page {
     def confirmFilterOptions() {
         $("a[name='filter']").click()
     }
+    def selectHistoricoFilter(){
+        $("input[name='historico']").value(true)
+    }
+
+    def noSuggestions(){
+        assert $("td[class='${'even'}']").size() == 0
+
+        assert $("td[class='${'odd'}']").size() == 0
+    }
+
+
+
 }

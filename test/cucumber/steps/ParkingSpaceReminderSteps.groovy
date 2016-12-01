@@ -1,8 +1,7 @@
-/*
-package steps
 
-import org.apache.shiro.SecurityUtils
-import org.apache.shiro.crypto.hash.Sha512Hash
+package steps
+/*
+
 import sistemadevagasdeestacionamento.*
 import pages.*
 
@@ -93,4 +92,5 @@ And(~/^the user did not parked using the system$/) { ->
 
 Then(~/^the system informs that he does not have this information$/) { ->
     assert ParkingSpace.findByOwner(user) == null
-}*/
+}
+*/

@@ -2,12 +2,17 @@ package sistemadevagasdeestacionamento
 
 import grails.transaction.Transactional
 
+
 @Transactional(readOnly = true)
 class UserController {
     def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
+        params.max = getMax(max)
 
         respond(User.list(params), model: [userInstanceCount: User.count()])
+    }
+
+    private int getMax(int max) {
+        Math.min(max ?: 10, 100)
     }
 
     def show(User userInstance) {
@@ -25,7 +30,16 @@ class UserController {
         flash.message = vaga ? "O usuário estacionou na vaga ${vaga.description}" : "O usuário não estacionou em nenhuma vaga"
 
         redirect(controller: "home", action: "index")
+
     }
+    def historico(){
+        User loggedUser = User.findByUsername(AuthHelper.instance.currentUsername)
+        def historyList = loggedUser.historicoReservas
+
+        respond (historyList, model: [historyListInstanceCount: historyList.size()])
+
+    }
+
 
     @Transactional
     def save(User userInstance) {

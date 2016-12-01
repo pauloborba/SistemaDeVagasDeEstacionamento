@@ -1,4 +1,5 @@
 Feature: Parking space suggestion
+
   Scenario: The system has a parking space available
     Given the system has stored the user "pasg" with preference for parking spaces in the "CCEN" sector
     And the user is logged in the system
@@ -133,3 +134,39 @@ Feature: Parking space suggestion
     And I select the filter from preferential parking spaces
     And I confirm the filter options
     Then I can not see the parking space "16" in the suggestions
+
+
+  Scenario: Sugestão de vagas para um novo usuário
+    Given o usuário "Pedro" está cadastrado no sistema com o setor "CIn"
+    And o usuário "Pedro" está logado no sistema
+    And historico de vagas do usuario "pedro" esta vazio
+    And as vagas "20" e "21" estão livres
+    When o usuário solicita uma vaga baseada no histórico
+    Then o sistema informa as vagas "20" e "21" ao usuario
+
+  Scenario: Sugestão de vagas para um usuário antigo
+    Given o usuário "Pedro" está cadastrado no sistema com o setor "CIn"
+    And o usuário "Pedro" está logado no sistema
+    And as vagas "33" e "34" estão armazenadas no histórico de vagas do usuário "pedro"
+    When o usuário solicita uma vaga baseada no histórico
+    Then o sistema informa as vagas "33" e "34" ao usuario
+
+
+  Scenario: Sugestão de vagas para um novo usuário web
+    Given eu estou logado com o login "pedro" com preferencia pelo setor "CIn"
+    And eu estou na pagina de historico de vagas
+    And não aparecem vagas na pagina de historico do usuario "pedro"
+    When eu vou para a pagina de sugestão de vaga
+    And o usuário seleciona o filtro de historico
+    And solicita uma vaga baseada no historico
+    Then nenhuma vaga é mostrada
+
+
+  Scenario: Sugestão de vagas para um usuário antigo web
+    Given eu estou logado com o login "pedro" com preferencia pelo setor "CIn"
+    And eu ja reservei as vagas "33" e "34"
+    And a vaga "33" esta livre
+    When eu vou para a pagina de sugestão de vaga
+    And o usuário seleciona o filtro de historico
+    And solicita uma vaga baseada no historico
+    Then sou redirecionado para uma pagina com as vagas "33"
