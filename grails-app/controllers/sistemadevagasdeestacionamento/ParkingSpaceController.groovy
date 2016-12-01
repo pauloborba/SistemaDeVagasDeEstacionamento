@@ -70,23 +70,15 @@ class ParkingSpaceController {
         redirect(action: 'index')
     }
 
-    private void setHistorico(User user, ParkingSpace parkingSpaceInstance) {
+    private static void setHistorico(User user, ParkingSpace parkingSpaceInstance) {
         parkingSpaceInstance.owner = user
-        def reserva = new Reserva()
-        reserva.vaga = parkingSpaceInstance
+        def reserva = new Reserva("","",parkingSpaceInstance)
         user.historicoReservas.add(reserva)
         parkingSpaceInstance.save(flush: true)
         user.save(flush: true)
     }
 
-    private void setHistorico(ParkingSpace parkingSpaceInstance, User user) {
-        parkingSpaceInstance.isPreferential()
-        parkingSpaceInstance.owner = user
-        def reserva = new Reserva()
-        reserva.vaga = parkingSpaceInstance
-        user.historicoReservas.add(reserva)
-        user.save(flush: true)
-    }
+
 
     @Transactional
     def unbook(ParkingSpace parkingSpace) {
