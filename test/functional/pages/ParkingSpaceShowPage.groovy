@@ -1,8 +1,9 @@
 package pages
 
+//#if($Parking Space's reserve report)
 import steps.InternationalizationHelper
 import geb.Page
-//#if($Parking Space's reserve report)
+
 class ParkingSpaceShowPage extends Page {
 
     static at = {
@@ -22,5 +23,6 @@ class ParkingSpaceShowPage extends Page {
     def goToCreateParkingSpacePage() {
         $("a[class='create']").click()
     }
-    //#end
+
 }
+//#end

@@ -1,9 +1,10 @@
 package pages
 
+//#if($Parking Space's reserve report)
 import geb.Page
 import sistemadevagasdeestacionamento.ParkingSpace
 import steps.InternationalizationHelper
-//#if($Parking Space's reserve report)
+
 class ParkingSpaceList extends Page {
     static url = 'parkingSpace/index'
 
@@ -14,8 +15,6 @@ class ParkingSpaceList extends Page {
         String pageTitle = helper.getMessage("default.list.label", parkingSpace)
         title ==~ pageTitle
     }
-
-    //#if()
 
     def goToCreateParkingSpacePage(){
         $("a[class='create']").click()

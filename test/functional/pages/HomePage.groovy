@@ -16,5 +16,6 @@ class HomePage extends Page {
     def boolean hasErrors(){
         return $(".errors") != null
     }
+
     //end
 }
