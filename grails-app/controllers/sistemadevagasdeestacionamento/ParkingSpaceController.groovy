@@ -3,6 +3,7 @@ package sistemadevagasdeestacionamento
 import grails.converters.JSON
 import grails.transaction.Transactional
 
+import sistemadevagasdeestacionamento.*
 
 
 @Transactional(readOnly = true)
@@ -72,11 +73,14 @@ class ParkingSpaceController {
 
     private static void setHistorico(User user, ParkingSpace parkingSpaceInstance) {
         parkingSpaceInstance.owner = user
+
+
         def reserva = new Reserva()
         reserva.vaga = parkingSpaceInstance
         user.historicoReservas.add(reserva)
         parkingSpaceInstance.save(flush: true)
         user.save(flush: true)
+
     }
 
 
