@@ -3,7 +3,7 @@ package sistemadevagasdeestacionamento
 import grails.converters.JSON
 import grails.transaction.Transactional
 
-import javax.print.attribute.standard.DateTimeAtCreation
+
 
 @Transactional(readOnly = true)
 class ParkingSpaceController {
@@ -20,7 +20,7 @@ class ParkingSpaceController {
     def create() {
         respond(new ParkingSpace(params))
     }
-
+    //#if($ParkingSpaceBooking)
     def book(ParkingSpace parkingSpaceInstance) {
 
         if (parkingSpaceInstance){
@@ -72,7 +72,8 @@ class ParkingSpaceController {
 
     private static void setHistorico(User user, ParkingSpace parkingSpaceInstance) {
         parkingSpaceInstance.owner = user
-        def reserva = new Reserva("","",parkingSpaceInstance)
+        def reserva = new Reserva()
+        reserva.vaga = parkingSpaceInstance
         user.historicoReservas.add(reserva)
         parkingSpaceInstance.save(flush: true)
         user.save(flush: true)
@@ -90,6 +91,7 @@ class ParkingSpaceController {
             notFound()
         }
     }
+    //#end
 
     def suggestion() {
         def parkingSpaces = ParkingSpace.list().findAll { parkingSpace ->
@@ -116,13 +118,8 @@ class ParkingSpaceController {
 
                 if(historico){
 
-
                     available = available && loggedUser.historicoReservas.vaga.contains(parkingSpace)
 
-                    //def var = park
-                    //Closure query1 =  loggedUser.historicoReservas.contains(parkingSpace)
-                    //Closure querty2 = available
-                    //available = loggedUser.historicoReservas.findAll {(var != null ? it.vaga == available) &&
 
                 }
             }
