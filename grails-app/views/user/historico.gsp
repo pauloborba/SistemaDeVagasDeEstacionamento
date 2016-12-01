@@ -6,7 +6,7 @@
     <head>
         <meta name="layout" content="main">
         <g:set var="entityName" value="${message(code: 'user.historicoReservas.label', default: 'User.historicoReservas')}" />
-        <title><g:message code="default.history.label" args="[entityName]" /></title>
+        <title><g:message code="default.history.label"/></title>
     </head>
 
     <body>
@@ -16,7 +16,7 @@
 
         <div class="nav" role="navigation">
             <ul>
-                <li><a class="home" href="${createLink(uri: '/home/index')}"><g:message code="default.home.label"/></a></li>
+                <li><a class="home" href="${createLink(uri: '/home/index')}" name="Principal"><g:message code="default.home.label"/></a></li>
             </ul>
         </div>
         <div id="list-user" class="content scaffold-list" role="main">

@@ -15,4 +15,13 @@ class HomePage extends Page {
     def goTo(){
         $("a[name='suggestions']").click()
     }
+
+    def goToHistorico(){
+        $("a[name='historico']").click()
+
+    }
+
+    def goToParkingSpotListPage() {
+        $("a[name='spotlist']").click()
+    }
 }

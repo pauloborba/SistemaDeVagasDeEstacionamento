@@ -6,9 +6,13 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class UserController {
     def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
+        params.max = getMax(max)
 
         respond(User.list(params), model: [userInstanceCount: User.count()])
+    }
+
+    private int getMax(int max) {
+        Math.min(max ?: 10, 100)
     }
 
     def show(User userInstance) {

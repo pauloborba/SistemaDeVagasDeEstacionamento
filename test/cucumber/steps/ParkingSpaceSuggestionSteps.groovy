@@ -72,6 +72,7 @@ And(~/^I select the filter from preferential parking spaces$/) { ->
 }
 
 And(~/^I confirm the filter options$/) { ->
+
     page.confirmFilterOptions()
 
     waitFor { $("h1[id='lettering']").text() == "Filtradas" }
@@ -125,18 +126,31 @@ And(~'^o usuário "([^"]*)" está logado no sistema$'){ String usuario ->
 }
 
 And(~'^historico de vagas do usuario "([^"]*)" esta vazio$'){String usuario ->
-    UserTestDataAndOperations.createUser(usuario,"pedro" ,"silva" ,"CIn")
+    UserTestDataAndOperations.createUser(usuario,"pedro" ,"silva" ,"CIn",false)
     def novoUsuario = User.findByUsername(usuario)
     assert novoUsuario.historicoReservas.empty
+}
+
+And(~'^as vagas "([^"]*)" e "([^"]*)" estão livres$'){ String vaga1, String vaga2 ->
+
+    createParkingSpace(vaga1, "CIn", false)
+    createParkingSpace(vaga2, "CIn", false)
+
+    assert  ParkingSpace.findByDescription(vaga1).available
+    assert  ParkingSpace.findByDescription(vaga2).available
+
 }
 
 When(~'^o usuário solicita uma vaga baseada no histórico$'){ ->
     askForSuggestions(false, false, true)
 }
 
-Then(~'^o sistema informa as vagas livres ao usuario$'){ ->
-   def parkingSpaces = new ParkingSpaceController()
-   parkList =  parkingSpaces.suggestion()
+Then(~'^o sistema informa as vagas "([^"]*)" e "([^"]*)" ao usuario$'){ String vaga1, String vaga2 ->
+    def currVaga1 = ParkingSpace.findByDescription(vaga1)
+    def currVaga2 = ParkingSpace.findByDescription(vaga2)
+
+    assert currVaga1.available
+    assert currVaga2.available
 
 }
 
@@ -146,7 +160,7 @@ Then(~'^o sistema informa as vagas livres ao usuario$'){ ->
 
 And(~'^as vagas "([^"]*)" e "([^"]*)" estão armazenadas no histórico de vagas do usuário "([^"]*)"$'){ String vaga1, String vaga2, String usuario ->
 
-    UserTestDataAndOperations.createUser(usuario,usuario, "silva","CIn")
+    UserTestDataAndOperations.createUser(usuario,usuario, "silva","CIn",false)
 
     def vag1 = createParkingSpace(vaga1, "CIn", false)
     def vag2 = createParkingSpace(vaga2, "CIn", false)
@@ -163,57 +177,105 @@ And(~'^as vagas "([^"]*)" e "([^"]*)" estão armazenadas no histórico de vagas 
 }
 
 //When o usuário solicita uma vaga baseada no histórico
-
-Then(~'^o sistema informa a vaga "([^"]*)" esta livre$'){ String vaga->
-    def currVaga = ParkingSpace.findByDescription(vaga)
-    assert currVaga.available
-
-}
+//Then o sistema informa as vagas "33" e "34" ao usuario
 
 //---------------------------- GUI -------------------------------------
 
 Given(~'^eu estou logado com o login "([^"]*)" com preferencia pelo setor "([^"]*)"$'){ String usuario, String setor ->
-    currentUsername = usuario
-
-    to SignUpPage
+   waitFor {to SignUpPage }
     page.proceed(usuario, setor)
-    at HomePage
+    assert AuthHelper.instance.currentUsername != null
+    waitFor { at HomePage }
 }
 
+And(~'^eu estou na pagina de historico de vagas$'){  ->
+    waitFor { at HomePage }
 
-And(~'^as vagas "([^"]*)" e "([^"]*)" aparecem no histórico de vagas do usuário "([^"]*)"$'){ String vaga1, String vaga2, String usuario ->
-    UserTestDataAndOperations.createUser(usuario,usuario, "silva","CIn")
+    page.goToHistorico()
 
-    def vag1 = createParkingSpace(vaga1, "CIn", false)
-    def vag2 = createParkingSpace(vaga2, "CIn", false)
-
-    def user = User.findByUsername(usuario)
-
-    user.historicoReservas.add(vag1)
-    user.historicoReservas.add(vag2)
-
-
-
-    assert user.historicoReservas.contains(vag1)
-    assert user.historicoReservas.contains(vag2)
 }
 
-And(~'^eu estou na pagina de solicitação de vaga$'){ ->
+And (~'^não aparecem vagas na pagina de historico do usuario "([^"]*)"$'){ String usuario ->
+   waitFor { at HistoricoPage }
+    page.emptyHistory()
 
-    at HomePage
+    page.goToHome()
+}
+
+When(~'^eu vou para a pagina de sugestão de vaga$'){ ->
+
+    waitFor { at HomePage }
     page.goToSuggestions()
     to SuggestionPage
 }
 
 
-Then(~'^uma mensagem de erro aparece$'){ ->
+And(~'^o usuário seleciona o filtro de historico$'){ ->
+    waitFor { at SuggestionPage }
+    page.selectHistoricoFilter()
+
 
 }
+And(~'^solicita uma vaga baseada no historico$'){ ->
+    page.confirmFilterOptions()
+    waitFor { $("h1[id='lettering']").text() == "Filtradas" }
+}
+Then(~'^nenhuma vaga é mostrada$'){ ->
+    waitFor {at SuggestionPage}
+    page.noSuggestions()
+}
 
-Then(~'^sou redirecionado para uma pagina com as vagas "([^"]*)" e "([^"]*)"$'){ String vaga1, String vaga2 ->
+//Given eu estou logado com o login "pedro" com preferencia pelo setor "CIn"
+
+And (~'^eu ja reservei as vagas "([^"]*)" e "([^"]*)"$'){ String vaga1, String vaga2 ->
+
+    waitFor { at HomePage }
+    page.goToParkingSpotListPage()
+
+    at ParkingSpaceListPage
+    page.goToCreateParkingSpacePage()
+
+    at ParkingSpaceCreatePage
+    page.createParkingSpace(vaga1, "CIn", true)
+
+    at ParkingSpaceShowPage
+    page.goToCreateParkingSpacePage()
+
+    at ParkingSpaceCreatePage
+    page.createParkingSpace(vaga2, "CIn", false)
+
+    at ParkingSpaceShowPage
+    page.goToParkingSpotListPage()
+
+    waitFor { at ParkingSpaceListPage }
+
+    page.bookParkingSpace(vaga1)
+
+    page.bookParkingSpace(vaga2)
+
+    page.goToHome()
+
+}
+And (~'^a vaga "([^"]*)" esta livre$'){ String vaga1 ->
+    waitFor { at HomePage }
+    page.goToParkingSpotListPage()
+
+    waitFor { at ParkingSpaceListPage }
+
+    page.checkPark(vaga1)
+
+    page.goToHome()
+}
+//When eu vou para a pagina de sugestão de vaga
+//And o usuário seleciona o filtro de historico
+//And solicita uma vaga baseada no historico
+
+Then(~'^sou redirecionado para uma pagina com as vagas "([^"]*)"$'){ String vaga1 ->
+
     waitFor { at SuggestionPage }
-    assert page.containsParkingSpace(vaga1)
-    assert page.containsParkingSpace(vaga2)
+
+    page.containsParkingSpace(vaga1)
+
 }
 
 //---------------------------- Metodos -------------------------------------

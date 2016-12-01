@@ -36,12 +36,7 @@ class ParkingSpaceController {
                     response.reset()
                 }
 
-                parkingSpaceInstance.owner = user
-                def reserva = new Reserva()
-                reserva.vaga = parkingSpaceInstance
-                user.historicoReservas.add(reserva)
-                parkingSpaceInstance.save(flush: true)
-                user.save(flush: true)
+                setHistorico(user, parkingSpaceInstance)
 
                 flash.message = message(code: 'default.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
 
@@ -59,12 +54,7 @@ class ParkingSpaceController {
                         response.reset()
                     }
 
-                    parkingSpaceInstance.isPreferential()
-                    parkingSpaceInstance.owner = user
-                    def reserva = new Reserva()
-                    reserva.vaga = parkingSpaceInstance
-                    user.historicoReservas.add(reserva)
-                    user.save(flush:true)
+                    setHistorico(parkingSpaceInstance, user)
 
                     parkingSpaceInstance.save(flush: true)
                     flash.message = message(code: 'default.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
@@ -78,6 +68,24 @@ class ParkingSpaceController {
             notFound()
         }
         redirect(action: 'index')
+    }
+
+    private void setHistorico(User user, ParkingSpace parkingSpaceInstance) {
+        parkingSpaceInstance.owner = user
+        def reserva = new Reserva()
+        reserva.vaga = parkingSpaceInstance
+        user.historicoReservas.add(reserva)
+        parkingSpaceInstance.save(flush: true)
+        user.save(flush: true)
+    }
+
+    private void setHistorico(ParkingSpace parkingSpaceInstance, User user) {
+        parkingSpaceInstance.isPreferential()
+        parkingSpaceInstance.owner = user
+        def reserva = new Reserva()
+        reserva.vaga = parkingSpaceInstance
+        user.historicoReservas.add(reserva)
+        user.save(flush: true)
     }
 
     @Transactional
@@ -116,7 +124,14 @@ class ParkingSpaceController {
 
                 if(historico){
 
-                    available = available && each(loggedUser.historicoReservas.vaga)
+
+                    available = available && loggedUser.historicoReservas.vaga.contains(parkingSpace)
+
+                    //def var = park
+                    //Closure query1 =  loggedUser.historicoReservas.contains(parkingSpace)
+                    //Closure querty2 = available
+                    //available = loggedUser.historicoReservas.findAll {(var != null ? it.vaga == available) &&
+
                 }
             }
 
