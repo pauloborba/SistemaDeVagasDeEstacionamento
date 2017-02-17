@@ -19,17 +19,55 @@ class ParkingSpaceController {
         respond(new ParkingSpace(params))
     }
 
+    //#if($ParkingSpaceBooking)
     def book(ParkingSpace parkingSpaceInstance) {
-        User loggedUser = User.findByUsername(AuthHelper.instance.currentUsername)
+        if (parkingSpaceInstance){
+            def user = User.findByUsername(AuthHelper.instance.getCurrentUsername())
 
-        if (parkingSpaceInstance.isAvailable()) {
-            parkingSpaceInstance.owner = loggedUser
-            parkingSpaceInstance.save(flush: true)
+            if (parkingSpaceInstance.isAvailable() && !parkingSpaceInstance.isPreferential()) {
+                bookValidator(parkingSpaceInstance, user)
+
+            }else if (parkingSpaceInstance.isAvailable() && parkingSpaceInstance.isPreferential()){
+
+                if (user.isPreferential()){
+                    bookValidator(parkingSpaceInstance, user)
+                    flash.message = message(code: 'default.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+
+                }else{
+                    flash.message = message(code: 'default.not.preference.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+                }
+
+            }else if (!parkingSpaceInstance.isAvailable()) {
+                flash.message = message(code: 'default.not.avaiable.message', args: [message(code: 'parkingSpace.label', default: 'ParkingSpace'), parkingSpaceInstance.id])
+            }
+
+        }else{
+            notFound()
         }
-
         redirect(action: "index")
-        // TODO: Exibir mensagem de erro caso não seja possível fazer a reserva
     }
+
+    def bookValidator(ParkingSpace parkingSpaceInstance, User user) {
+        def lastParkingSpace = ParkingSpace.findByOwner(user)
+
+        if (lastParkingSpace) {
+            unbook(lastParkingSpace)
+            response.reset()
+        }
+        parkingSpaceInstance.setOwner(user)
+        parkingSpaceInstance.save(flush: true)
+    }
+
+    @Transactional
+    def unbook(ParkingSpace parkingSpace) {
+        if(parkingSpace){
+            parkingSpace.setOwner(null)
+            parkingSpace.save(flush: true)
+
+        }
+    }
+    //#end
+
 
     def suggestion() {
         def parkingSpaces = ParkingSpace.list().findAll { parkingSpace ->

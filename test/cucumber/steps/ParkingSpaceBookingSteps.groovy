@@ -1,19 +1,15 @@
-/*
-import org.apache.shiro.SecurityUtils
-import org.apache.shiro.crypto.hash.Sha512Hash
-import pages.LoginPage
-import pages.ParkingSpaceListPage
-import sistemadevagasdeestacionamento.User
+import cucumber.api.PendingException
+import pages.*
+
+import sistemadevagasdeestacionamento.AuthHelper
 import sistemadevagasdeestacionamento.ParkingSpace
+import sistemadevagasdeestacionamento.User
+import steps.ParkingSpaceTestDataAndOperations
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
-def currentUsername
-def parkingSpaceDescription
-def parkingSpace
-def user
-
+/*
 Given(~/^the system has the user "([^"]*)" with password "([^"]*)" with "([^"]*)" as prefered sector$/){ String username, String password, String sector ->
     currentUsername = username
 
@@ -174,3 +170,114 @@ Then(~/^I see a message indicating that the parking space was not possible book 
     waitFor { at ParkingSpaceListPage }
     assert page.verifyFailBookMessage()
 }*/
+
+//#if($ParkingSpaceBooking)
+//Controller
+Given(~/^O sistema possui o usuario "([^"]*)" cadastrado com preferencia no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String username, String sector, String preferential_tag ->
+    def preferential = (preferential_tag == "com")
+
+    AuthHelper.instance.signup(username, sector, preferential)
+
+    def user = User.findByUsername(username)
+
+    assert user.getPreferential() == preferential
+    assert user.getUsername() == username
+    assert user.getPreferredSector() == sector
+}
+
+And(~/^O usuario "([^"]*)" esta logado no sistema$/) { String username ->
+    AuthHelper.instance.login(username)
+
+    assert AuthHelper.instance.getCurrentUsername() == username
+}
+
+And(~/^A vaga "([^"]*)" pertence ao setor "([^"]*)" "([^"]*)" uso preferencial$/) { String vaga, String setor, String preferential_tag ->
+    def preferential = (preferential_tag == "com")
+
+
+    ParkingSpaceTestDataAndOperations.createParkingSpace(vaga, setor, preferential)
+    ParkingSpace parkingSpace = ParkingSpace.findByDescription(vaga)
+
+    assert parkingSpace?.getDescription() == vaga
+    assert parkingSpace?.getSector() == setor
+}
+
+And(~/^O usuario logado possui uma reserva na vaga "([^"]*)"$/) { String description ->
+    def currentUsername = AuthHelper.instance.getCurrentUsername()
+    def currentUser = User.findByUsername(currentUsername)
+
+    def currentParkingSpace = ParkingSpace.findByDescription(description)
+    ParkingSpaceTestDataAndOperations.bookParkingSpace(currentParkingSpace)
+
+    assert currentParkingSpace.getOwner() == currentUser
+}
+
+When(~/^O usuario logado tenta reservar a vaga "([^"]*)"$/) {String description ->
+
+    def currentParkingSpace = ParkingSpace.findByDescription(description)
+    assert currentParkingSpace != null
+
+    ParkingSpaceTestDataAndOperations.bookParkingSpace(currentParkingSpace)
+}
+
+Then(~/^O sistema altera a reserva de vaga do usuário "([^"]*)" que era "([^"]*)" para a vaga "([^"]*)"$/) { String username, String vaga1, String vaga2 ->
+    def currentUser = User.findByUsername(username)
+    def pastParkingSpace = ParkingSpace.findByDescription(vaga1)
+    def currentParkingSpace = ParkingSpace.findByDescription(vaga2)
+
+    assert pastParkingSpace.isAvailable()
+    assert currentParkingSpace.getOwner() == currentUser
+    assert !currentParkingSpace.isAvailable()
+}
+
+Then(~/^O sistema não permite a reserva da vaga "([^"]*)"$/) { String vaga ->
+    def currentUsername = AuthHelper.instance.getCurrentUsername()
+    def currentUser = User.findByUsername(currentUsername)
+    def pastParkingSpace = ParkingSpace.findByDescription(vaga)
+
+    assert pastParkingSpace.getOwner() != currentUser
+}
+
+// GUI Scenarios
+Given(~/^Eu estou logado no sistema como "([^"]*)" com preferencia no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String username, String sector, String preferential_tag ->
+    def preferential = (preferential_tag == "com")
+
+    waitFor { to SignUpPage }
+    page.proceed(username, sector, preferential)
+    waitFor { at HomePage }
+    assert AuthHelper.instance.getCurrentUsername() != null
+}
+
+And(~/^Eu estou na pagina de listagem de vagas$/) { ->
+    to ParkingSpaceListPage
+    at ParkingSpaceListPage
+}
+
+And(~/^Eu criei uma vaga com descricao "([^"]*)", no setor "([^"]*)" "([^"]*)" uso preferencial$/) { String descricao, String setor, String preferential_tag ->
+    def preferential = (preferential_tag == "com")
+    page.goToParkingSpotListPage()
+    at ParkingSpaceListPage
+    page.goToCreateParkingSpacePage()
+    at ParkingSpaceCreatePage
+    page.createParkingSpace(descricao, setor, preferential)
+    at ParkingSpaceShowPage
+    page.goToParkingSpotListPage()
+}
+
+Then(~/^Eu vejo minha vaga ser alterada da vaga "([^"]*)" para a vaga "([^"]*)"$/) { String vaga1, String vaga2 ->
+    def currentUsername = AuthHelper.instance.getCurrentUsername()
+
+    at ParkingSpaceListPage
+    assert !page.checkParkingSpace(vaga1, currentUsername)
+    assert page.checkParkingSpace(vaga2, currentUsername)
+}
+
+And(~/^Eu tento reservar a vaga com descricao "([^"]*)"$/) { String description ->
+    at ParkingSpaceListPage
+    page.bookParkingSpace(description)
+}
+
+Then(~/^Uma mensagem de error aparece na tela$/) { ->
+    assert !page.checkSuccessMessage()
+}
+//#end

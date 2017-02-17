@@ -2,15 +2,15 @@ Feature: Parking space suggestion
 
   Scenario: The system has a parking space available
     Given the system has stored the user "pasg" with preference for parking spaces in the "CCEN" sector
-    And the user is logged in the system
+    And the user "pasg" is logged in the system
     And the parking space "1" is from the "CIn" sector
     And the parking space "1" is available
     When the user asks for suggestions of parking spaces
     Then the systems informs the parking space "1" to the user
 
-  Scenario: The system does not have a parking space available
+  Scenario: The system   does not have a parking space available
     Given the system has stored the user "asg" with preference for parking spaces in the "CCEN" sector
-    And the user is logged in the system
+    And the user "asg" is logged in the system
     And the parking space "2" is from the "CIn" sector
     And the parking space "2" is not available
     When the user asks for suggestions of parking spaces
@@ -18,7 +18,7 @@ Feature: Parking space suggestion
 
   Scenario: The system has a parking space available on the desired sector
     Given the system has stored the user "phmb" with preference for parking spaces in the "Área II" sector
-    And the user is logged in the system
+    And the user "phmb" is logged in the system
     And the parking space "3" is from the "Área II" sector
     And the parking space "3" is available
     When the user asks for suggestions of parking spaces on his sector
@@ -26,7 +26,7 @@ Feature: Parking space suggestion
 
   Scenario: The system does not have a parking space available on the desired sector
     Given the system has stored the user "pmmc" with preference for parking spaces in the "Área II" sector
-    And the user is logged in the system
+    And the user "pmmc" is logged in the system
     And the parking space "4" is from the "Área II" sector
     And the parking space "4" is not available
     When the user asks for suggestions of parking spaces on his sector
@@ -34,7 +34,7 @@ Feature: Parking space suggestion
 
   Scenario: The system has a parking space available on another sector
     Given the system has stored the user "ago" with preference for parking spaces in the "CCEN" sector
-    And the user is logged in the system
+    And the user "ago" is logged in the system
     And the parking space "5" is from the "CIn" sector
     And the parking space "5" is available
     When the user asks for suggestions of parking spaces on his sector
@@ -42,7 +42,7 @@ Feature: Parking space suggestion
 
   Scenario: The system has a preferential parking space available on the desired sector
     Given the system has stored the user "mel" with preference for parking spaces in the "CIn" sector
-    And the user is logged in the system
+    And the user "mel" is logged in the system
     And the preferential parking space "6" is from the "CIn" sector
     And the parking space "6" is available
     When the user asks for suggestions of preferential parking spaces on his sector
@@ -50,7 +50,7 @@ Feature: Parking space suggestion
 
   Scenario: The system has a non-preferential parking space available on the desired sector
     Given the system has stored the user "aams" with preference for parking spaces in the "CIn" sector
-    And the user is logged in the system
+    And the user "aams" is logged in the system
     And the parking space "7" is from the "CIn" sector
     And the parking space "7" is available
     When the user asks for suggestions of preferential parking spaces on his sector
@@ -58,7 +58,7 @@ Feature: Parking space suggestion
 
   Scenario: The system has a preferential parking space available on another sector
     Given the system has stored the user "cca2" with preference for parking spaces in the "Área II" sector
-    And the user is logged in the system
+    And the user "cca2" is logged in the system
     And the preferential parking space "8" is from the "CIn" sector
     And the parking space "8" is available
     When the user asks for suggestions of preferential parking spaces on his sector
