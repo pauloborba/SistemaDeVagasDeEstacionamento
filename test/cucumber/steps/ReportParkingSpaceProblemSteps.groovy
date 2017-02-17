@@ -11,7 +11,7 @@ this.metaClass.mixin(cucumber.api.groovy.EN)
 
 //controller
 Given(~/^the system has stored the user "([^"]*)" with "([^"]*)" as preferred sector$/) { String username, String sector ->
-    AuthHelper.instance.signup(username, sector)
+    AuthHelper.instance.signup(username, sector, false)
     def user = User.findByUsername(username)
     assert user.username == username
     assert user.preferredSector == sector
@@ -64,7 +64,7 @@ And(~/^The system has a problem report stored with Title "([^"]*)"$/) { String t
 
 Given(~/^I signed up in the system as "([^"]*)" with "([^"]*)" as preferred sector$/) { String username, String sector ->
     waitFor { to SignUpPage }
-    page.proceed(username, sector)
+    page.proceed(username, sector, false)
     assert AuthHelper.instance.currentUsername != null
     waitFor { at HomePage }
 }
