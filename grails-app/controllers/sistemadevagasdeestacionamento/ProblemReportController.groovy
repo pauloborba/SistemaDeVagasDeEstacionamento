@@ -50,6 +50,31 @@ class ProblemReportController {
         respond problemReportInstance
     }
 
+
+// to set as solved the problem
+    @Transactional
+    def resolve(ProblemReport problemReportInstance) {
+        if (problemReportInstance != null) {
+            if (AuthHelper.instance.currentUsername == "master") {
+                problemReportInstance.delete(flush: true)
+
+                flash.message = message(
+                        code: 'problemReport.resolve.message',
+                        args: [message(code: problemReportInstance.title)])
+
+            } else {
+                flash.message = message(
+                        code: 'problemReport.refuse.message',
+                        args: [message(code: AuthHelper.instance.currentUsername)])
+            }
+            redirect(action: "index", method: "GET")
+            return true
+        } else {
+            notFound()
+            return false
+        }
+    }
+
     @Transactional
     def update(ProblemReport problemReportInstance) {
         if (problemReportInstance == null) {
