@@ -13,7 +13,7 @@ class CreateProblemReportPage extends Page{
 
     static at = {
         InternationalizationHelper helper = InternationalizationHelper.instance
-        String problemReport = "ProblemReport"
+        String problemReport = helper.getMessage("problemReport.label")
         String createProblemReport = helper.getMessage("default.create.label", problemReport)
 
         title ==~ createProblemReport
