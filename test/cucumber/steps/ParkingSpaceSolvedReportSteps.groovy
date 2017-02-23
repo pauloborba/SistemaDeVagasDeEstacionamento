@@ -24,7 +24,7 @@ def shouldContainProblemReport(String title, boolean should) {
 // Controller
 Given(~/^The system has stored the user "([^"]*)" with preference parking spaces in the "([^"]*)" sector$/) { String username, String sector ->
     currentUsername = username
-    AuthHelper.instance.signup(username, sector)
+    AuthHelper.instance.signup(username, sector,false)
     def user = User.findByUsername(username)
     assert user.username == username
     assert user.preferredSector == sector
