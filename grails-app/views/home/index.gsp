@@ -18,6 +18,7 @@
         %{--#if($ReportParkingSpaceProblem)--}%
         <br> <g:link controller="problemReport" action="create" name="report">Reportar problemas com vaga</g:link>
         %{--#end--}%
+        <br> <g:link controller="problemReport" action="index" name="problemReport" >${message(code: 'problemReport.label')}</g:link>
         <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
         </g:if>

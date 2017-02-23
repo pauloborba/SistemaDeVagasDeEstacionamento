@@ -31,4 +31,8 @@ class HomePage extends Page {
         $("a[name='report']").click()
     }
 //#end
+
+    def goToProblemReport() {
+        $("a[name='problemReport']").click()
+    }
 }
