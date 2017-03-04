@@ -21,7 +21,7 @@ Feature: Set solved parking space problem
     When I go to parking report list page
     And I see problem "irregularidade" in parkin report list
     And I select the option to set the problem "irregularidade" as solved
-    And I can not see the problem "irregularidade" in the parking problem list
+    Then I can not see the problem "irregularidade" in the parking problem list
 
   Scenario: The user has no privileges to set the problem as solved web
     Given I signed up as "outro" with preference for parking spaces in the "CIn" sector
@@ -29,4 +29,4 @@ Feature: Set solved parking space problem
     When I go to parking report list page
     And I see problem "irregularidade" in parkin report list
     And I select the option to set the problem "irregularidade" as solved
-    And I see the problem "irregularidade" continues in the parking report list
+    Then I see the problem "irregularidade" continues in the parking report list
