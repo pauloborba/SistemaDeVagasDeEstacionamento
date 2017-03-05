@@ -22,29 +22,29 @@ And(~/^the user is logged in the system as "([^"]*)"$/) { String username->
     assert AuthHelper.instance.currentUsername == username
 }
 
-When(~/the user tries to send the report with Title "([^"]*)", Sector "([^"]*)" and Description "([^"]*)"$/) { String title, String sector, String description ->
+When(~/^the user tries to send the report with Title "([^"]*)", Sector "([^"]*)" and Description "([^"]*)"$/) { String title, String sector, String description ->
 
     ProblemReportTestDataAndOperations.createProblemReport(title, sector, description)
     def currentProblemReport = ProblemReport.findByTitle(title)
     assert currentProblemReport != null
 
 }
-When(~/the user tries to send the report "([^"]*)" with some information left incomplete$/) { String title->
+When(~/^the user tries to send the report "([^"]*)" with some information left incomplete$/) { String title->
     ProblemReportTestDataAndOperations.createProblemReport(title, "CCEN", "")
 
 }
 
-Then(~/the system stores the report "([^"]*)"$/){ String title ->
+Then(~/^the system stores the report "([^"]*)"$/){ String title ->
     def problemReport = ProblemReport.findByTitle(title)
     assert problemReport != null
 }
 
-Then(~/the system doesn't store the report "([^"]*)" with description "([^"]*)"$/) { String title, String description ->
+Then(~/^the system doesn't store the report "([^"]*)" with description "([^"]*)"$/) { String title, String description ->
     def problemReport = ProblemReport.findByTitle(title)
     assert problemReport.description != description
 }
 
-Then(~/the system doesn't store the report "([^"]*)"$/) { String title ->
+Then(~/^the system doesn't store the report "([^"]*)"$/) { String title ->
 
     assert ProblemReport.findByTitle(title) == null
 }
@@ -65,7 +65,7 @@ And(~/^The system has a problem report stored with Title "([^"]*)"$/) { String t
 Given(~/^I signed up in the system as "([^"]*)" with "([^"]*)" as preferred sector$/) { String username, String sector ->
     waitFor { to SignUpPage }
     page.proceed(username, sector, false)
-    assert AuthHelper.instance.currentUsername != null
+    assert AuthHelper.instance.currentUsername == username
     waitFor { at HomePage }
 }
 

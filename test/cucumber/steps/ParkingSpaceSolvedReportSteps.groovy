@@ -18,8 +18,7 @@ Given(~/^The system has stored the user "([^"]*)" with preference parking spaces
 }
 
 And(~/^The problem report list has the problem with title "([^"]*)", sector "([^"]*)" and description "([^"]*)"$/) { String arg1, String arg2, String arg3 ->
-    def username = AuthHelper.instance.currentUsername
-    def user = User.findByUsername(username)
+
     ProblemReportTestDataAndOperations.createProblemReport(arg1, arg2, arg3)
     def problemReport = ProblemReport.findByTitle(arg1)
     assert problemReport != null
@@ -28,9 +27,10 @@ And(~/^The problem report list has the problem with title "([^"]*)", sector "([^
     assert problemReport.description == arg3
 }
 
-And(~/^The user is logged in the system$/) { ->
-    AuthHelper.instance.login(currentUsername)
-    assert AuthHelper.instance.currentUsername == currentUsername
+And(~/^The user logged in the system as "([^"]*)"$/) { String username->
+    AuthHelper.instance.login(username)
+    assert AuthHelper.instance.currentUsername == username
+
 }
 
 When(~/^The user try to set as solved the problem "([^"]*)"$/) { String arg1 ->
@@ -59,9 +59,9 @@ Given(~/^I signed up as "([^"]*)" with preference parking spaces in the "([^"]*)
 }
 
 When(~/^I go to parking report list page$/) { ->
-    waitFor { at HomePage }
+    waitFor { at ProblemReportShowPage }
+    page.goToProblemReportListPage()
 
-    page.goToProblemReport()
 }
 
 And(~/^I see problem "([^"]*)" in parkin report list$/) { String title ->
@@ -82,4 +82,10 @@ Then(~/^I see the problem "([^"]*)" continues in the parking report list$/) { St
     waitFor{ at ProblemReportPage}
 
     assert page.containsProblemReport(title) == true
+}
+And(~/^I sent a problem with title "([^"]*)", sector "([^"]*)" and description "([^"]*)"$/) { String title, String sector, String description ->
+    waitFor { to CreateProblemReportPage }
+    waitFor { at CreateProblemReportPage }
+    page.fillProblemReportInformations(title, sector, description)
+    page.selectCreateProblemReport()
 }

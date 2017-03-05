@@ -18,10 +18,10 @@ Given(~/^the system has stored the user "([^"]*)" with preference for parking sp
 }
 
 Given(~/^I signed up as "([^"]*)" with preference for parking spaces in the "([^"]*)" sector$/) { String username, String sector ->
-    def preferential = false
 
     waitFor { to SignUpPage }
-    page.proceed(username, sector, preferential)
+    page.proceed(username, sector, false)
+    assert AuthHelper.instance.currentUsername == username
     waitFor { at HomePage }
 }
 
