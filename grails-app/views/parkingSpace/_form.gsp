@@ -1,16 +1,6 @@
 <%@ page import="sistemadevagasdeestacionamento.ParkingSpace" %>
 
-
-
-<div class="fieldcontain ${hasErrors(bean: parkingSpaceInstance, field: 'owner', 'error')} ">
-	<label for="owner">
-		<g:message code="parkingSpace.owner.label" default="Owner" />
-		
-	</label>
-	<g:select id="owner" name="owner.id" from="${sistemadevagasdeestacionamento.User.list()}" optionKey="id" value="${parkingSpaceInstance?.owner?.id}" class="many-to-one" noSelection="['null': '']"/>
-
-</div>
-
+%{--#if($ParkingSpaceBooking)--}%
 <div class="fieldcontain ${hasErrors(bean: parkingSpaceInstance, field: 'description', 'error')} required">
 	<label for="description">
 		<g:message code="parkingSpace.description.label" default="Description" />
@@ -37,4 +27,5 @@
 	<g:checkBox name="preferential" value="${parkingSpaceInstance?.preferential}" />
 
 </div>
+%{--#end--}%
 

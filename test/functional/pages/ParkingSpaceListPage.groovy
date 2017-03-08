@@ -1,64 +1,51 @@
-/*
 package pages
 
 import geb.Page
+import geb.navigator.NonEmptyNavigator
 import sistemadevagasdeestacionamento.ParkingSpace
 import steps.InternationalizationHelper
 
-class ParkingSpaceListPage extends  Page{
-    static url = "parkingSpace/index"
+class ParkingSpaceListPage extends Page {
+    static url = 'parkingSpace/index'
 
     static at = {
         InternationalizationHelper helper = InternationalizationHelper.instance
 
         String parkingSpace = "ParkingSpace"
-        String parkingSpaceList = helper.getMessage("default.list.label", parkingSpace)
-
-        title ==~ parkingSpaceList
+        String pageTitle = helper.getMessage("default.list.label", parkingSpace)
+        title ==~ pageTitle
     }
 
+    //#if($ParkingSpaceBooking)
 
-    def searchParkingSpaces(){
-        $("input[name='preferential']").click()
-        $("input[name='Submit']").click()
-    }
-    def searchParkingSpacesBySector(){
-        $("input[name='sector']").click()
-        $("input[name='Submit']").click()
-    }
-    def verifyPreferential(){
-
-
-        return $("tr.parking-space[data-preferential='false']").size() == 0
-
+    def goToCreateParkingSpacePage(){
+        $("a[class='create']").click()
     }
 
-    def verifySector(String sector){
-
-        return $("tr.parking-space[data-sector='${sector}']").size() > 0
-    }
-    def desc
-
-    def isAvailable(String description){
-        desc = description
+    def bookParkingSpace(String description){
         def parkingSpace = ParkingSpace.findByDescription(description)
-        return $("tr[data-id='${parkingSpace.getId()}']").find('td:first-child').find('a').text() == "Reservar"
+        $("h4[id='${parkingSpace.getId()}']").click()
+
     }
 
-    def book(String description){
+    def checkSuccessMessage(){
+        def message = $("div[class='message']").text()
+
+        if (!message.contains("not")){
+            return true
+        }
+    }
+
+    def checkParkingSpace(String description, String currentUser){
         def parkingSpace = ParkingSpace.findByDescription(description)
-        $("tr[data-id='${parkingSpace.getId()}']").find('td:first-child').find('a').click()
+        def owner = $("h4[id='${parkingSpace.id}']").text()
+
+        if(owner == currentUser){
+            return true
+        }else{
+            return false
+        }
     }
 
-    def verifyMessage() {
-        InternationalizationHelper helper = InternationalizationHelper.instance
 
-        $("div.message").text() == helper.getMessage("parkingSpace.booked", desc)
-    }
-
-    def verifyFailBookMessage() {
-        InternationalizationHelper helper = InternationalizationHelper.instance
-
-        $("div.message").text() == helper.getMessage("parkingSpace.not.booked", desc)
-    }
-}*/
+}
